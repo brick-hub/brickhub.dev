@@ -20,8 +20,11 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - name: Checkout 📚
+        uses: actions/checkout@v2
+
+      - name: Setup Node ✨
+        uses: actions/setup-node@v2
 
       - name: Install 📦
         run: npm install
@@ -30,14 +33,6 @@ jobs:
         run: |
           npm run build
           touch ./dist/.nojekyll
-
-      # - name: Deploy 🚀
-      #   uses: JamesIves/github-pages-deploy-action@3.7.1
-      #   with:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #     BRANCH: gh-pages # The branch the action should deploy to.
-      #     FOLDER: dist # The folder the action should deploy.
-      #     CLEAN: true # Automatically remove deleted files from the deploy branch
 
       - name: Archive 📁
         uses: actions/upload-artifact@v2
