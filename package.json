@@ -1,0 +1,17 @@
+{
+  "name": "@brickhub/site",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "format": "npx prettier -w ."
+  },
+  "devDependencies": {
+    "astro": "^0.23.0",
+    "prettier-plugin-astro": "^0.0.12",
+    "tailwindcss": "^3.0.23"
+  }
+}
