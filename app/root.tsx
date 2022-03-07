@@ -1,5 +1,6 @@
 import {
   Links,
+  LinksFunction,
   LiveReload,
   Meta,
   Outlet,
@@ -7,11 +8,15 @@ import {
   ScrollRestoration,
 } from "remix";
 import tailwind from "./tailwind.css";
+import globalStylesUrl from "./styles/global.css";
 import type { MetaFunction } from "remix";
 
-export function links() {
-  return [{ rel: "stylesheet", href: tailwind }];
-}
+export const links: LinksFunction = () => {
+  return [
+    { rel: "stylesheet", href: tailwind },
+    { rel: "stylesheet", href: globalStylesUrl },
+  ];
+};
 
 export const meta: MetaFunction = () => {
   return {
