@@ -4,7 +4,7 @@ export function Header() {
   return (
     <header className="p-6 flex justify-between items-center">
       <a aria-label="Brick Hub" aria-current="page" href="/">
-        <p className="text-3xl mx-1 last:mr-0 font-bold">BrickHub</p>
+        <p className="text-3xl mx-1 font-bold">BrickHub</p>
       </a>
       <nav>
         <HeaderLink
