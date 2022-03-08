@@ -2,9 +2,15 @@ import { forwardRef } from "react";
 
 export function Header() {
   return (
-    <header className="p-6 flex justify-between items-center">
-      <a aria-label="Brick Hub" aria-current="page" href="/">
-        <p className="text-3xl mx-1 font-bold">BrickHub</p>
+    <header className="px-6 lg:px-12 py-9 flex justify-between items-center">
+      <a
+        className="inline-flex justify-content items-center"
+        aria-label="Brick Hub"
+        aria-current="page"
+        href="/"
+      >
+        <BrickHubLogo />
+        <p className="text-3xl mx-2 font-bold">BrickHub</p>
       </a>
       <nav>
         <HeaderLink
@@ -30,6 +36,10 @@ const HeaderLink = forwardRef<HTMLAnchorElement, JSX.IntrinsicElements["a"]>(
     </a>
   )
 );
+
+function BrickHubLogo() {
+  return <img alt="Brick Hub" src="images/brickhub.svg" width="56" height="54" />;
+}
 
 function GitHubLogo() {
   return (
