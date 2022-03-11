@@ -8,7 +8,7 @@ export default function Index() {
       <main className="flex flex-col items-center justify-center h-3/4">
         <section className="px-6 sm:px-8 lg:flex lg:w-full lg:items-center lg:justify-between lg:gap-12">
           <div className="lg:max-w-2xl lg:mx-auto">
-            <h2 className="text-m-h1 text-[length:48px] leading-[48px] lg:text-[length:72px] lg:leading-[72px] font-extrabold">
+            <h2 className="text-[length:48px] leading-[48px] lg:text-[length:72px] lg:leading-[72px] font-extrabold">
               Generate <span className="text-red-700">consistent</span> code{" "}
               <span className="text-red-500">fast</span>.
             </h2>
@@ -29,7 +29,7 @@ export default function Index() {
             </div>
             <div className="h-9 xl:h-10"></div>
           </div>
-          <div className="lg:mx-auto lg:max-w-3xl lg:h-[51rem] overflow-hidden flex items-center justify-center">
+          <div className="lg:mx-auto lg:max-w-3xl lg:h-[48rem] overflow-hidden flex items-center justify-center">
             <img
               alt="Mason Hero"
               src="images/mason_hero.png"
