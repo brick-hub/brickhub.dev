@@ -86,7 +86,7 @@ async function getArtifact({
     },
     hooks: [],
     publisher: "felangelov@gmail.com",
-    createdAt: "2022-03-11T04:05:43.793879Z",
+    createdAt: "2022-03-12T06:00:13.856Z",
     readme: `
 # hello
 A new brick created with the Mason CLI.

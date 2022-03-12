@@ -2,6 +2,7 @@ import { LoaderFunction, useLoaderData } from "remix";
 import { Header } from "~/components/header";
 import { SearchBar } from "~/components/search-bar";
 import { BrickMetaData } from "~/services/brickhub-service";
+import { timeAgo } from "~/utils";
 
 interface BricksResponse {
   query: string;
@@ -60,11 +61,7 @@ export default function Search() {
 }
 
 function ResultTile({ result }: { result: BrickMetaData }) {
-  const rtf = new Intl.RelativeTimeFormat("en", { numeric: "always" });
-  const createdAt = new Date(result.createdAt);
-  const now = new Date();
-  const daysAgo = dateDiffInDays(now, createdAt);
-  const publishedAt = rtf.format(daysAgo, "days");
+  const publishedAt = timeAgo(new Date(result.createdAt));
   return (
     <section className="py-6">
       <div>
@@ -94,11 +91,4 @@ function ResultTile({ result }: { result: BrickMetaData }) {
       </div>
     </section>
   );
-}
-
-function dateDiffInDays(a: Date, b: Date): number {
-  const millisecondsPerDay = 1000 * 60 * 60 * 24;
-  const utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
-  const utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
-  return Math.floor((utc2 - utc1) / millisecondsPerDay);
 }
