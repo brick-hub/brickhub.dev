@@ -12,7 +12,7 @@ export function Header() {
         <BrickHubLogo />
         <p className="text-3xl mx-2 font-bold">BrickHub</p>
       </a>
-      <nav>
+      <nav className="flex">
         <HeaderLink
           target="_blank"
           href="https://github.com/brick-hub"
@@ -38,7 +38,9 @@ const HeaderLink = forwardRef<HTMLAnchorElement, JSX.IntrinsicElements["a"]>(
 );
 
 function BrickHubLogo() {
-  return <img alt="Brick Hub" src="images/brickhub.svg" width="56" height="54" />;
+  return (
+    <img alt="Brick Hub" src="/images/brickhub.svg" width="56" height="54" />
+  );
 }
 
 function GitHubLogo() {

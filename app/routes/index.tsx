@@ -1,12 +1,14 @@
 import { OutlineButtonLink, PrimaryButtonLink } from "~/components/button";
 import { Header } from "~/components/header";
+import { SearchBar } from "~/components/search-bar";
 
 export default function Index() {
   return (
     <div className="flex flex-col flex-1 h-screen">
       <Header />
-      <main className="flex flex-col items-center justify-center h-3/4">
-        <section className="px-6 sm:px-8 lg:flex lg:w-full lg:items-center lg:justify-between lg:gap-12">
+      <main className="items-center justify-center h-3/4">
+        <SearchBar />
+        <section className="px-6 sm:px-8 pt-9 lg:pt-0 lg:flex lg:w-full lg:items-center lg:justify-between lg:gap-12">
           <div className="lg:max-w-2xl lg:mx-auto">
             <h2 className="text-[length:48px] leading-[48px] lg:text-[length:72px] lg:leading-[72px] font-extrabold">
               Generate <span className="text-red-700">consistent</span> code{" "}
