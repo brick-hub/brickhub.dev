@@ -1,24 +1,30 @@
-import { LoaderFunction, redirect, useLoaderData } from "remix";
+import { Fragment } from "react";
+import { LoaderFunction, useLoaderData } from "remix";
 import { Header, SearchBar } from "~/components";
 import { searchBricks, BrickSearchResult, timeAgo } from "~/utils";
 
 interface BricksResponse {
   query: string;
   results: [BrickSearchResult];
+  error?: string;
 }
 
 export const loader: LoaderFunction = async ({ request }) => {
   const url = new URL(request.url);
   const query = url.searchParams.get("q") ?? "";
-  const results = await searchBricks({ query });
-  return {
-    query,
-    results,
-  };
+  try {
+    const results = await searchBricks({ query });
+    return {
+      query,
+      results,
+    };
+  } catch (error) {
+    return { query, results: [], error: `${error}` };
+  }
 };
 
 export default function Search() {
-  const { query, results } = useLoaderData<BricksResponse>();
+  const { query, results, error } = useLoaderData<BricksResponse>();
   return (
     <div className="h-screen">
       <Header />
@@ -26,19 +32,47 @@ export default function Search() {
         <SearchBar placeholder={query} />
         <div className="px-6 pt-9 lg:pt-0">
           <div className="w-full max-w-[51rem] m-auto flex flex-col justify-center items-start">
-            <p className="text-gray-400 lg:pt-6 italic text-sm">
-              Found {results.length} result(s) for "{query}"
-            </p>
-
-            <div className="divide-y divide-slate-400/25 w-full">
-              {results.map((result) => {
-                return <ResultTile key={result.name} result={result} />;
-              })}
-            </div>
+            {!error ? (
+              <SearchResults results={results} query={query} />
+            ) : (
+              <SearchError query={query} />
+            )}
           </div>
         </div>
       </main>
     </div>
+  );
+}
+
+function SearchError({ query }: { query: string }) {
+  return (
+    <Fragment>
+      <p className="text-red-600 lg:pt-6 italic text-sm">
+        An error occurred while searching for "{query}".
+      </p>
+    </Fragment>
+  );
+}
+
+function SearchResults({
+  results,
+  query,
+}: {
+  results: [BrickSearchResult];
+  query: string;
+}) {
+  return (
+    <Fragment>
+      <p className="text-gray-400 lg:pt-6 italic text-sm">
+        Found {results.length} result(s) for "{query}"
+      </p>
+
+      <div className="divide-y divide-slate-400/25 w-full">
+        {results.map((result) => {
+          return <ResultTile key={result.name} result={result} />;
+        })}
+      </div>
+    </Fragment>
   );
 }
 

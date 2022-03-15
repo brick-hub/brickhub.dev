@@ -31,10 +31,10 @@ export interface BrickVariableProperties {
 
 const baseUrl = process.env.HOSTED_URL;
 
-async function searchBricks({ query }: { query: string }): Promise<any> {
+export async function searchBricks({ query }: { query: string }): Promise<any> {
   const response = await fetch(`${baseUrl}/api/v1/search?q=${query}`);
   const body = await response.json();
-  return await body.bricks.map((brick: any) => {
+  return body.bricks.map((brick: any) => {
     return {
       name: brick.name,
       description: brick.description,
@@ -45,65 +45,19 @@ async function searchBricks({ query }: { query: string }): Promise<any> {
   });
 }
 
-async function getMetaData({
-  name,
-  version,
-}: {
-  name: string;
-  version: string;
-}): Promise<BrickMetaData> {
-  // const response = await fetch(`${baseUrl}/api/v1/bricks/${name}/versions/${version}`);
-  // const body = await response.json();
-  // return body;
-  return {
-    name: "hello",
-    description: "An example brick.",
-    version: "0.1.0+1",
-    environment: {
-      mason: ">=0.1.0-dev <0.1.0",
-    },
-    vars: {
-      name: {
-        type: "string",
-        description: "Your name",
-        default: "Dash",
-        prompt: "What is your name?",
-      },
-    },
-    hooks: [],
-    publisher: "felangelov@gmail.com",
-    createdAt: "2022-03-11T04:05:43.793879Z",
-  };
-}
-
-async function getArtifact({
+export async function getArtifact({
   name,
   version,
 }: {
   name: string;
   version: string;
 }): Promise<BrickArtifact> {
-  // const response = await fetch(`${baseUrl}/api/v1/bricks/${name}/versions/${version}`);
-  // const body = await response.json();
-  // return body;
-  return {
-    name: "hello",
-    description: "An example brick.",
-    version: "0.1.0+1",
-    environment: {
-      mason: ">=0.1.0-dev <0.1.0",
-    },
-    vars: {
-      name: {
-        type: "string",
-        description: "Your name",
-        default: "Dash",
-        prompt: "What is your name?",
-      },
-    },
-    hooks: [],
-    publisher: "felangelov@gmail.com",
-    createdAt: "2022-03-12T06:00:13.856Z",
+  const response = await fetch(
+    `${baseUrl}/api/v1/bricks/${name}/versions/${version}.bundle`
+  );
+  const body = await response.json();
+  return Object.assign({}, body, {
+    createdAt: body.created_at,
     readme: `
 # hello
 A new brick created with the Mason CLI.
@@ -123,14 +77,12 @@ A few resources to get you started if this is your first brick template:
 [2]: https://github.com/felangel/mason/tree/master/packages/mason_cli#readme
 [3]: https://verygood.ventures/blog/code-generation-with-mason
 [4]: https://youtu.be/G4PTjA6tpTU
-    `,
+`,
     changelog: `# 0.1.0+1
 
     - TODO: Describe initial release.
     `,
     license: `TODO: Add your license here.
-    `,
-  };
+`,
+  });
 }
-
-export { searchBricks, getArtifact, getMetaData };

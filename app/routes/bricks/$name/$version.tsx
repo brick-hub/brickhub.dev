@@ -28,7 +28,6 @@ export default function BrickDetails() {
 
 function BrickDetailsCard({ brick }: { brick: BrickArtifact }) {
   const publishedAt = timeAgo(new Date(brick.createdAt));
-
   return (
     <div className="w-full max-w-[51rem] m-auto flex flex-col justify-center items-start">
       <h2 className="text-red-500 text-4xl font-semibold">
@@ -39,6 +38,8 @@ function BrickDetailsCard({ brick }: { brick: BrickArtifact }) {
         <span className="px-1">•</span>
         <span>{brick.publisher}</span>
       </div>
+      <div className="h-4"></div>
+      <p className="italic">{brick.description}</p>
       <div className="h-4"></div>
       <InstallSnippet name={brick.name} />
       <div className="h-9"></div>

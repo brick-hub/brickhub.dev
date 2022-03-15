@@ -1,6 +1,6 @@
 import { marked } from "marked";
 
-function Markdown({ content }: { content: string }) {
+export function Markdown({ content }: { content: string }) {
   return (
     <article
       className="prose dark:prose-invert"
@@ -8,5 +8,3 @@ function Markdown({ content }: { content: string }) {
     ></article>
   );
 }
-
-export { Markdown };
