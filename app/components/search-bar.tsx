@@ -3,7 +3,7 @@ import { Form } from "remix";
 export function SearchBar({ placeholder }: { placeholder?: string }) {
   return (
     <div className="w-full px-6">
-      <Form className="flex justify-center" method="get" action="/search">
+      <Form reloadDocument className="flex justify-center" method="get" action="/search">
         <div className="flex bg-dark-gray w-full max-w-[51rem] rounded-md">
           <span className="pl-3 flex justify-center items-center text-red-600">
             <SearchIconButton />

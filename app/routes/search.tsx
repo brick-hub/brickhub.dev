@@ -1,36 +1,16 @@
-import { LoaderFunction, useLoaderData } from "remix";
-import { Header } from "~/components/header";
-import { SearchBar } from "~/components/search-bar";
-import { BrickMetaData } from "~/services/brickhub-service";
-import { timeAgo } from "~/utils";
+import { LoaderFunction, redirect, useLoaderData } from "remix";
+import { Header, SearchBar } from "~/components";
+import { searchBricks, BrickSearchResult, timeAgo } from "~/utils";
 
 interface BricksResponse {
   query: string;
-  results: [BrickMetaData];
+  results: [BrickSearchResult];
 }
 
 export const loader: LoaderFunction = async ({ request }) => {
   const url = new URL(request.url);
-  const query = url.searchParams.get("q");
-  const results = Array<BrickMetaData>(20).fill({
-    name: "hello",
-    description: "An example brick.",
-    version: "0.1.0+1",
-    environment: {
-      mason: ">=0.1.0-dev <0.1.0",
-    },
-    vars: {
-      name: {
-        type: "string",
-        description: "Your name",
-        default: "Dash",
-        prompt: "What is your name?",
-      },
-    },
-    hooks: [],
-    publisher: "felangelov@gmail.com",
-    createdAt: "2022-03-11T04:05:43.793879Z",
-  });
+  const query = url.searchParams.get("q") ?? "";
+  const results = await searchBricks({ query });
   return {
     query,
     results,
@@ -40,19 +20,21 @@ export const loader: LoaderFunction = async ({ request }) => {
 export default function Search() {
   const { query, results } = useLoaderData<BricksResponse>();
   return (
-    <div className="flex flex-col flex-1 h-screen">
+    <div className="h-screen">
       <Header />
       <main className="h-3/4">
         <SearchBar placeholder={query} />
-        <div className="px-6 sm:px-8 pt-9 lg:pt-0">
-          <p className="text-gray-400 lg:pt-6 italic text-sm">
-            Found {results.length} results for "{query}"
-          </p>
+        <div className="px-6 pt-9 lg:pt-0">
+          <div className="w-full max-w-[51rem] m-auto flex flex-col justify-center items-start">
+            <p className="text-gray-400 lg:pt-6 italic text-sm">
+              Found {results.length} result(s) for "{query}"
+            </p>
 
-          <div className="divide-y divide-slate-400/25">
-            {results.map((result) => {
-              return <ResultTile result={result} />;
-            })}
+            <div className="divide-y divide-slate-400/25 w-full">
+              {results.map((result) => {
+                return <ResultTile key={result.name} result={result} />;
+              })}
+            </div>
           </div>
         </div>
       </main>
@@ -60,7 +42,7 @@ export default function Search() {
   );
 }
 
-function ResultTile({ result }: { result: BrickMetaData }) {
+function ResultTile({ result }: { result: BrickSearchResult }) {
   const publishedAt = timeAgo(new Date(result.createdAt));
   return (
     <section className="py-6">

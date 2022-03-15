@@ -1,12 +1,15 @@
-export interface BrickMetaData {
+export interface BrickSearchResult {
   name: string;
   description: string;
   version: string;
+  publisher: string;
+  createdAt: string;
+}
+
+export interface BrickMetaData extends BrickSearchResult {
   environment: Environment;
   vars: Record<string, BrickVariableProperties>;
   hooks: string[];
-  publisher: string;
-  createdAt: string;
 }
 
 export interface BrickArtifact extends BrickMetaData {
@@ -26,7 +29,21 @@ export interface BrickVariableProperties {
   prompt?: string;
 }
 
-const baseUrl = "https://registry.brickhub.dev";
+const baseUrl = process.env.HOSTED_URL;
+
+async function searchBricks({ query }: { query: string }): Promise<any> {
+  const response = await fetch(`${baseUrl}/api/v1/search?q=${query}`);
+  const body = await response.json();
+  return await body.bricks.map((brick: any) => {
+    return {
+      name: brick.name,
+      description: brick.description,
+      version: brick.version,
+      publisher: brick.publisher,
+      createdAt: brick.created_at,
+    };
+  });
+}
 
 async function getMetaData({
   name,
@@ -116,4 +133,4 @@ A few resources to get you started if this is your first brick template:
   };
 }
 
-export { getArtifact, getMetaData };
+export { searchBricks, getArtifact, getMetaData };

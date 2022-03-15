@@ -1,6 +1,5 @@
 import { OutlineButtonLink, PrimaryButtonLink } from "~/components/button";
-import { Header } from "~/components/header";
-import { SearchBar } from "~/components/search-bar";
+import { Header, SearchBar } from "~/components";
 
 export default function Index() {
   return (

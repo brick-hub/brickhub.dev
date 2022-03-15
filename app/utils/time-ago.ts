@@ -1,12 +1,10 @@
 const rtf = new Intl.RelativeTimeFormat("en", { numeric: "auto" });
 
 export function timeAgo(date: Date): string {
-  const now = new Date();
-  const nowUtc = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
-  const dateUtc = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
+  const nowUtc = new Date().getTime();
+  const dateUtc = date.getTime();
 
   const minutesAgo = dateDiffInMinutes(dateUtc, nowUtc);
-  if (minutesAgo < 1) return "now";
   if (minutesAgo < 60) return rtf.format(-minutesAgo, "minutes");
 
   const daysAgo = dateDiffInDays(dateUtc, nowUtc);

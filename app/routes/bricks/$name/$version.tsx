@@ -1,10 +1,7 @@
 import { LoaderFunction, redirect, useLoaderData } from "remix";
-import { Header } from "~/components/header";
-import { SearchBar } from "~/components/search-bar";
-import { BrickArtifact, getArtifact } from "~/services/brickhub-service";
-import { Markdown } from "~/components/markdown";
-import { timeAgo } from "~/utils";
-import { Fragment, useRef } from "react";
+import { Header, SearchBar, Markdown } from "~/components";
+import { BrickArtifact, getArtifact, timeAgo } from "~/utils";
+import { Fragment } from "react";
 
 export const loader: LoaderFunction = async ({ params }) => {
   const name = params.name;
