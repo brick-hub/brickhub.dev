@@ -1,6 +1,6 @@
 import { Fragment } from "react";
-import { LoaderFunction, useLoaderData } from "remix";
-import type { MetaFunction } from "remix";
+import { useLoaderData } from "remix";
+import type { LoaderFunction, MetaFunction } from "remix";
 import { Footer, Header, SearchBar } from "~/components";
 import { timeAgo } from "~/utils/time-ago";
 import * as api from "~/utils/brickhub.server";
