@@ -1,11 +1,12 @@
 import { OutlineButtonLink, PrimaryButtonLink } from "~/components/button";
-import { Header, SearchBar } from "~/components";
+import { Footer, Header, SearchBar } from "~/components";
+import { Fragment } from "react";
 
 export default function Index() {
   return (
-    <div className="flex flex-col flex-1 h-screen">
+    <Fragment>
       <Header />
-      <main className="items-center justify-center h-3/4">
+      <main className="items-center justify-center flex-1">
         <SearchBar />
         <section className="px-6 sm:px-8 pt-9 lg:pt-0 lg:flex lg:w-full lg:items-center lg:justify-between lg:gap-12">
           <div className="lg:max-w-2xl lg:mx-auto">
@@ -40,6 +41,7 @@ export default function Index() {
           </div>
         </section>
       </main>
-    </div>
+      <Footer />
+    </Fragment>
   );
 }

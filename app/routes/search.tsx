@@ -1,12 +1,11 @@
 import { Fragment } from "react";
 import { LoaderFunction, useLoaderData } from "remix";
-import { Header, SearchBar } from "~/components";
+import { Footer, Header, SearchBar } from "~/components";
 import { searchBricks, BrickSearchResult, timeAgo } from "~/utils";
 
 interface BricksResponse {
   query: string;
-  results: [BrickSearchResult];
-  error?: string;
+  results?: [BrickSearchResult];
 }
 
 export const loader: LoaderFunction = async ({ request }) => {
@@ -24,15 +23,15 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 export default function Search() {
-  const { query, results, error } = useLoaderData<BricksResponse>();
+  const { query, results } = useLoaderData<BricksResponse>();
   return (
-    <div className="h-screen">
+    <Fragment>
       <Header />
-      <main className="h-3/4">
+      <main className="flex-1">
         <SearchBar placeholder={query} />
         <div className="px-6 pt-9 lg:pt-0">
           <div className="w-full max-w-[51rem] m-auto flex flex-col justify-center items-start">
-            {!error ? (
+            {results ? (
               <SearchResults results={results} query={query} />
             ) : (
               <SearchError query={query} />
@@ -40,7 +39,8 @@ export default function Search() {
           </div>
         </div>
       </main>
-    </div>
+      <Footer />
+    </Fragment>
   );
 }
 

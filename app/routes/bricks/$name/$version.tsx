@@ -1,27 +1,88 @@
-import { LoaderFunction, redirect, useLoaderData } from "remix";
-import { Header, SearchBar, Markdown } from "~/components";
+import {
+  HeadersFunction,
+  json,
+  LoaderFunction,
+  redirect,
+  useLoaderData,
+} from "remix";
+import { Header, SearchBar, Markdown, Footer } from "~/components";
 import { BrickArtifact, getArtifact, timeAgo } from "~/utils";
 import { Fragment } from "react";
+
+interface BrickResponse {
+  name: string;
+  version: string;
+  artifact?: BrickArtifact;
+}
+
+const brickVersionRegExp = new RegExp(
+  /^(\d+)\.(\d+)\.(\d+)(-([0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*))?(\+([0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*))?/
+);
 
 export const loader: LoaderFunction = async ({ params }) => {
   const name = params.name;
   const version = params.version;
   if (!name || !version) return redirect("/");
-  return await getArtifact({ name, version });
+
+  const isSemanticVersion = brickVersionRegExp.test(version);
+  if (!isSemanticVersion) return redirect("/");
+
+  try {
+    const artifact = await getArtifact({ name, version });
+    const headers = { "Cache-Control": "max-age=3600, immutable" };
+    return json(
+      {
+        name,
+        version,
+        artifact,
+      },
+      { headers }
+    );
+  } catch (_) {
+    return { name, version };
+  }
+};
+
+export let headers: HeadersFunction = ({ loaderHeaders }) => {
+  return {
+    "Cache-Control": loaderHeaders.get("Cache-Control") || "no-cache",
+  };
 };
 
 export default function BrickDetails() {
-  const brick = useLoaderData<BrickArtifact>();
+  const response = useLoaderData<BrickResponse>();
   return (
-    <div className="h-screen">
+    <Fragment>
       <Header />
-      <main className="h-3/4">
-        <SearchBar placeholder={brick.name} />
+      <main className="flex flex-1 flex-col h-3/4">
+        <SearchBar placeholder={response.name} />
         <div className="h-9"></div>
         <div className="px-6">
-          <BrickDetailsCard brick={brick} />
+          {response.artifact ? (
+            <BrickDetailsCard brick={response.artifact} />
+          ) : (
+            <BrickNotFoundCard {...response} />
+          )}
         </div>
       </main>
+      <Footer />
+    </Fragment>
+  );
+}
+
+function BrickNotFoundCard({
+  name,
+  version,
+}: {
+  name: string;
+  version: string;
+}) {
+  return (
+    <div className="w-full max-w-[51rem] m-auto flex flex-col justify-center items-start">
+      <h2 className="text-red-500 text-3xl font-semibold">404 Not Found</h2>
+      <div>
+        brick "{name}" v{version} was not found.
+      </div>
     </div>
   );
 }
@@ -49,12 +110,20 @@ function BrickDetailsCard({ brick }: { brick: BrickArtifact }) {
 }
 
 function InstallSnippet({ name }: { name: string }) {
-  const snippet = `mason add -g ${name}`;
+  const snippet = `mason add ${name}`;
+
+  function copyToClipboard() {
+    navigator.clipboard.writeText(snippet);
+  }
+
   return (
     <Fragment>
       <p>Install</p>
       <div className="h-1"></div>
-      <code className="p-3 bg-dark-gray overflow-ellipsis whitespace-nowrap rounded-md hover:bg-red-500/60 cursor-pointer">
+      <code
+        onClick={copyToClipboard}
+        className="p-4 bg-dark-gray overflow-ellipsis whitespace-nowrap rounded-md hover:bg-red-600/40 cursor-pointer"
+      >
         {">"} {snippet}
       </code>
     </Fragment>
@@ -63,9 +132,7 @@ function InstallSnippet({ name }: { name: string }) {
 
 function Readme({ readme }: { readme: string }) {
   return (
-    <div className="w-full">
-      <h2 className="text-4xl font-bold">README</h2>
-      <hr className="my-4 border-slate-700" />
+    <div className="w-full bg-dark-gray p-6 rounded-md">
       <Markdown content={readme} />
     </div>
   );
