@@ -6,19 +6,28 @@ import {
   redirect,
   useLoaderData,
 } from "remix";
+import type { MetaFunction } from "remix";
 import { Header, SearchBar, Markdown, Footer } from "~/components";
-import { BrickBundle, timeAgo } from "~/utils";
+import { timeAgo } from "~/utils/time-ago";
 import * as api from "~/utils/brickhub.server";
 
 interface BrickDetailsData {
   name: string;
   version: string;
-  bundle?: BrickBundle;
+  bundle?: api.BrickBundle;
 }
 
 const brickVersionRegExp = new RegExp(
   /^(\d+)\.(\d+)\.(\d+)(-([0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*))?(\+([0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*))?/
 );
+
+export const meta: MetaFunction = ({ data }: { data: BrickDetailsData }) => {
+  return {
+    title: `${data.name} | Brick Template`,
+    description:
+      "BrickHub is the official registry for publishing, discovering, and consuming reusable brick templates.",
+  };
+};
 
 export const loader: LoaderFunction = async ({ params }) => {
   const name = params.name;
@@ -88,7 +97,7 @@ function BrickNotFoundCard({
   );
 }
 
-function BrickDetailsCard({ bundle }: { bundle: BrickBundle }) {
+function BrickDetailsCard({ bundle }: { bundle: api.BrickBundle }) {
   const publishedAt = timeAgo(new Date(bundle.createdAt));
   return (
     <div className="w-full max-w-[51rem] m-auto flex flex-col justify-center items-start">

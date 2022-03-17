@@ -1,13 +1,23 @@
 import { Fragment } from "react";
 import { LoaderFunction, useLoaderData } from "remix";
+import type { MetaFunction } from "remix";
 import { Footer, Header, SearchBar } from "~/components";
-import { BrickSearchResult, timeAgo } from "~/utils";
+import { timeAgo } from "~/utils/time-ago";
 import * as api from "~/utils/brickhub.server";
 
 interface BrickSearchData {
   query: string;
-  results?: [BrickSearchResult];
+  results?: [api.BrickSearchResult];
 }
+
+export const meta: MetaFunction = ({ data }: { data: BrickSearchData }) => {
+  const query = data.query === "" ? "top bricks" : data.query;
+  return {
+    title: `Search results for ${query}.`,
+    description:
+      "BrickHub is the official registry for publishing, discovering, and consuming reusable brick templates.",
+  };
+};
 
 export const loader: LoaderFunction = async ({ request }) => {
   const url = new URL(request.url);
@@ -59,13 +69,13 @@ function SearchResults({
   results,
   query,
 }: {
-  results: [BrickSearchResult];
+  results: [api.BrickSearchResult];
   query: string;
 }) {
   return (
     <Fragment>
       <p className="text-gray-400 lg:pt-6 italic text-sm">
-        Found {results.length} result(s) for "{query}"
+        Found {results.length} result(s) {query !== "" ? `for "${query}"` : ""}
       </p>
 
       <div className="divide-y divide-slate-400/25 w-full">
@@ -77,7 +87,7 @@ function SearchResults({
   );
 }
 
-function ResultItem({ result }: { result: BrickSearchResult }) {
+function ResultItem({ result }: { result: api.BrickSearchResult }) {
   const publishedAt = timeAgo(new Date(result.createdAt));
   return (
     <section className="py-6">
