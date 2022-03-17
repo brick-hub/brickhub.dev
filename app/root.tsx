@@ -1,3 +1,4 @@
+import { Fragment, useEffect } from "react";
 import {
   Links,
   LinksFunction,
@@ -6,10 +7,12 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLocation,
 } from "remix";
+import type { MetaFunction } from "remix";
 import tailwind from "./tailwind.css";
 import globalStylesUrl from "./styles/global.css";
-import type { MetaFunction } from "remix";
+import * as ga from "~/utils/ga";
 
 export const links: LinksFunction = () => {
   return [
@@ -27,6 +30,12 @@ export const meta: MetaFunction = () => {
 };
 
 export default function App() {
+  const location = useLocation();
+
+  useEffect(() => {
+    ga.pageview(location.pathname);
+  }, [location]);
+
   return (
     <html lang="en">
       <head>
@@ -36,11 +45,37 @@ export default function App() {
         <Links />
       </head>
       <body className="min-h-screen flex flex-col w-full overflow-x-hidden bg-black text-gray-200">
+        <GoogleAnalytics />
         <Outlet />
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
       </body>
     </html>
+  );
+}
+
+function GoogleAnalytics() {
+  return (
+    <Fragment>
+      <script
+        async
+        src={`https://www.googletagmanager.com/gtag/js?id=${ga.GA_TRACKING_ID}`}
+      />
+      <script
+        async
+        id="gtag-init"
+        dangerouslySetInnerHTML={{
+          __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${ga.GA_TRACKING_ID}', {
+              page_path: window.location.pathname,
+            });
+          `,
+        }}
+      />
+    </Fragment>
   );
 }

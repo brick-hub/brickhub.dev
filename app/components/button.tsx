@@ -1,6 +1,6 @@
 import { forwardRef } from "react";
 
-const PrimaryButtonLink = forwardRef<
+export const PrimaryButtonLink = forwardRef<
   HTMLAnchorElement,
   JSX.IntrinsicElements["a"]
 >((props, ref) => {
@@ -15,7 +15,7 @@ const PrimaryButtonLink = forwardRef<
   );
 });
 
-const OutlineButtonLink = forwardRef<
+export const OutlineButtonLink = forwardRef<
   HTMLAnchorElement,
   JSX.IntrinsicElements["a"]
 >((props, ref) => {
@@ -29,5 +29,3 @@ const OutlineButtonLink = forwardRef<
     </a>
   );
 });
-
-export { PrimaryButtonLink, OutlineButtonLink };
