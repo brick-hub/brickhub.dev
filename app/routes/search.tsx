@@ -1,9 +1,10 @@
 import { Fragment } from "react";
 import { LoaderFunction, useLoaderData } from "remix";
 import { Footer, Header, SearchBar } from "~/components";
-import { searchBricks, BrickSearchResult, timeAgo } from "~/utils";
+import { BrickSearchResult, timeAgo } from "~/utils";
+import * as api from "~/utils/brickhub.server";
 
-interface BricksResponse {
+interface BrickSearchData {
   query: string;
   results?: [BrickSearchResult];
 }
@@ -12,7 +13,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   const url = new URL(request.url);
   const query = url.searchParams.get("q") ?? "";
   try {
-    const results = await searchBricks({ query });
+    const results = await api.search({ query });
     return {
       query,
       results,
@@ -22,8 +23,8 @@ export const loader: LoaderFunction = async ({ request }) => {
   }
 };
 
-export default function Search() {
-  const { query, results } = useLoaderData<BricksResponse>();
+export default function BrickSearch() {
+  const { query, results } = useLoaderData<BrickSearchData>();
   return (
     <Fragment>
       <Header />
@@ -69,14 +70,14 @@ function SearchResults({
 
       <div className="divide-y divide-slate-400/25 w-full">
         {results.map((result) => {
-          return <ResultTile key={result.name} result={result} />;
+          return <ResultItem key={result.name} result={result} />;
         })}
       </div>
     </Fragment>
   );
 }
 
-function ResultTile({ result }: { result: BrickSearchResult }) {
+function ResultItem({ result }: { result: BrickSearchResult }) {
   const publishedAt = timeAgo(new Date(result.createdAt));
   return (
     <section className="py-6">

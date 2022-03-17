@@ -1,5 +1,6 @@
-const BZip2 = require("seek-bzip");
 import { StringDecoder } from "string_decoder";
+
+const BZip2 = require("seek-bzip");
 
 export interface BrickSearchResult {
   name: string;
@@ -9,13 +10,13 @@ export interface BrickSearchResult {
   createdAt: string;
 }
 
-export interface BrickMetaData extends BrickSearchResult {
+export interface BrickMetadata extends BrickSearchResult {
   environment: Environment;
   vars: Record<string, BrickVariableProperties>;
   hooks: string[];
 }
 
-export interface BrickArtifact extends BrickMetaData {
+export interface BrickBundle extends BrickMetadata {
   readme: string;
   changelog: string;
   license: string;
@@ -35,7 +36,7 @@ export interface BrickVariableProperties {
 const utf8Decoder = new StringDecoder("utf8");
 const baseUrl = process.env.HOSTED_URL;
 
-export async function searchBricks({
+export async function search({
   query,
 }: {
   query: string;
@@ -53,13 +54,13 @@ export async function searchBricks({
   });
 }
 
-export async function getArtifact({
+export async function getBundle({
   name,
   version,
 }: {
   name: string;
   version: string;
-}): Promise<BrickArtifact> {
+}): Promise<BrickBundle> {
   const responses = await Promise.all([
     fetch(`${baseUrl}/api/v1/bricks/${name}/versions/${version}`),
     fetch(`${baseUrl}/api/v1/bricks/${name}/versions/${version}.bundle`),
