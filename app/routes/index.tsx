@@ -6,11 +6,11 @@ export default function Index() {
   return (
     <Fragment>
       <Header />
-      <main className="items-center justify-center flex-1">
+      <main className="flex-1 items-center justify-center">
         <SearchBar />
-        <section className="px-6 sm:px-8 pt-9 lg:pt-0 lg:flex lg:w-full lg:items-center lg:justify-between lg:gap-12">
-          <div className="lg:max-w-2xl lg:mx-auto">
-            <h2 className="text-[length:48px] leading-[48px] lg:text-[length:72px] lg:leading-[72px] font-extrabold">
+        <section className="px-6 pt-9 sm:px-8 lg:flex lg:w-full lg:items-center lg:justify-between lg:gap-12 lg:pt-0">
+          <div className="lg:mx-auto lg:max-w-2xl">
+            <h2 className="text-[length:48px] font-extrabold leading-[48px] lg:text-[length:72px] lg:leading-[72px]">
               Generate <span className="text-red-700">consistent</span> code{" "}
               <span className="text-red-500">fast</span>.
             </h2>
@@ -31,7 +31,7 @@ export default function Index() {
             </div>
             <div className="h-9 xl:h-10"></div>
           </div>
-          <div className="lg:mx-auto lg:max-w-3xl lg:h-[48rem] overflow-hidden flex items-center justify-center">
+          <div className="flex items-center justify-center overflow-hidden lg:mx-auto lg:h-[48rem] lg:max-w-3xl">
             <img
               alt="Mason Hero"
               src="images/mason_hero.png"

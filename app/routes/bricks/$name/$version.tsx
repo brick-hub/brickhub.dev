@@ -58,8 +58,8 @@ export default function BrickDetails() {
   return (
     <Fragment>
       <Header />
-      <main className="flex flex-1 flex-col h-3/4">
-        <SearchBar placeholder={name} />
+      <main className="flex h-3/4 flex-1 flex-col">
+        <SearchBar defaultValue={name} />
         <div className="h-9"></div>
         <div className="px-6">
           {bundle ? (
@@ -82,8 +82,8 @@ function BrickNotFoundCard({
   version: string;
 }) {
   return (
-    <div className="w-full max-w-[51rem] m-auto flex flex-col justify-center items-start">
-      <h2 className="text-red-500 text-3xl font-semibold">404 Not Found</h2>
+    <div className="m-auto flex w-full max-w-[51rem] flex-col items-start justify-center">
+      <h2 className="text-3xl font-semibold text-red-500">404 Not Found</h2>
       <div>
         brick "{name}" v{version} was not found.
       </div>
@@ -94,8 +94,8 @@ function BrickNotFoundCard({
 function BrickDetailsCard({ bundle }: { bundle: api.BrickBundle }) {
   const publishedAt = timeAgo(new Date(bundle.createdAt));
   return (
-    <div className="w-full max-w-[51rem] m-auto flex flex-col justify-center items-start">
-      <h2 className="text-red-500 text-4xl font-semibold">
+    <div className="m-auto flex w-full max-w-[51rem] flex-col items-start justify-center">
+      <h2 className="text-4xl font-semibold text-red-500">
         {bundle.name} {bundle.version}
       </h2>
       <div>
@@ -125,7 +125,7 @@ function InstallSnippet({ name }: { name: string }) {
       <p>Install</p>
       <div className="h-1"></div>
       <code
-        className="p-4 bg-dark-gray rounded-md hover:bg-red-600/40 overflow-ellipsis whitespace-nowrap flex gap-4 justify-center items-top cursor-copy"
+        className="flex cursor-copy items-center justify-center gap-4 overflow-ellipsis whitespace-nowrap rounded-md bg-dark-gray p-4 hover:bg-red-600/40"
         onClick={copyToClipboard}
       >
         {">"} {snippet}
@@ -137,7 +137,7 @@ function InstallSnippet({ name }: { name: string }) {
 
 function Readme({ readme }: { readme: string }) {
   return (
-    <div className="w-full bg-dark-gray p-6 rounded-md">
+    <div className="w-full rounded-md bg-dark-gray p-6">
       <Markdown content={readme} />
     </div>
   );
@@ -146,7 +146,7 @@ function Readme({ readme }: { readme: string }) {
 function ClipboardCopyIcon() {
   return (
     <svg
-      className="w-5 h-5"
+      className="h-5 w-5"
       fill="none"
       stroke="currentColor"
       viewBox="0 0 24 24"

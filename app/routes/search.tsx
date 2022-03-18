@@ -39,9 +39,9 @@ export default function BrickSearch() {
     <Fragment>
       <Header />
       <main className="flex-1">
-        <SearchBar placeholder={query} />
+        <SearchBar defaultValue={query} />
         <div className="px-6 pt-9 lg:pt-0">
-          <div className="w-full max-w-[51rem] m-auto flex flex-col justify-center items-start">
+          <div className="m-auto flex w-full max-w-[51rem] flex-col items-start justify-center">
             {results ? (
               <SearchResults results={results} query={query} />
             ) : (
@@ -58,7 +58,7 @@ export default function BrickSearch() {
 function SearchError({ query }: { query: string }) {
   return (
     <Fragment>
-      <p className="text-red-600 lg:pt-6 italic text-sm">
+      <p className="text-sm italic text-red-600 lg:pt-6">
         An error occurred while searching for "{query}".
       </p>
     </Fragment>
@@ -74,11 +74,11 @@ function SearchResults({
 }) {
   return (
     <Fragment>
-      <p className="text-gray-400 lg:pt-6 italic text-sm">
+      <p className="text-sm italic text-gray-400 lg:pt-6">
         Found {results.length} result(s) {query !== "" ? `for "${query}"` : ""}
       </p>
 
-      <div className="divide-y divide-slate-400/25 w-full">
+      <div className="w-full divide-y divide-slate-400/25">
         {results.map((result) => {
           return <ResultItem key={result.name} result={result} />;
         })}
@@ -93,7 +93,7 @@ function ResultItem({ result }: { result: api.BrickSearchResult }) {
     <section className="py-6">
       <div>
         <a
-          className="text-red-500 text-xl"
+          className="text-xl text-red-500"
           target="_self"
           href={`/bricks/${result.name}/${result.version}`}
         >
@@ -101,7 +101,7 @@ function ResultItem({ result }: { result: api.BrickSearchResult }) {
         </a>
       </div>
       <p className="italic">{result.description}</p>
-      <div className="text-gray-400 text-sm">
+      <div className="text-sm text-gray-400">
         <span>
           v
           <a
