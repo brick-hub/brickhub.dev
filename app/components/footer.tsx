@@ -2,9 +2,9 @@ import { forwardRef } from "react";
 
 export function Footer() {
   return (
-    <footer className="mt-24 px-6 lg:px-12 py-4 flex justify-between items-center bg-dark-gray">
+    <footer className="mt-24 flex items-center justify-between bg-dark-gray px-6 py-4 lg:px-12">
       <a
-        className="inline-flex justify-content items-center"
+        className="justify-content inline-flex items-center"
         aria-label="Go home"
         href="/"
       >
@@ -34,7 +34,7 @@ const FooterLink = forwardRef<HTMLAnchorElement, JSX.IntrinsicElements["a"]>(
   (props, ref) => (
     <a
       {...props}
-      className="flex items-center mx-2 sm:mx-4 last:mr-0 font-semibold"
+      className="mx-2 flex items-center font-semibold last:mr-0 sm:mx-4"
       ref={ref}
     >
       {props.children}
@@ -42,16 +42,18 @@ const FooterLink = forwardRef<HTMLAnchorElement, JSX.IntrinsicElements["a"]>(
   )
 );
 
+FooterLink.displayName = "FooterLink";
+
 function BrickHubLogo() {
   return (
-    <img alt="Brick Hub" src="/images/brickhub.svg" width="56" height="54" />
+    <img alt="Brick Hub" src="/images/brickhub.svg" width="40" height="38" />
   );
 }
 
 function GitHubLogo() {
   return (
     <svg
-      className="w-6 h-6"
+      className="h-6 w-6"
       viewBox="0 0 40 40"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -69,7 +71,7 @@ function GitHubLogo() {
 function ExclamationCircleIcon() {
   return (
     <svg
-      className="w-7 h-7"
+      className="h-7 w-7"
       fill="none"
       stroke="currentColor"
       viewBox="0 0 24 24"

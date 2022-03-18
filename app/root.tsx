@@ -10,13 +10,13 @@ import {
   useLocation,
 } from "remix";
 import type { MetaFunction } from "remix";
-import tailwind from "./tailwind.css";
+import tailwindStylesUrl from "./styles/tailwind.css";
 import globalStylesUrl from "./styles/global.css";
 import * as ga from "~/utils/ga";
 
 export const links: LinksFunction = () => {
   return [
-    { rel: "stylesheet", href: tailwind },
+    { rel: "stylesheet", href: tailwindStylesUrl },
     { rel: "stylesheet", href: globalStylesUrl },
   ];
 };
@@ -44,7 +44,7 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className="min-h-screen flex flex-col w-full overflow-x-hidden bg-black text-gray-200">
+      <body className="flex min-h-screen w-full flex-col overflow-x-hidden bg-black text-gray-200">
         <GoogleAnalytics />
         <Outlet />
         <ScrollRestoration />
