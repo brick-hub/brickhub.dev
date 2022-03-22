@@ -1,4 +1,5 @@
 import { StringDecoder } from "string_decoder";
+import { markdownToHtml } from "./markdown.server";
 
 const BZip2 = require("seek-bzip");
 
@@ -81,10 +82,16 @@ export async function getBundle({
   );
   const license = Buffer.from(bundle.license.data, "base64").toString("utf8");
 
+  const html = await Promise.all([
+    markdownToHtml(readme),
+    markdownToHtml(changelog),
+    markdownToHtml(license),
+  ]);
+
   return Object.assign({}, metadata, {
     createdAt: metadata.created_at,
-    readme: readme,
-    changelog: changelog,
-    license: license,
+    readme: html[0],
+    changelog: html[1],
+    license: html[2],
   });
 }

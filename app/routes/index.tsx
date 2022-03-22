@@ -24,7 +24,7 @@ export default function Index() {
               <PrimaryButtonLink href="#">Get Started</PrimaryButtonLink>
               <OutlineButtonLink
                 target="_blank"
-                href="https://github.com/felangel/mason/tree/master/packages/mason_cli#readme"
+                href="https://pub.dev/documentation/mason_cli/latest"
               >
                 Read the Docs
               </OutlineButtonLink>
