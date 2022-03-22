@@ -1,7 +1,13 @@
 import { Fragment } from "react";
 import { json, redirect, useLoaderData } from "remix";
-import type { HeadersFunction, LoaderFunction, MetaFunction } from "remix";
-import { Header, SearchBar, Markdown, Footer } from "~/components";
+import type {
+  HeadersFunction,
+  LinksFunction,
+  LoaderFunction,
+  MetaFunction,
+} from "remix";
+import highlightStyleUrl from "highlight.js/styles/base16/tender.css";
+import { Header, SearchBar, Footer } from "~/components";
 import { timeAgo } from "~/utils/time-ago";
 import * as api from "~/utils/brickhub.server";
 
@@ -21,6 +27,10 @@ export const meta: MetaFunction = ({ data }: { data: BrickDetailsData }) => {
     description:
       "BrickHub is the official registry for publishing, discovering, and consuming reusable brick templates.",
   };
+};
+
+export const links: LinksFunction = () => {
+  return [{ rel: "stylesheet", href: highlightStyleUrl }];
 };
 
 export const loader: LoaderFunction = async ({ params }) => {
@@ -138,7 +148,10 @@ function InstallSnippet({ name }: { name: string }) {
 function Readme({ readme }: { readme: string }) {
   return (
     <div className="w-full rounded-md bg-dark-gray p-6">
-      <Markdown content={readme} />
+      <article
+        className="prose prose-invert prose-pre:bg-inherit"
+        dangerouslySetInnerHTML={{ __html: readme }}
+      ></article>
     </div>
   );
 }
