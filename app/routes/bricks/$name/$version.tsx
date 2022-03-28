@@ -149,7 +149,7 @@ function Readme({ readme }: { readme: string }) {
   return (
     <div className="w-full rounded-md bg-dark-gray p-6">
       <article
-        className="prose prose-invert prose-pre:bg-inherit"
+        className="prose prose-invert prose-pre:bg-inherit prose-table:inline-block prose-table:overflow-x-auto"
         dangerouslySetInnerHTML={{ __html: readme }}
       ></article>
     </div>
