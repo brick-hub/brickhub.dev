@@ -21,7 +21,12 @@ export default function Index() {
             </p>
             <div className="h-6"></div>
             <div className="flex flex-col gap-4 xl:flex-row">
-              <PrimaryButtonLink href="#">Get Started</PrimaryButtonLink>
+              <PrimaryButtonLink
+                target="_blank"
+                href="https://forms.gle/cG8XoR1wiVxPgyWW9"
+              >
+                Request Access
+              </PrimaryButtonLink>
               <OutlineButtonLink
                 target="_blank"
                 href="https://pub.dev/documentation/mason_cli/latest"
