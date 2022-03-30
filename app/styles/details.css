@@ -1,0 +1,18 @@
+.tabs > input:nth-child(1):checked ~ .tab-contents > .tab-content:nth-child(1),
+.tabs > input:nth-child(3):checked ~ .tab-contents > .tab-content:nth-child(2),
+.tabs > input:nth-child(5):checked ~ .tab-contents > .tab-content:nth-child(3) {
+  display: block;
+}
+
+input + label {
+  border-bottom: 2px solid rgb(71, 71, 72);
+}
+
+input:hover + label {
+  border-bottom: 2px solid rgb(229 231 235);
+}
+
+input:checked + label {
+  color: rgb(239 68 68);
+  border-bottom: 2px solid rgb(239 68 68);
+}
