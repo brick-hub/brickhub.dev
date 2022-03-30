@@ -7,6 +7,7 @@ import type {
   MetaFunction,
 } from "remix";
 import highlightStyleUrl from "highlight.js/styles/base16/tender.css";
+import styles from "~/styles/details.css";
 import { Header, SearchBar, Footer } from "~/components";
 import { timeAgo } from "~/utils/time-ago";
 import * as api from "~/utils/brickhub.server";
@@ -30,7 +31,10 @@ export const meta: MetaFunction = ({ data }: { data: BrickDetailsData }) => {
 };
 
 export const links: LinksFunction = () => {
-  return [{ rel: "stylesheet", href: highlightStyleUrl }];
+  return [
+    { rel: "stylesheet", href: highlightStyleUrl },
+    { rel: "stylesheet", href: styles },
+  ];
 };
 
 export const loader: LoaderFunction = async ({ params }) => {
@@ -118,7 +122,7 @@ function BrickDetailsCard({ bundle }: { bundle: api.BrickBundle }) {
       <div className="h-4"></div>
       <InstallSnippet name={bundle.name} />
       <div className="h-9"></div>
-      <Readme readme={bundle.readme}></Readme>
+      <Tabs bundle={bundle} />
     </div>
   );
 }
@@ -145,12 +149,64 @@ function InstallSnippet({ name }: { name: string }) {
   );
 }
 
-function Readme({ readme }: { readme: string }) {
+function Tabs({ bundle }: { bundle: api.BrickBundle }) {
+  return (
+    <Fragment>
+      <div className="tabs w-full bg-dark-gray">
+        <input
+          className="hidden"
+          type="radio"
+          name="tabs"
+          id="tab1"
+          aria-controls="readme"
+          defaultChecked
+        />
+        <label className="inline-block cursor-pointer p-4" htmlFor="tab1">
+          Readme
+        </label>
+        <input
+          className="hidden"
+          type="radio"
+          name="tabs"
+          id="tab2"
+          aria-controls="changelog"
+        />
+        <label className="inline-block cursor-pointer p-4" htmlFor="tab2">
+          Changelog
+        </label>
+        <input
+          className="hidden"
+          type="radio"
+          name="tabs"
+          id="tab3"
+          aria-controls="license"
+        />
+        <label className="inline-block cursor-pointer p-4" htmlFor="tab3">
+          License
+        </label>
+
+        <div className="tab-contents w-full">
+          <section id="readme" className="tab-content hidden w-full">
+            <Markdown contents={bundle.readme} />
+          </section>
+          <section id="changelog" className="tab-content hidden w-full">
+            <Markdown contents={bundle.changelog} />
+          </section>
+          <section id="license" className="tab-content hidden w-full">
+            <Markdown contents={bundle.license} />
+          </section>
+        </div>
+      </div>
+    </Fragment>
+  );
+}
+
+function Markdown({ contents }: { contents: string }) {
   return (
     <div className="w-full rounded-md bg-dark-gray p-6">
       <article
         className="prose prose-invert prose-pre:bg-inherit prose-table:inline-block prose-table:overflow-x-auto"
-        dangerouslySetInnerHTML={{ __html: readme }}
+        dangerouslySetInnerHTML={{ __html: contents }}
       ></article>
     </div>
   );
