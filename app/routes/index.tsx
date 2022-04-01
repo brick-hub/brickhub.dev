@@ -1,11 +1,13 @@
+import { Fragment } from "react";
 import { OutlineButtonLink, PrimaryButtonLink } from "~/components/button";
 import { Footer, Header, SearchBar } from "~/components";
-import { Fragment } from "react";
+import { useOptionalUser } from "~/utils/user";
 
 export default function Index() {
+  const user = useOptionalUser();
   return (
     <Fragment>
-      <Header />
+      <Header email={user?.email} />
       <main className="flex-1 items-center justify-center">
         <SearchBar />
         <section className="px-6 pt-9 sm:px-8 lg:flex lg:w-full lg:items-center lg:justify-between lg:gap-12 lg:pt-0">

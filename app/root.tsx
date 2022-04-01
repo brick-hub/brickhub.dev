@@ -1,5 +1,6 @@
 import { Fragment, useEffect } from "react";
 import {
+  json,
   Links,
   LinksFunction,
   LiveReload,
@@ -9,10 +10,11 @@ import {
   ScrollRestoration,
   useLocation,
 } from "remix";
-import type { MetaFunction } from "remix";
+import type { LoaderFunction, MetaFunction } from "remix";
 import tailwindStylesUrl from "./styles/tailwind.css";
 import globalStylesUrl from "./styles/global.css";
 import * as ga from "~/utils/ga";
+import { getUser } from "./utils/session.server";
 
 export const links: LinksFunction = () => {
   return [
@@ -27,6 +29,16 @@ export const meta: MetaFunction = () => {
     description:
       "BrickHub is the official registry for publishing, discovering, and consuming reusable brick templates.",
   };
+};
+
+type LoaderData = {
+  user: Awaited<ReturnType<typeof getUser>>;
+};
+
+export const loader: LoaderFunction = async ({ request }) => {
+  return json<LoaderData>({
+    user: await getUser(request),
+  });
 };
 
 export default function App() {
@@ -44,7 +56,7 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className="flex min-h-screen w-full flex-col overflow-x-hidden bg-black text-gray-200">
+      <body className="text-gray-200 flex min-h-screen w-full flex-col overflow-x-hidden bg-black">
         <GoogleAnalytics />
         <Outlet />
         <ScrollRestoration />

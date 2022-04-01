@@ -8,7 +8,10 @@ export function timeAgo(date: Date): string {
   if (minutesAgo < 60) return rtf.format(-minutesAgo, "minutes");
 
   const daysAgo = dateDiffInDays(dateUtc, nowUtc);
-  if (daysAgo < 30) return rtf.format(-daysAgo, "days");
+  if (daysAgo < 7) return rtf.format(-daysAgo, "days");
+
+  const weeksAgo = dateDiffInWeeks(dateUtc, nowUtc);
+  if (weeksAgo < 4) return rtf.format(-weeksAgo, "weeks");
 
   const monthsAgo = dateDiffInMonths(dateUtc, nowUtc);
   if (monthsAgo < 12) return rtf.format(-monthsAgo, "months");
@@ -25,6 +28,11 @@ function dateDiffInMinutes(a: number, b: number): number {
 function dateDiffInDays(a: number, b: number): number {
   const millisecondsPerDay = 1000 * 60 * 60 * 24;
   return Math.floor((b - a) / millisecondsPerDay);
+}
+
+function dateDiffInWeeks(a: number, b: number): number {
+  const millisecondsPerWeek = 1000 * 60 * 60 * 24 * 7;
+  return Math.floor((b - a) / millisecondsPerWeek);
 }
 
 function dateDiffInMonths(a: number, b: number): number {

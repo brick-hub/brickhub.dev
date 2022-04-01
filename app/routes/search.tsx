@@ -4,6 +4,7 @@ import type { LoaderFunction, MetaFunction } from "remix";
 import { Footer, Header, SearchBar } from "~/components";
 import { timeAgo } from "~/utils/time-ago";
 import * as api from "~/utils/brickhub.server";
+import { useOptionalUser } from "~/utils/user";
 
 interface BrickSearchData {
   query: string;
@@ -14,8 +15,6 @@ export const meta: MetaFunction = ({ data }: { data: BrickSearchData }) => {
   const query = data.query === "" ? "top bricks" : data.query;
   return {
     title: `Search results for ${query}.`,
-    description:
-      "BrickHub is the official registry for publishing, discovering, and consuming reusable brick templates.",
   };
 };
 
@@ -35,9 +34,10 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 export default function BrickSearch() {
   const { query, results } = useLoaderData<BrickSearchData>();
+  const user = useOptionalUser();
   return (
     <Fragment>
-      <Header />
+      <Header email={user?.email} />
       <main className="flex-1">
         <SearchBar defaultValue={query} />
         <div className="px-6 pt-9 lg:pt-0">
@@ -74,7 +74,7 @@ function SearchResults({
 }) {
   return (
     <Fragment>
-      <p className="text-sm italic text-gray-400 lg:pt-6">
+      <p className="text-gray-400 text-sm italic lg:pt-6">
         Found {results.length} result(s) {query !== "" ? `for "${query}"` : ""}
       </p>
 
@@ -101,7 +101,7 @@ function ResultItem({ result }: { result: api.BrickSearchResult }) {
         </a>
       </div>
       <p className="italic">{result.description}</p>
-      <div className="text-sm text-gray-400">
+      <div className="text-gray-400 text-sm">
         <span>
           v
           <a
