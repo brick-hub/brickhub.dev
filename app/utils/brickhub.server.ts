@@ -3,6 +3,17 @@ import { markdownToHtml } from "./markdown.server";
 
 const BZip2 = require("seek-bzip");
 
+export interface Credentials {
+  accessToken: string;
+  refreshToken: string;
+}
+
+export interface User {
+  id: string;
+  email: string;
+  emailVerified: boolean;
+}
+
 export interface BrickSearchResult {
   name: string;
   description: string;
@@ -36,6 +47,34 @@ export interface BrickVariableProperties {
 
 const utf8Decoder = new StringDecoder("utf8");
 const baseUrl = process.env.HOSTED_URL;
+
+export async function login({
+  username,
+  password,
+}: {
+  username: string;
+  password: string;
+}) {
+  const response = await fetch(`${baseUrl}/api/v1/oauth/token`, {
+    method: "POST",
+    body: JSON.stringify({
+      grant_type: "password",
+      username: username,
+      password: password,
+    }),
+  });
+
+  if (response.status != 200) return null;
+
+  const body = await response.json();
+  const accessToken = body["access_token"];
+  const refreshToken = body["refresh_token"];
+  const credentials: Credentials = {
+    accessToken,
+    refreshToken,
+  };
+  return credentials;
+}
 
 export async function search({
   query,

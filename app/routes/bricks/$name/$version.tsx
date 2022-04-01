@@ -11,6 +11,7 @@ import styles from "~/styles/details.css";
 import { Header, SearchBar, Footer } from "~/components";
 import { timeAgo } from "~/utils/time-ago";
 import * as api from "~/utils/brickhub.server";
+import { useOptionalUser } from "~/utils/user";
 
 interface BrickDetailsData {
   name: string;
@@ -25,8 +26,6 @@ const brickVersionRegExp = new RegExp(
 export const meta: MetaFunction = ({ data }: { data: BrickDetailsData }) => {
   return {
     title: `${data.name} | Brick Template`,
-    description:
-      "BrickHub is the official registry for publishing, discovering, and consuming reusable brick templates.",
   };
 };
 
@@ -69,9 +68,10 @@ export let headers: HeadersFunction = ({ loaderHeaders }) => {
 
 export default function BrickDetails() {
   const { name, version, bundle } = useLoaderData<BrickDetailsData>();
+  const user = useOptionalUser();
   return (
     <Fragment>
-      <Header />
+      <Header email={user?.email} />
       <main className="flex h-3/4 flex-1 flex-col">
         <SearchBar defaultValue={name} />
         <div className="h-9"></div>

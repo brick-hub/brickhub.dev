@@ -33,3 +33,18 @@ export const OutlineButtonLink = forwardRef<
 });
 
 OutlineButtonLink.displayName = "OutlineButtonLink";
+
+export const PrimaryButton = forwardRef<
+  HTMLButtonElement,
+  JSX.IntrinsicElements["button"]
+>((props, ref) => {
+  return (
+    <button
+      className="box-border inline-flex h-10 w-full items-center justify-center rounded bg-red-600 px-8 font-semibold text-white hover:bg-red-700 focus:bg-red-700 focus:outline-none"
+      {...props}
+      ref={ref}
+    >
+      {props.children}
+    </button>
+  );
+});

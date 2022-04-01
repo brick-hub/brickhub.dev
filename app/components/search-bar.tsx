@@ -20,7 +20,7 @@ export function SearchBar({
             <SearchIconButton />
           </span>
           <input
-            className="w-full appearance-none rounded-md bg-dark-gray p-4 text-gray-200 focus:outline-none"
+            className="text-gray-200 w-full appearance-none rounded-md bg-dark-gray p-4 focus:outline-none"
             type="search"
             name="q"
             placeholder={placeholder ?? "Search bricks"}

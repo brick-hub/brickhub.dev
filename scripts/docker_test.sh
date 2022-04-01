@@ -5,7 +5,7 @@ set -e
 image="$(docker build -q .)"
 echo Image created: "$image"
 
-container=$(docker run -d -p 3000:3000 --rm "$image")
+container=$(docker run -e SESSION_SECRET="--" -d -p 3000:3000 --rm "$image")
 echo Container started: "$container"
 
 sleep 1
