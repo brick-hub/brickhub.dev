@@ -56,6 +56,34 @@ export interface BrickVariableProperties {
 const utf8Decoder = new StringDecoder("utf8");
 const baseUrl = process.env.HOSTED_URL;
 
+export async function refresh({ token }: { token: string }) {
+  const response = await fetch(`${baseUrl}/api/v1/oauth/token`, {
+    method: "POST",
+    body: JSON.stringify({
+      grant_type: "refresh_token",
+      refresh_token: token,
+    }),
+  });
+
+  const body = await response.json();
+
+  if (response.status !== 200) {
+    throw new ServerError(
+      body["code"] ?? "unknown",
+      body["message"] ?? "An unknown error occurred.",
+      body["details"]
+    );
+  }
+
+  const accessToken = body["access_token"];
+  const refreshToken = body["refresh_token"];
+  const credentials: Credentials = {
+    accessToken,
+    refreshToken,
+  };
+  return credentials;
+}
+
 export async function login({
   username,
   password,
@@ -72,7 +100,7 @@ export async function login({
     }),
   });
 
-  if (response.status != 200) return null;
+  if (response.status !== 200) return null;
 
   const body = await response.json();
   const accessToken = body["access_token"];
@@ -101,7 +129,7 @@ export async function signup({
 
   const body = await response.json();
 
-  if (response.status != 201) {
+  if (response.status !== 201) {
     throw new ServerError(
       body["code"] ?? "unknown",
       body["message"] ?? "An unknown error occurred.",
@@ -126,7 +154,7 @@ export async function sendVerificationEmail({ token }: { token: string }) {
     },
   });
 
-  if (response.status != 204) {
+  if (response.status !== 204) {
     const body = await response.json();
     throw new ServerError(
       body["code"] ?? "unknown",

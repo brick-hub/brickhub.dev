@@ -2,7 +2,11 @@ import { Form, json, redirect, useActionData } from "remix";
 import type { ActionFunction, LoaderFunction, MetaFunction } from "remix";
 import { Footer, PrimaryButton } from "~/components";
 import { Fragment } from "react";
-import { ServerError, signup } from "~/utils/brickhub.server";
+import {
+  sendVerificationEmail,
+  ServerError,
+  signup,
+} from "~/utils/brickhub.server";
 import { Credentials } from "~/utils/brickhub.server";
 import { createUserSession, getUser } from "~/utils/session.server";
 
@@ -53,7 +57,6 @@ export const action: ActionFunction = async ({ request }) => {
   try {
     credentials = await signup({ username, password });
   } catch (error) {
-    console.log(error);
     if (error instanceof ServerError) {
       return badRequest({
         fields,
@@ -66,6 +69,8 @@ export const action: ActionFunction = async ({ request }) => {
       });
     }
   }
+
+  sendVerificationEmail({ token: credentials.accessToken }).catch((_) => {});
 
   return createUserSession(credentials, redirectTo);
 };

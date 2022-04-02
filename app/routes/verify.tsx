@@ -1,36 +1,93 @@
-import { redirect } from "remix";
-import type { LoaderFunction } from "remix";
+import { Form, redirect, useActionData } from "remix";
+import type { ActionFunction, LoaderFunction } from "remix";
 import { Fragment } from "react";
 import {
+  ErrorBanner,
+  SuccessBanner,
   Footer,
   PrimaryButton,
-  PrimaryButtonLink,
-  PrimaryButtonLinkSmall,
-  TextButtonLink,
+  TextButton,
 } from "~/components";
-import { decodeUser, getToken } from "~/utils/session.server";
-import { sendVerificationEmail } from "~/utils/brickhub.server";
+import {
+  createUserSession,
+  decodeUser,
+  getTokens,
+} from "~/utils/session.server";
+import {
+  refresh,
+  sendVerificationEmail,
+  ServerError,
+} from "~/utils/brickhub.server";
 
 export const loader: LoaderFunction = async ({ request }) => {
-  //   const token = await getToken(request);
-  //   if (!token) return redirect("/");
+  const tokens = await getTokens(request);
+  if (!tokens) return redirect("/");
 
-  //   const user = decodeUser(token);
-  //   if (user.emailVerified) return redirect("/");
+  const user = decodeUser(tokens.accessToken);
+  if (user.emailVerified) return redirect("/");
 
-  //   await sendVerificationEmail({ token });
+  return null;
+};
+
+interface ActionData {
+  resend: "success" | "failure" | undefined;
+  resendError?: string;
+}
+
+export const action: ActionFunction = async ({ request }) => {
+  const tokens = await getTokens(request);
+  if (!tokens) return redirect("/");
+
+  const user = decodeUser(tokens.accessToken);
+  if (user.emailVerified) return redirect("/");
+
+  const form = await request.formData();
+  const action = form.get("_action");
+
+  switch (action) {
+    case "continue":
+      const credentials = await refresh({ token: tokens.refreshToken });
+      return createUserSession(credentials, "/");
+    case "resend":
+      try {
+        await sendVerificationEmail({ token: tokens.accessToken });
+        return { resend: "success" };
+      } catch (error) {
+        console.log(error);
+        const resendError = error instanceof ServerError ? error.message : null;
+        return { resend: "failure", resendError };
+      }
+  }
   return null;
 };
 
 export default function VerifyEmail() {
+  const data = useActionData<ActionData>();
   return (
     <Fragment>
+      {data?.resend === "success" ? (
+        <EmailResendSuccessBanner />
+      ) : data?.resend === "failure" ? (
+        <EmailResendFailureBanner message={data.resendError} />
+      ) : null}
       <main className="mx-0 flex flex-grow items-center justify-center sm:mx-auto">
         <VerifyEmailDialog />
       </main>
       <Footer />
     </Fragment>
   );
+}
+
+function EmailResendSuccessBanner() {
+  return (
+    <SuccessBanner content="Verification email has been resent."></SuccessBanner>
+  );
+}
+
+function EmailResendFailureBanner({ message }: { message?: string }) {
+  const content =
+    message ?? "Failed to resend verification email. Please try again later.";
+  return <ErrorBanner content={content}></ErrorBanner>;
 }
 
 function VerifyEmailDialog() {
@@ -47,8 +104,24 @@ function VerifyEmailDialog() {
         </p>
       </div>
       <div>
-        <PrimaryButtonLinkSmall href="/">Got it</PrimaryButtonLinkSmall>
-        <TextButtonLink>Resend email</TextButtonLink>
+        <Form method="post">
+          <PrimaryButton
+            aria-label="Continue"
+            name="_action"
+            value="continue"
+            type="submit"
+          >
+            Got it
+          </PrimaryButton>
+          <TextButton
+            aria-label="Resend email"
+            name="_action"
+            value="resend"
+            type="submit"
+          >
+            Resend email
+          </TextButton>
+        </Form>
       </div>
     </section>
   );

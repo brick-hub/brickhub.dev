@@ -15,6 +15,8 @@ import tailwindStylesUrl from "./styles/tailwind.css";
 import globalStylesUrl from "./styles/global.css";
 import * as ga from "~/utils/ga";
 import { getUser } from "./utils/session.server";
+import { useOptionalUser } from "./utils/user";
+import { WarningBanner } from "./components";
 
 export const links: LinksFunction = () => {
   return [
@@ -42,11 +44,15 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 export default function App() {
+  const user = useOptionalUser();
   const location = useLocation();
 
   useEffect(() => {
     ga.pageview(location.pathname);
   }, [location]);
+
+  const showEmailVerificationBanner =
+    user && !user.emailVerified && location.pathname !== "/verify";
 
   return (
     <html lang="en">
@@ -58,12 +64,23 @@ export default function App() {
       </head>
       <body className="text-gray-200 flex min-h-screen w-full flex-col overflow-x-hidden bg-black">
         <GoogleAnalytics />
+        {showEmailVerificationBanner ? <UnverifiedEmailBanner /> : null}
         <Outlet />
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
       </body>
     </html>
+  );
+}
+
+function UnverifiedEmailBanner() {
+  return (
+    <WarningBanner content="Email verification required.">
+      <a className="hover:underline" href="/verify">
+        Verify
+      </a>
+    </WarningBanner>
   );
 }
 

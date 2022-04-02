@@ -34,12 +34,12 @@ export async function createUserSession(
   });
 }
 
-export async function getToken(request: Request) {
+export async function getTokens(request: Request) {
   const session = await getUserSession(request);
   const value = session.get("__credentials__");
   if (!value || typeof value !== "string") return null;
   const credentials: Credentials = JSON.parse(value);
-  return credentials.accessToken;
+  return credentials;
 }
 
 export function getUserSession(request: Request) {
