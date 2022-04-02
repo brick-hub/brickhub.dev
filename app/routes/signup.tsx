@@ -1,13 +1,18 @@
 import { Form, json, redirect, useActionData } from "remix";
 import type { ActionFunction, LoaderFunction, MetaFunction } from "remix";
-import { Footer, PrimaryButton, TextButtonLink } from "~/components";
+import { Footer, PrimaryButton } from "~/components";
 import { Fragment } from "react";
-import { login } from "~/utils/brickhub.server";
+import {
+  sendVerificationEmail,
+  ServerError,
+  signup,
+} from "~/utils/brickhub.server";
+import { Credentials } from "~/utils/brickhub.server";
 import { createUserSession, getUser } from "~/utils/session.server";
 
 export const meta: MetaFunction = () => {
   return {
-    title: "BrickHub | Sign In",
+    title: "BrickHub | Sign Up",
   };
 };
 
@@ -35,7 +40,7 @@ export const action: ActionFunction = async ({ request }) => {
   const form = await request.formData();
   const username = form.get("username");
   const password = form.get("password");
-  const redirectTo = "/";
+  const redirectTo = "/verify";
   if (typeof username !== "string" || typeof password !== "string") {
     return badRequest({ formError: `Form not submitted correctly.` });
   }
@@ -48,13 +53,24 @@ export const action: ActionFunction = async ({ request }) => {
     return badRequest({ fieldErrors, fields });
   }
 
-  const credentials = await login({ username, password });
-  if (!credentials) {
-    return badRequest({
-      fields,
-      formError: `Invalid username/password`,
-    });
+  let credentials: Credentials;
+  try {
+    credentials = await signup({ username, password });
+  } catch (error) {
+    if (error instanceof ServerError) {
+      return badRequest({
+        fields,
+        formError: error.message,
+      });
+    } else {
+      return badRequest({
+        fields,
+        formError: "An error occurred.",
+      });
+    }
   }
+
+  sendVerificationEmail({ token: credentials.accessToken }).catch((_) => {});
 
   return createUserSession(credentials, redirectTo);
 };
@@ -65,11 +81,11 @@ export const loader: LoaderFunction = async ({ request }) => {
   return null;
 };
 
-export default function Login() {
+export default function SignUp() {
   return (
     <Fragment>
-      <main className="mx-0 flex-1 items-center justify-center sm:mx-auto">
-        <LoginForm />
+      <main className="mx-0 h-full flex-1 items-center justify-center sm:mx-auto">
+        <SignUpForm />
       </main>
       <Footer />
     </Fragment>
@@ -88,7 +104,7 @@ function BrickHubLogo() {
   );
 }
 
-function LoginForm() {
+function SignUpForm() {
   const actionData = useActionData<ActionData>();
 
   return (
@@ -96,7 +112,7 @@ function LoginForm() {
       <BrickHubLogo />
       <Form method="post" className="space-y-5">
         <h1 className="border-b-2 border-red-600 pb-2 text-lg font-semibold">
-          Sign In
+          Sign Up
         </h1>
         <div>
           <label className="whitespace-nowrap" htmlFor="username">
@@ -114,11 +130,7 @@ function LoginForm() {
             }
           />
           {actionData?.fieldErrors?.username ? (
-            <p
-              className="text-sm italic text-red-600"
-              role="alert"
-              id="username-error"
-            >
+            <p className="text-sm italic text-red-600" role="alert">
               {actionData.fieldErrors.username}
             </p>
           ) : null}
@@ -144,16 +156,28 @@ function LoginForm() {
           ) : null}
         </div>
         <div>
+          <p className="text-sm">
+            <b>Note:</b> Signup is only available for individuals who are part
+            of the closed alpha. <br /> <br />
+            <a
+              target="_blank"
+              href="https://forms.gle/cG8XoR1wiVxPgyWW9"
+              className="underline hover:text-red-500"
+              aria-label="Request access"
+            >
+              Request access
+            </a>
+            .
+          </p>
+        </div>
+        <div>
           {actionData?.formError ? (
             <p className="text-sm italic text-red-600" role="alert">
               {actionData.formError}
             </p>
           ) : null}
         </div>
-        <PrimaryButton type="submit">Sign In</PrimaryButton>
-        <TextButtonLink aria-label="Sign up" href="/signup">
-          Create Account
-        </TextButtonLink>
+        <PrimaryButton type="submit">Sign Up</PrimaryButton>
       </Form>
     </section>
   );

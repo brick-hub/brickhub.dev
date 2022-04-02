@@ -1,6 +1,7 @@
 import { Form } from "remix";
+import { User } from "~/utils/brickhub.server";
 
-export function Header({ email }: { email?: string }) {
+export function Header({ user }: { user?: User }) {
   return (
     <header className="flex items-center justify-between px-6 py-9 lg:px-12">
       <a
@@ -11,7 +12,7 @@ export function Header({ email }: { email?: string }) {
         <BrickHubLogo />
         <p className="mx-2 text-3xl font-bold">BrickHub</p>
       </a>
-      {email ? <DropdownMenu email={email} /> : <SignInButton />}
+      {user ? <DropdownMenu user={user} /> : <SignInButton />}
     </header>
   );
 }
@@ -34,7 +35,7 @@ function BrickHubLogo() {
   );
 }
 
-function DropdownMenu({ email }: { email: string }) {
+function DropdownMenu({ user }: { user: User }) {
   return (
     <div className="group relative inline-block pb-2 text-left">
       <div>
@@ -45,7 +46,7 @@ function DropdownMenu({ email }: { email: string }) {
           aria-expanded="true"
           aria-haspopup="true"
         >
-          <UserAvatar email={email} />
+          <UserAvatar email={user.email} />
         </button>
       </div>
 
@@ -56,7 +57,12 @@ function DropdownMenu({ email }: { email: string }) {
         aria-labelledby="menu-button"
         tabIndex={-1}
       >
-        <div className="px-4 py-2 text-sm">{email}</div>
+        <div className="px-4 py-2 text-sm">
+          {user.email}{" "}
+          {user.emailVerified ? (
+            <span className="text-green-500">&#x2713;</span>
+          ) : null}
+        </div>
         <hr className="mx-4 text-slate-600" />
         <div className="py-1" role="none">
           <Form action="/logout" method="post">

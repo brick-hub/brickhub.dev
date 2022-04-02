@@ -7,7 +7,7 @@ export default function Index() {
   const user = useOptionalUser();
   return (
     <Fragment>
-      <Header email={user?.email} />
+      <Header user={user} />
       <main className="flex-1 items-center justify-center">
         <SearchBar />
         <section className="px-6 pt-9 sm:px-8 lg:flex lg:w-full lg:items-center lg:justify-between lg:gap-12 lg:pt-0">
@@ -23,12 +23,19 @@ export default function Index() {
             </p>
             <div className="h-6"></div>
             <div className="flex flex-col gap-4 xl:flex-row">
-              <PrimaryButtonLink
-                target="_blank"
-                href="https://forms.gle/cG8XoR1wiVxPgyWW9"
-              >
-                Request Access
-              </PrimaryButtonLink>
+              {user ? (
+                <PrimaryButtonLink href="/search">
+                  Discover Bricks
+                </PrimaryButtonLink>
+              ) : (
+                <PrimaryButtonLink
+                  target="_blank"
+                  href="https://forms.gle/cG8XoR1wiVxPgyWW9"
+                >
+                  Request Access
+                </PrimaryButtonLink>
+              )}
+
               <OutlineButtonLink
                 target="_blank"
                 href="https://pub.dev/documentation/mason_cli/latest"

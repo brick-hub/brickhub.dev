@@ -34,16 +34,20 @@ export async function createUserSession(
   });
 }
 
-export function getUserSession(request: Request) {
-  return storage.getSession(request.headers.get("Cookie"));
-}
-
-export async function getUser(request: Request) {
+export async function getTokens(request: Request) {
   const session = await getUserSession(request);
   const value = session.get("__credentials__");
   if (!value || typeof value !== "string") return null;
   const credentials: Credentials = JSON.parse(value);
-  const claims = decodeJwt(credentials.accessToken);
+  return credentials;
+}
+
+export function getUserSession(request: Request) {
+  return storage.getSession(request.headers.get("Cookie"));
+}
+
+export function decodeUser(token: string): User {
+  const claims = decodeJwt(token);
   const email = claims["email"] as string;
   const emailVerified = Boolean(claims["email_verified"]);
   const id = claims["user_id"] as string;
@@ -53,6 +57,14 @@ export async function getUser(request: Request) {
     emailVerified,
   };
   return user;
+}
+
+export async function getUser(request: Request) {
+  const session = await getUserSession(request);
+  const value = session.get("__credentials__");
+  if (!value || typeof value !== "string") return null;
+  const credentials: Credentials = JSON.parse(value);
+  return decodeUser(credentials.accessToken);
 }
 
 export async function destroySession(request: Request) {

@@ -71,7 +71,7 @@ export default function BrickDetails() {
   const user = useOptionalUser();
   return (
     <Fragment>
-      <Header email={user?.email} />
+      <Header user={user} />
       <main className="flex h-3/4 flex-1 flex-col">
         <SearchBar defaultValue={name} />
         <div className="h-9"></div>
