@@ -14,6 +14,7 @@ export function Footer() {
         <FooterLink
           aria-label="Go to GitHub"
           target="_blank"
+          rel="noreferrer"
           href="https://github.com/brick-hub"
         >
           <GitHubLogo />
@@ -21,6 +22,7 @@ export function Footer() {
         <FooterLink
           aria-label="Report an issue"
           target="_blank"
+          rel="noreferrer"
           href="https://github.com/brick-hub/brickhub.dev/issues/new/choose"
         >
           <ExclamationCircleIcon />

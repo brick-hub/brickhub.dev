@@ -108,7 +108,7 @@ function SignUpForm() {
   const actionData = useActionData<ActionData>();
 
   return (
-    <section className="mt-6 w-full rounded-md bg-dark-gray p-10 shadow-md sm:mt-14">
+    <section className="mt-6 w-full max-w-sm rounded-md bg-dark-gray p-10 shadow-md sm:mt-14">
       <BrickHubLogo />
       <Form method="post" className="space-y-5">
         <h1 className="border-b-2 border-red-600 pb-2 text-lg font-semibold">
@@ -161,6 +161,7 @@ function SignUpForm() {
             of the closed alpha. <br /> <br />
             <a
               target="_blank"
+              rel="noreferrer"
               href="https://forms.gle/cG8XoR1wiVxPgyWW9"
               className="underline hover:text-red-500"
               aria-label="Request access"

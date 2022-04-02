@@ -30,6 +30,7 @@ export default function Index() {
               ) : (
                 <PrimaryButtonLink
                   target="_blank"
+                  rel="noreferrer"
                   href="https://forms.gle/cG8XoR1wiVxPgyWW9"
                 >
                   Request Access
@@ -38,6 +39,7 @@ export default function Index() {
 
               <OutlineButtonLink
                 target="_blank"
+                rel="noreferrer"
                 href="https://pub.dev/documentation/mason_cli/latest"
               >
                 Read the Docs
