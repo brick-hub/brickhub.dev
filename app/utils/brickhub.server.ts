@@ -3,6 +3,14 @@ import { markdownToHtml } from "./markdown.server";
 
 const BZip2 = require("seek-bzip");
 
+export class ServerError {
+  constructor(
+    public code: string,
+    public message: string,
+    public details?: string
+  ) {}
+}
+
 export interface Credentials {
   accessToken: string;
   refreshToken: string;
@@ -74,6 +82,59 @@ export async function login({
     refreshToken,
   };
   return credentials;
+}
+
+export async function signup({
+  username,
+  password,
+}: {
+  username: string;
+  password: string;
+}) {
+  const response = await fetch(`${baseUrl}/api/v1/users`, {
+    method: "POST",
+    body: JSON.stringify({
+      email: username,
+      password: password,
+    }),
+  });
+
+  const body = await response.json();
+
+  if (response.status != 201) {
+    throw new ServerError(
+      body["code"] ?? "unknown",
+      body["message"] ?? "An unknown error occurred.",
+      body["details"]
+    );
+  }
+
+  const accessToken = body["access_token"];
+  const refreshToken = body["refresh_token"];
+  const credentials: Credentials = {
+    accessToken,
+    refreshToken,
+  };
+  return credentials;
+}
+
+export async function sendVerificationEmail({ token }: { token: string }) {
+  const response = await fetch(`${baseUrl}/api/v1/users/verify`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (response.status != 204) {
+    const body = await response.json();
+    throw new ServerError(
+      body["code"] ?? "unknown",
+      body["message"] ?? "An unknown error occurred.",
+      body["details"]
+    );
+  }
+  return null;
 }
 
 export async function search({

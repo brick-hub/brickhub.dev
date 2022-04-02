@@ -17,6 +17,23 @@ export const PrimaryButtonLink = forwardRef<
 
 PrimaryButtonLink.displayName = "PrimaryButtonLink";
 
+export const PrimaryButtonLinkSmall = forwardRef<
+  HTMLAnchorElement,
+  JSX.IntrinsicElements["a"]
+>((props, ref) => {
+  return (
+    <a
+      className="box-border inline-flex h-10 w-full items-center justify-center rounded bg-red-600 px-8 font-semibold text-white hover:bg-red-700 focus:outline-none xl:h-16 xl:w-60 xl:text-lg"
+      {...props}
+      ref={ref}
+    >
+      {props.children}
+    </a>
+  );
+});
+
+PrimaryButtonLinkSmall.displayName = "PrimaryButtonLinkSmall";
+
 export const OutlineButtonLink = forwardRef<
   HTMLAnchorElement,
   JSX.IntrinsicElements["a"]
@@ -33,6 +50,23 @@ export const OutlineButtonLink = forwardRef<
 });
 
 OutlineButtonLink.displayName = "OutlineButtonLink";
+
+export const TextButtonLink = forwardRef<
+  HTMLAnchorElement,
+  JSX.IntrinsicElements["a"]
+>((props, ref) => {
+  return (
+    <a
+      className="inline-flex h-14 w-full cursor-pointer items-center justify-center rounded px-8 font-semibold text-white underline hover:text-red-600 focus:outline-none"
+      {...props}
+      ref={ref}
+    >
+      {props.children}
+    </a>
+  );
+});
+
+TextButtonLink.displayName = "TextButtonLink";
 
 export const PrimaryButton = forwardRef<
   HTMLButtonElement,

@@ -37,7 +37,7 @@ export default function BrickSearch() {
   const user = useOptionalUser();
   return (
     <Fragment>
-      <Header email={user?.email} />
+      <Header user={user} />
       <main className="flex-1">
         <SearchBar defaultValue={query} />
         <div className="px-6 pt-9 lg:pt-0">
