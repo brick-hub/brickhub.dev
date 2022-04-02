@@ -161,6 +161,7 @@ function SignUpForm() {
             of the closed alpha. <br /> <br />
             <a
               target="_blank"
+              rel="noreferrer"
               href="https://forms.gle/cG8XoR1wiVxPgyWW9"
               className="underline hover:text-red-500"
               aria-label="Request access"
