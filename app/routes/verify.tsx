@@ -1,5 +1,5 @@
 import { Form, redirect, useActionData } from "remix";
-import type { ActionFunction, LoaderFunction } from "remix";
+import type { ActionFunction, LoaderFunction, MetaFunction } from "remix";
 import { Fragment } from "react";
 import {
   ErrorBanner,
@@ -18,6 +18,12 @@ import {
   sendVerificationEmail,
   ServerError,
 } from "~/utils/brickhub.server";
+
+export const meta: MetaFunction = () => {
+  return {
+    title: "BrickHub | Verify Email",
+  };
+};
 
 export const loader: LoaderFunction = async ({ request }) => {
   const tokens = await getTokens(request);
