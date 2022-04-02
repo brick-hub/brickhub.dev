@@ -108,7 +108,7 @@ function SignUpForm() {
   const actionData = useActionData<ActionData>();
 
   return (
-    <section className="mt-6 w-96 rounded-md bg-dark-gray p-10 shadow-md sm:mt-14">
+    <section className="mt-6 w-full rounded-md bg-dark-gray p-10 shadow-md sm:mt-14">
       <BrickHubLogo />
       <Form method="post" className="space-y-5">
         <h1 className="border-b-2 border-red-600 pb-2 text-lg font-semibold">
