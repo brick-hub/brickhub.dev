@@ -149,7 +149,7 @@ function InstallSnippet({ name }: { name: string }) {
       <p>Install</p>
       <div className="h-1"></div>
       <code
-        className="flex w-full flex-auto cursor-copy items-center justify-start gap-4 overflow-hidden text-ellipsis whitespace-nowrap rounded-md bg-dark-gray p-4 hover:bg-red-600/40"
+        className="flex cursor-copy items-center justify-start gap-4 overflow-hidden text-ellipsis whitespace-nowrap rounded-md bg-dark-gray p-4 hover:bg-red-600/40"
         onClick={copyToClipboard}
       >
         {">"} {snippet}
