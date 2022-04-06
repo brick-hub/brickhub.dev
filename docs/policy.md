@@ -1,0 +1,35 @@
+# brickhub.dev policy
+
+## Purpose
+
+BrickHub.dev facilitates the sharing via publication of brick templates. It is central to this service that consumers of templates can trust that their
+bricks (templates) do not suddenly disappear. **Thus, once a brick has been published it cannot be unpublished or deleted**. This applies to all versions of a published brick. However, because mistakes can occasionally happen, exceptions can be granted to this general policy at the discretion of brickhub.dev.
+
+## Naming policy
+
+Brick names play an important role in the brickhub.dev ecosystem as they are the identifier of a brick;
+as a consequence brick names must be unique. When a consumer wishes to consume a brick,
+they do that by referring to the brick name as this unique identifier.
+
+Because names play such an important role, the following provisions apply to
+brick names:
+
+### Name squatting
+
+Bricks may not be published solely to reserve a name for future use. A brick is considered to be engaged in "name squatting" if its code has no objectively and genuinely useful purpose. If you believe a brick is engaged in name squatting, you can use the following steps to request a brickhub.dev moderator review and that the brick be transferred to you:
+
+1.  Locate the email of the publisher, as shown in the brick details page on brickhub.dev.
+2.  Email the publisher and copy/cc `help@brickhub.dev`, politely asking the publisher to explain their intended purpose.
+3.  If the publisher does not respond within four (4) weeks, forward the thread to `help@brickhub.dev`, and the request will be reviewed.
+
+### Trademark infringement
+
+BrickHub.dev respects the importance of trademarks and other proprietary rights and prohibits intellectual property infringement. Publishers are solely responsible for the bricks and brick names they use. We take allegations of trademark infringement seriously and, as a courtesy, we may informally investigate valid trademark complaints submitted by trademark owners or their authorized agents (including the Attorney of Record as listed on the trademark registration, or a representative from the headquarters of the trademark parent company). However, we are not in a position to mediate third party disputes, and we encourage trademark owners to resolve their disputes directly with publishers by contacting the publisher at their email address shown in the brick details page on brickhub.dev. In addition to directly contacting publishers, trademark owners or their authorized agents who are concerned about trademark use in bricks or brick names can email `help@brickhub.dev` to submit a complaint. The complaint must include the name, role and contact information of the person initiating the complaint, the country(ies) of trademark registration and registration numbers (if applicable), and the URLs and brick names for all bricks related to the complaint. To ensure efficient review of your complaint, please provide all requested information. We cannot take action on incomplete complaints.
+
+## Content policy
+
+BrickHub.dev is intended to enable developers to share reusable templates with other developers. Thus, these templates are expected to contain source code directly related to the main function of the template. Any other content is not allowed on brickhub.dev, and may be subject to moderation at the discretion of the brickhub.dev moderators, up to and including unpublishing of a brick.
+
+## Copyright policy
+
+We respect the rights of copyright holders, and we do not allow bricks or brick names that are unauthorized to use copyrighted content. Publishers are solely responsible for the bricks and bricks names they use. Copyright holders can email `help@brickhub.dev` to submit a complaint. The complaint should include the name, role and contact information of the person initiating the complaint, a description of and link to an example of the copyrighted work, and the URLs and brick names for all bricks related to the complaint. To ensure efficient review of your complaint, please provide all requested information. We cannot take action on incomplete complaints.
