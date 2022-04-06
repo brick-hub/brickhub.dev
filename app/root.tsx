@@ -26,10 +26,24 @@ export const links: LinksFunction = () => {
 };
 
 export const meta: MetaFunction = () => {
+  const title = "BrickHub";
+  const description =
+    "BrickHub is the official registry for publishing, discovering, and consuming reusable brick templates.";
+  const image =
+    "https://raw.githubusercontent.com/brick-hub/brickhub.dev/main/assets/brick-hub-cover-image.png?hash=vg86r2r3mbs62hiv4ldop0ife5um2g5g";
+  const url = "https://brickhub.dev";
   return {
-    title: "BrickHub",
-    description:
-      "BrickHub is the official registry for publishing, discovering, and consuming reusable brick templates.",
+    title: title,
+    description: description,
+    "twitter:card": "summary",
+    "twitter:description": description,
+    "twitter:image": image,
+    "og:type": "website",
+    "og:site_name": title,
+    "og:title": title,
+    "og:description": description,
+    "og:image": image,
+    "og:url": url,
   };
 };
 
