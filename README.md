@@ -3,8 +3,6 @@
 
 Home of the [brickhub.dev][brick_hub_link] site.
 
-![BrickHub Hero][brick_hub_hero]
-
 [brick_hub_hero]: assets/brick-hub-hero.png
 [brick_hub_link]: https://brickhub.dev
 [logo_black]: assets/brick-hub-logo-black.png#gh-light-mode-only
