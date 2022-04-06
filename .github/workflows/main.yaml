@@ -4,6 +4,13 @@ on:
   push:
     branches:
       - main
+    paths:
+      - .github/workflows/main.yaml
+      - "app/**"
+      - "public/**"
+      - Dockerfile
+      - package.json
+      - package-lock.json
 
 env:
   PROJECT_ID: brickhub-dev
