@@ -24,8 +24,18 @@ const brickVersionRegExp = new RegExp(
 );
 
 export const meta: MetaFunction = ({ data }: { data: BrickDetailsData }) => {
+  const title = `${data.name} | Brick Template`;
+  const description = data.bundle?.description;
   return {
-    title: `${data.name} | Brick Template`,
+    title: title,
+    ...(description && { description: description }),
+    "twitter:card": "summary",
+    ...(description && { "twitter:description": description }),
+    "og:type": "website",
+    "og:site_name": title,
+    "og:title": title,
+    ...(description && { "og:description": description }),
+    "og:url": `https://brickhub.dev/bricks/${data.name}/${data.version}`,
   };
 };
 
@@ -109,7 +119,7 @@ function BrickDetailsCard({ bundle }: { bundle: api.BrickBundle }) {
   const publishedAt = timeAgo(new Date(bundle.createdAt));
   return (
     <div className="m-auto flex w-full max-w-[51rem] flex-col items-start justify-center">
-      <h2 className="text-4xl font-semibold text-red-500">
+      <h2 className="break-all text-4xl font-semibold text-red-500">
         {bundle.name} {bundle.version}
       </h2>
       <div>
@@ -139,7 +149,7 @@ function InstallSnippet({ name }: { name: string }) {
       <p>Install</p>
       <div className="h-1"></div>
       <code
-        className="flex cursor-copy items-center justify-center gap-4 overflow-ellipsis whitespace-nowrap rounded-md bg-dark-gray p-4 hover:bg-red-600/40"
+        className="flex w-full flex-auto cursor-copy items-center justify-start gap-4 overflow-hidden text-ellipsis whitespace-nowrap rounded-md bg-dark-gray p-4 hover:bg-red-600/40"
         onClick={copyToClipboard}
       >
         {">"} {snippet}
@@ -185,7 +195,7 @@ function Tabs({ bundle }: { bundle: api.BrickBundle }) {
           License
         </label>
 
-        <div className="tab-contents w-full">
+        <div className="tab-contents max-w-5xl">
           <section id="readme" className="tab-content hidden w-full">
             <Markdown contents={bundle.readme} />
           </section>
@@ -203,9 +213,9 @@ function Tabs({ bundle }: { bundle: api.BrickBundle }) {
 
 function Markdown({ contents }: { contents: string }) {
   return (
-    <div className="w-full rounded-md bg-dark-gray p-6">
+    <div className="w-full break-words rounded-md bg-dark-gray p-6">
       <article
-        className="prose prose-invert prose-pre:bg-inherit prose-table:inline-block prose-table:overflow-x-auto"
+        className="prose prose-invert prose-pre:bg-inherit prose-pre:p-0 prose-table:inline-block prose-table:overflow-x-auto"
         dangerouslySetInnerHTML={{ __html: contents }}
       ></article>
     </div>

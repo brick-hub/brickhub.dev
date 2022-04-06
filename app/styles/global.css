@@ -14,6 +14,10 @@ body {
   color: white;
 }
 
+pre code.hljs {
+  display: inline-block !important;
+}
+
 body {
   min-height: 100vh;
 }
