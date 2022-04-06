@@ -31,6 +31,7 @@ export const meta: MetaFunction = () => {
     "BrickHub is the official registry for publishing, discovering, and consuming reusable brick templates.";
   const image =
     "https://raw.githubusercontent.com/brick-hub/brickhub.dev/main/assets/brick-hub-cover-image.png?hash=vg86r2r3mbs62hiv4ldop0ife5um2g5g";
+  const url = "https://brickhub.dev";
   return {
     title: title,
     description: description,
@@ -42,7 +43,7 @@ export const meta: MetaFunction = () => {
     "og:title": title,
     "og:description": description,
     "og:image": image,
-    "og:url": "https://brickhub.dev",
+    "og:url": url,
   };
 };
 
