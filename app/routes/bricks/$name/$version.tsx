@@ -8,7 +8,7 @@ import type {
 } from "remix";
 import highlightStyleUrl from "highlight.js/styles/base16/tender.css";
 import styles from "~/styles/details.css";
-import { Header, SearchBar, Footer, TextButtonLink } from "~/components";
+import { Header, SearchBar, Footer } from "~/components";
 import { timeAgo } from "~/utils/time-ago";
 import * as api from "~/utils/brickhub.server";
 import { useOptionalUser } from "~/utils/user";
