@@ -31,6 +31,7 @@ export interface BrickSearchResult {
 }
 
 export interface BrickMetadata extends BrickSearchResult {
+  repository: string;
   environment: Environment;
   vars: Record<string, BrickVariableProperties>;
   hooks: string[];
