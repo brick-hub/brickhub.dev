@@ -41,6 +41,7 @@ export interface BrickBundle extends BrickMetadata {
   readme: string;
   changelog: string;
   license: string;
+  usage: string;
 }
 
 export interface Environment {
@@ -210,11 +211,74 @@ export async function getBundle({
     "utf8"
   );
   const license = Buffer.from(bundle.license.data, "base64").toString("utf8");
+  const variables = Object.keys(bundle.vars);
+  const hooks = bundle.hooks.map((hook: any) => hook["path"]);
+  const hasPreGenHook = hooks.includes("pre_gen.dart");
+  const hasPostGenHook = hooks.includes("post_gen.dart");
+  const usage = `
+## Setup 🧑‍💻
+
+Ensure you have the [mason_cli](https://github.com/felangel/mason/tree/master/packages/mason_cli) installed.
+
+\`\`\`sh
+# 🎯 Activate from https://pub.dev
+dart pub global activate mason_cli
+\`\`\`
+
+\`\`\`sh
+# 🍺 Or install from https://brew.sh
+brew tap felangel/mason
+brew install mason
+\`\`\`
+
+## Installation ☁️ 
+
+\`\`\`sh
+# Install locally
+mason add ${bundle.name}
+\`\`\`
+
+\`\`\`sh
+# Install globally
+mason add -g ${bundle.name}
+\`\`\`
+
+## Usage 🚀
+
+\`\`\`sh
+mason make ${bundle.name}
+\`\`\`
+
+## Variables ✨
+
+| Name | Description | Default | Type |
+| ---- | ------------| --------| -----|
+${variables
+  .map((v) => {
+    const variable = bundle.vars[v];
+    return `${v} | ${variable.description ?? "(empty)"} | ${
+      variable.default ?? "(empty)"
+    } | ${variable.type}`;
+  })
+  .join("\n")}
+
+## Hooks 🪝
+
+- ${hasPreGenHook ? "✅" : "❌"} &nbsp; Pre-Gen
+- ${hasPostGenHook ? "✅" : "❌"} &nbsp; Post-Gen
+
+## Environment 🌎
+
+\`\`\`yaml
+mason: "${bundle.environment.mason}"
+\`\`\`
+`;
 
   const html = await Promise.all([
     markdownToHtml(readme),
     markdownToHtml(changelog),
     markdownToHtml(license),
+    markdownToHtml(usage),
   ]);
 
   return Object.assign({}, metadata, {
@@ -222,5 +286,6 @@ export async function getBundle({
     readme: html[0],
     changelog: html[1],
     license: html[2],
+    usage: html[3],
   });
 }
