@@ -256,7 +256,7 @@ mason make ${bundle.name}
 ${variables
   .map((v) => {
     const variable = bundle.vars[v];
-    return `${v} | ${variable.description} | ${
+    return `${v} | ${variable.description ?? "(empty)"} | ${
       variable.default ?? "(empty)"
     } | ${variable.type}`;
   })
