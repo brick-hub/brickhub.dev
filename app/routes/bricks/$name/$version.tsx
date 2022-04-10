@@ -214,7 +214,7 @@ function GitIcon() {
 function Tabs({ bundle }: { bundle: api.BrickBundle }) {
   return (
     <Fragment>
-      <div className="tabs w-full bg-dark-gray">
+      <div className="tabs w-full">
         <input
           className="hidden"
           type="radio"
@@ -231,25 +231,40 @@ function Tabs({ bundle }: { bundle: api.BrickBundle }) {
           type="radio"
           name="tabs"
           id="tab2"
-          aria-controls="changelog"
+          aria-controls="usage"
         />
         <label className="inline-block cursor-pointer p-4" htmlFor="tab2">
-          Changelog
+          Usage
         </label>
         <input
           className="hidden"
           type="radio"
           name="tabs"
           id="tab3"
-          aria-controls="license"
+          aria-controls="changelog"
         />
         <label className="inline-block cursor-pointer p-4" htmlFor="tab3">
+          Changelog
+        </label>
+        <input
+          className="hidden"
+          type="radio"
+          name="tabs"
+          id="tab4"
+          aria-controls="license"
+        />
+        <label className="inline-block cursor-pointer p-4" htmlFor="tab4">
           License
         </label>
+
+        <div className="h-4"></div>
 
         <div className="tab-contents max-w-5xl">
           <section id="readme" className="tab-content hidden w-full">
             <Markdown contents={bundle.readme} />
+          </section>
+          <section id="usage" className="tab-content hidden w-full">
+            <Markdown contents={bundle.usage} />
           </section>
           <section id="changelog" className="tab-content hidden w-full">
             <Markdown contents={bundle.changelog} />
@@ -267,7 +282,7 @@ function Markdown({ contents }: { contents: string }) {
   return (
     <div className="w-full break-words rounded-md bg-dark-gray p-6">
       <article
-        className="prose prose-invert prose-pre:bg-inherit prose-pre:p-0 prose-table:inline-block prose-table:overflow-x-auto"
+        className="prose prose-invert prose-pre:bg-inherit prose-pre:p-0 prose-table:m-0 prose-table:inline-block prose-table:overflow-x-auto"
         dangerouslySetInnerHTML={{ __html: contents }}
       ></article>
     </div>

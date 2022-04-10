@@ -1,6 +1,7 @@
 .tabs > input:nth-child(1):checked ~ .tab-contents > .tab-content:nth-child(1),
 .tabs > input:nth-child(3):checked ~ .tab-contents > .tab-content:nth-child(2),
-.tabs > input:nth-child(5):checked ~ .tab-contents > .tab-content:nth-child(3) {
+.tabs > input:nth-child(5):checked ~ .tab-contents > .tab-content:nth-child(3),
+.tabs > input:nth-child(7):checked ~ .tab-contents > .tab-content:nth-child(4) {
   display: block;
 }
 
