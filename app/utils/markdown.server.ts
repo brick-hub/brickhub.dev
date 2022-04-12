@@ -10,7 +10,7 @@ export async function markdownToHtml(markdownString: string) {
     .use(remarkParse)
     .use(remarkGfm)
     .use(remark2rehype)
-    .use(rehypeHighlight, { languages: { dart } })
+    .use(rehypeHighlight, { languages: { dart }, ignoreMissing: true })
     .use(rehypeStringify)
     .process(markdownString);
 
