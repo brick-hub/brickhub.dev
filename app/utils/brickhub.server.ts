@@ -22,6 +22,11 @@ export interface User {
   emailVerified: boolean;
 }
 
+export interface BrickSearchResults {
+  bricks: [BrickSearchResult];
+  total: number;
+}
+
 export interface BrickSearchResult {
   name: string;
   description: string;
@@ -169,12 +174,19 @@ export async function sendVerificationEmail({ token }: { token: string }) {
 
 export async function search({
   query,
+  limit,
+  offset,
 }: {
   query: string;
-}): Promise<BrickSearchResult> {
-  const response = await fetch(`${baseUrl}/api/v1/search?q=${query}`);
+  limit: number;
+  offset: number;
+}): Promise<BrickSearchResults> {
+  const response = await fetch(
+    `${baseUrl}/api/v1/search?q=${query}&limit=${limit}&offset=${offset}`
+  );
   const body = await response.json();
-  return body.bricks.map((brick: any) => {
+  const total = body.total;
+  const bricks = body.bricks.map((brick: any) => {
     return {
       name: brick.name,
       description: brick.description,
@@ -183,6 +195,7 @@ export async function search({
       createdAt: brick.created_at,
     };
   });
+  return { bricks, total };
 }
 
 export async function getBundle({
