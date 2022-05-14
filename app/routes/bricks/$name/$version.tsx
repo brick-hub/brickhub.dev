@@ -85,13 +85,11 @@ export default function BrickDetails() {
       <main className="flex h-3/4 flex-1 flex-col">
         <SearchBar defaultValue={name} />
         <div className="h-9"></div>
-        <div className="p-1 sm:px-4 md:px-6">
-          {bundle ? (
-            <BrickDetailsCard bundle={bundle} />
-          ) : (
-            <BrickNotFoundCard name={name} version={version} />
-          )}
-        </div>
+        {bundle ? (
+          <BrickDetailsCard bundle={bundle} />
+        ) : (
+          <BrickNotFoundCard name={name} version={version} />
+        )}
       </main>
       <Footer />
     </Fragment>
@@ -106,10 +104,12 @@ function BrickNotFoundCard({
   version: string;
 }) {
   return (
-    <div className="m-auto flex w-full flex-col items-start justify-center">
-      <h2 className="text-3xl font-semibold text-red-500">404 Not Found</h2>
-      <div>
-        brick "{name}" v{version} was not found.
+    <div className="w-full px-6">
+      <div className="m-auto flex w-full max-w-[56rem] flex-col items-start justify-center">
+        <h2 className="text-3xl font-semibold text-red-500">404 Not Found</h2>
+        <div>
+          brick "{name}" v{version} was not found.
+        </div>
       </div>
     </div>
   );
@@ -118,24 +118,32 @@ function BrickNotFoundCard({
 function BrickDetailsCard({ bundle }: { bundle: api.BrickBundle }) {
   const publishedAt = timeAgo(new Date(bundle.createdAt));
   return (
-    <div className="m-auto flex w-full max-w-[56rem] flex-col items-start justify-center">
-      <h2 className="break-all text-4xl font-semibold text-red-500">
-        {bundle.name} {bundle.version}
-      </h2>
-      <div>
-        <span>Published {publishedAt}</span>
-        <span className="px-1">•</span>
-        <span>{bundle.publisher}</span>
+    <Fragment>
+      <div className="w-full px-6">
+        <div className="m-auto flex w-full max-w-[56rem] flex-col items-start justify-center">
+          <h2 className="break-all text-4xl font-semibold text-red-500">
+            {bundle.name} {bundle.version}
+          </h2>
+          <div>
+            <span>Published {publishedAt}</span>
+            <span className="px-1">•</span>
+            <span>{bundle.publisher}</span>
+          </div>
+          <div className="h-4"></div>
+          <p className="italic">{bundle.description}</p>
+          <div className="h-4"></div>
+          <RepositoryUrl url={bundle.repository} />
+          <div className="h-4"></div>
+          <InstallSnippet name={bundle.name} />
+        </div>
       </div>
-      <div className="h-4"></div>
-      <p className="italic">{bundle.description}</p>
-      <div className="h-4"></div>
-      <RepositoryUrl url={bundle.repository} />
-      <div className="h-4"></div>
-      <InstallSnippet name={bundle.name} />
-      <div className="h-9"></div>
-      <Tabs bundle={bundle} />
-    </div>
+      <div className="w-full">
+        <div className="m-auto flex w-full max-w-[56rem] flex-col items-start justify-center">
+          <div className="h-9"></div>
+          <Tabs bundle={bundle} />
+        </div>
+      </div>
+    </Fragment>
   );
 }
 
