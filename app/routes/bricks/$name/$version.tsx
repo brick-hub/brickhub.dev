@@ -231,7 +231,7 @@ function Tabs({ bundle }: { bundle: api.BrickBundle }) {
           aria-controls="readme"
           defaultChecked
         />
-        <label className="inline-block cursor-pointer p-4" htmlFor="tab1">
+        <label className="inline-block cursor-pointer p-3" htmlFor="tab1">
           Readme
         </label>
         <input
@@ -241,7 +241,7 @@ function Tabs({ bundle }: { bundle: api.BrickBundle }) {
           id="tab2"
           aria-controls="usage"
         />
-        <label className="inline-block cursor-pointer p-4" htmlFor="tab2">
+        <label className="inline-block cursor-pointer p-3" htmlFor="tab2">
           Usage
         </label>
         <input
@@ -251,7 +251,7 @@ function Tabs({ bundle }: { bundle: api.BrickBundle }) {
           id="tab3"
           aria-controls="changelog"
         />
-        <label className="inline-block cursor-pointer p-4" htmlFor="tab3">
+        <label className="inline-block cursor-pointer p-3" htmlFor="tab3">
           Changelog
         </label>
         <input
@@ -261,7 +261,7 @@ function Tabs({ bundle }: { bundle: api.BrickBundle }) {
           id="tab4"
           aria-controls="license"
         />
-        <label className="inline-block cursor-pointer p-4" htmlFor="tab4">
+        <label className="inline-block cursor-pointer p-3" htmlFor="tab4">
           License
         </label>
 
