@@ -15,7 +15,7 @@ export function SearchBar({
         method="get"
         action="/search"
       >
-        <div className="flex w-full max-w-[51rem] rounded-md bg-dark-gray">
+        <div className="flex w-full max-w-[56rem] rounded-md bg-dark-gray">
           <span className="flex items-center justify-center pl-3 text-red-600">
             <SearchIconButton />
           </span>

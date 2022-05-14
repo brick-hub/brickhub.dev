@@ -10,7 +10,7 @@ export default function Index() {
       <Header user={user} />
       <main className="flex-1 items-center justify-center">
         <SearchBar />
-        <section className="px-6 pt-9 sm:px-8 lg:flex lg:w-full lg:items-center lg:justify-between lg:gap-12 lg:pt-0">
+        <section className="px-6 pt-9 lg:flex lg:w-full lg:items-center lg:justify-between lg:gap-12 lg:pt-0">
           <div className="lg:mx-auto lg:max-w-2xl">
             <h2 className="text-[length:48px] font-extrabold leading-[48px] lg:text-[length:72px] lg:leading-[72px]">
               Generate <span className="text-red-700">consistent</span> code{" "}

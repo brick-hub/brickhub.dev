@@ -85,13 +85,11 @@ export default function BrickDetails() {
       <main className="flex h-3/4 flex-1 flex-col">
         <SearchBar defaultValue={name} />
         <div className="h-9"></div>
-        <div className="px-6">
-          {bundle ? (
-            <BrickDetailsCard bundle={bundle} />
-          ) : (
-            <BrickNotFoundCard name={name} version={version} />
-          )}
-        </div>
+        {bundle ? (
+          <BrickDetailsCard bundle={bundle} />
+        ) : (
+          <BrickNotFoundCard name={name} version={version} />
+        )}
       </main>
       <Footer />
     </Fragment>
@@ -106,10 +104,12 @@ function BrickNotFoundCard({
   version: string;
 }) {
   return (
-    <div className="m-auto flex w-full max-w-[51rem] flex-col items-start justify-center">
-      <h2 className="text-3xl font-semibold text-red-500">404 Not Found</h2>
-      <div>
-        brick "{name}" v{version} was not found.
+    <div className="w-full px-6">
+      <div className="m-auto flex w-full max-w-[56rem] flex-col items-start justify-center">
+        <h2 className="text-3xl font-semibold text-red-500">404 Not Found</h2>
+        <div>
+          brick "{name}" v{version} was not found.
+        </div>
       </div>
     </div>
   );
@@ -118,24 +118,32 @@ function BrickNotFoundCard({
 function BrickDetailsCard({ bundle }: { bundle: api.BrickBundle }) {
   const publishedAt = timeAgo(new Date(bundle.createdAt));
   return (
-    <div className="m-auto flex w-full max-w-[51rem] flex-col items-start justify-center">
-      <h2 className="break-all text-4xl font-semibold text-red-500">
-        {bundle.name} {bundle.version}
-      </h2>
-      <div>
-        <span>Published {publishedAt}</span>
-        <span className="px-1">•</span>
-        <span>{bundle.publisher}</span>
+    <Fragment>
+      <div className="w-full px-6">
+        <div className="m-auto flex w-full max-w-[56rem] flex-col items-start justify-center">
+          <h2 className="break-all text-4xl font-semibold text-red-500">
+            {bundle.name} {bundle.version}
+          </h2>
+          <div>
+            <span>Published {publishedAt}</span>
+            <span className="px-1">•</span>
+            <span>{bundle.publisher}</span>
+          </div>
+          <div className="h-4"></div>
+          <p className="italic">{bundle.description}</p>
+          <div className="h-4"></div>
+          <RepositoryUrl url={bundle.repository} />
+          <div className="h-4"></div>
+          <InstallSnippet name={bundle.name} />
+        </div>
       </div>
-      <div className="h-4"></div>
-      <p className="italic">{bundle.description}</p>
-      <div className="h-4"></div>
-      <RepositoryUrl url={bundle.repository} />
-      <div className="h-4"></div>
-      <InstallSnippet name={bundle.name} />
-      <div className="h-9"></div>
-      <Tabs bundle={bundle} />
-    </div>
+      <div className="w-full">
+        <div className="m-auto flex w-full max-w-[56rem] flex-col items-start justify-center">
+          <div className="h-9"></div>
+          <Tabs bundle={bundle} />
+        </div>
+      </div>
+    </Fragment>
   );
 }
 
@@ -223,7 +231,7 @@ function Tabs({ bundle }: { bundle: api.BrickBundle }) {
           aria-controls="readme"
           defaultChecked
         />
-        <label className="inline-block cursor-pointer p-4" htmlFor="tab1">
+        <label className="inline-block cursor-pointer p-3" htmlFor="tab1">
           Readme
         </label>
         <input
@@ -233,7 +241,7 @@ function Tabs({ bundle }: { bundle: api.BrickBundle }) {
           id="tab2"
           aria-controls="usage"
         />
-        <label className="inline-block cursor-pointer p-4" htmlFor="tab2">
+        <label className="inline-block cursor-pointer p-3" htmlFor="tab2">
           Usage
         </label>
         <input
@@ -243,7 +251,7 @@ function Tabs({ bundle }: { bundle: api.BrickBundle }) {
           id="tab3"
           aria-controls="changelog"
         />
-        <label className="inline-block cursor-pointer p-4" htmlFor="tab3">
+        <label className="inline-block cursor-pointer p-3" htmlFor="tab3">
           Changelog
         </label>
         <input
@@ -253,7 +261,7 @@ function Tabs({ bundle }: { bundle: api.BrickBundle }) {
           id="tab4"
           aria-controls="license"
         />
-        <label className="inline-block cursor-pointer p-4" htmlFor="tab4">
+        <label className="inline-block cursor-pointer p-3" htmlFor="tab4">
           License
         </label>
 
@@ -280,7 +288,7 @@ function Tabs({ bundle }: { bundle: api.BrickBundle }) {
 
 function Markdown({ contents }: { contents: string }) {
   return (
-    <div className="w-full break-words rounded-md bg-dark-gray p-6">
+    <div className="w-full break-words rounded-md bg-dark-gray p-5">
       <article
         className="prose prose-invert prose-pre:bg-inherit prose-pre:p-0 prose-table:m-0 prose-table:inline-block prose-table:overflow-x-auto"
         dangerouslySetInnerHTML={{ __html: contents }}
