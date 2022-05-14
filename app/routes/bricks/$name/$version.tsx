@@ -85,7 +85,7 @@ export default function BrickDetails() {
       <main className="flex h-3/4 flex-1 flex-col">
         <SearchBar defaultValue={name} />
         <div className="h-9"></div>
-        <div className="px-6">
+        <div className="p-1 sm:px-4 md:px-6">
           {bundle ? (
             <BrickDetailsCard bundle={bundle} />
           ) : (
@@ -106,7 +106,7 @@ function BrickNotFoundCard({
   version: string;
 }) {
   return (
-    <div className="m-auto flex w-full max-w-[51rem] flex-col items-start justify-center">
+    <div className="m-auto flex w-full flex-col items-start justify-center">
       <h2 className="text-3xl font-semibold text-red-500">404 Not Found</h2>
       <div>
         brick "{name}" v{version} was not found.
@@ -118,7 +118,7 @@ function BrickNotFoundCard({
 function BrickDetailsCard({ bundle }: { bundle: api.BrickBundle }) {
   const publishedAt = timeAgo(new Date(bundle.createdAt));
   return (
-    <div className="m-auto flex w-full max-w-[51rem] flex-col items-start justify-center">
+    <div className="m-auto flex w-full max-w-[56rem] flex-col items-start justify-center">
       <h2 className="break-all text-4xl font-semibold text-red-500">
         {bundle.name} {bundle.version}
       </h2>
@@ -280,7 +280,7 @@ function Tabs({ bundle }: { bundle: api.BrickBundle }) {
 
 function Markdown({ contents }: { contents: string }) {
   return (
-    <div className="w-full break-words rounded-md bg-dark-gray p-6">
+    <div className="w-full break-words rounded-md bg-dark-gray p-5">
       <article
         className="prose prose-invert prose-pre:bg-inherit prose-pre:p-0 prose-table:m-0 prose-table:inline-block prose-table:overflow-x-auto"
         dangerouslySetInnerHTML={{ __html: contents }}

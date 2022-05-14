@@ -53,7 +53,7 @@ export default function BrickSearch() {
       <main className="flex-1">
         <SearchBar defaultValue={query} />
         <div className="px-6 pt-9 lg:pt-0">
-          <div className="m-auto flex w-full max-w-[51rem] flex-col items-start justify-center">
+          <div className="m-auto flex w-full max-w-[56rem] flex-col items-start justify-center">
             {results ? (
               <SearchResults
                 results={results}

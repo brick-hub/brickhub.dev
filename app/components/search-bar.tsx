@@ -8,14 +8,14 @@ export function SearchBar({
   defaultValue?: string;
 }) {
   return (
-    <div className="w-full px-6">
+    <div className="w-full p-1 sm:px-4 md:px-6">
       <Form
         reloadDocument
         className="flex justify-center"
         method="get"
         action="/search"
       >
-        <div className="flex w-full max-w-[51rem] rounded-md bg-dark-gray">
+        <div className="flex w-full max-w-[56rem] rounded-md bg-dark-gray">
           <span className="flex items-center justify-center pl-3 text-red-600">
             <SearchIconButton />
           </span>

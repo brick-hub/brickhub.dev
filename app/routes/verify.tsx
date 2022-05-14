@@ -59,7 +59,6 @@ export const action: ActionFunction = async ({ request }) => {
         await sendVerificationEmail({ token: tokens.accessToken });
         return { resend: "success" };
       } catch (error) {
-        console.log(error);
         const resendError = error instanceof ServerError ? error.message : null;
         return { resend: "failure", resendError };
       }
