@@ -1,11 +1,12 @@
 import { Fragment } from "react";
-import { json, redirect, useLoaderData } from "remix";
+import { json, redirect } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
 import type {
   HeadersFunction,
   LinksFunction,
   LoaderFunction,
   MetaFunction,
-} from "remix";
+} from "@remix-run/node";
 import highlightStyleUrl from "highlight.js/styles/base16/tender.css";
 import styles from "~/styles/details.css";
 import { Header, SearchBar, Footer } from "~/components";

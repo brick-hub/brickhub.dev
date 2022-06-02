@@ -1,4 +1,4 @@
-import { Form } from "remix";
+import { Form } from "@remix-run/react";
 import { User } from "~/utils/brickhub.server";
 
 export function Header({ user }: { user?: User }) {

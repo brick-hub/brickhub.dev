@@ -22,9 +22,11 @@
     "/public/build"
   ],
   "dependencies": {
-    "@remix-run/react": "^1.2.3",
-    "@remix-run/serve": "^1.2.3",
+    "@remix-run/node": "1.5.1",
+    "@remix-run/react": "1.5.1",
+    "@remix-run/serve": "1.5.1",
     "cross-env": "^7.0.3",
+    "highlight.js": "^11.5.1",
     "jose": "^4.6.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -34,7 +36,6 @@
     "remark-gfm": "^3.0.1",
     "remark-parse": "^10.0.1",
     "remark-rehype": "^10.1.0",
-    "remix": "^1.2.3",
     "seek-bzip": "^2.0.0",
     "unified": "^10.1.2"
   },
