@@ -1,5 +1,5 @@
 import { decodeJwt } from "jose";
-import { createCookieSessionStorage, redirect } from "remix";
+import { createCookieSessionStorage, redirect } from "@remix-run/node";
 import type { Credentials, User } from "./brickhub.server";
 
 const sessionSecret = process.env.SESSION_SECRET;

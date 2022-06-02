@@ -1,16 +1,15 @@
 import { Fragment, useEffect } from "react";
+import { json, LinksFunction } from "@remix-run/node";
 import {
-  json,
   Links,
-  LinksFunction,
   LiveReload,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
   useLocation,
-} from "remix";
-import type { LoaderFunction, MetaFunction } from "remix";
+} from "@remix-run/react";
+import type { LoaderFunction, MetaFunction } from "@remix-run/node";
 import tailwindStylesUrl from "./styles/tailwind.css";
 import globalStylesUrl from "./styles/global.css";
 import * as ga from "~/utils/ga";
