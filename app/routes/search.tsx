@@ -149,7 +149,7 @@ function Pagination({
   const isFirstPage = currentPage <= 1;
   const isLastPage = currentPage >= totalPages;
   return (
-    <ul className="my-5 mx-auto flex list-none text-center font-semibold">
+    <ul className="my-5 mx-auto flex w-full list-none justify-center text-center font-semibold">
       <li
         key="prev"
         className={
