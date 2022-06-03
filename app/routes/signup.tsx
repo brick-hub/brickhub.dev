@@ -12,7 +12,7 @@ import {
   ServerError,
   signup,
 } from "~/utils/brickhub.server";
-import { Credentials } from "~/utils/brickhub.server";
+import type { Credentials } from "~/utils/brickhub.server";
 import { createUserSession, getUser } from "~/utils/session.server";
 
 export const meta: MetaFunction = () => {
