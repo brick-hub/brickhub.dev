@@ -66,6 +66,8 @@ export const PrimaryButton = forwardRef<
   );
 });
 
+PrimaryButton.displayName = "PrimaryButton";
+
 export const TextButton = forwardRef<
   HTMLButtonElement,
   JSX.IntrinsicElements["button"]
@@ -80,3 +82,5 @@ export const TextButton = forwardRef<
     </button>
   );
 });
+
+TextButton.displayName = "TextButton";

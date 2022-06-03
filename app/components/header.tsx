@@ -1,5 +1,5 @@
 import { Form } from "@remix-run/react";
-import { User } from "~/utils/brickhub.server";
+import type { User } from "~/utils/brickhub.server";
 
 export function Header({ user }: { user?: User }) {
   return (
@@ -67,7 +67,7 @@ function DropdownMenu({ user }: { user: User }) {
         <div className="py-1" role="none">
           <Form action="/logout" method="post">
             <button
-              role="menuItem"
+              role="menuitem"
               tabIndex={-1}
               id="menu-item-0"
               type="submit"
