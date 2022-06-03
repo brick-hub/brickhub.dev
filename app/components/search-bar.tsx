@@ -27,6 +27,7 @@ export function SearchBar({
             defaultValue={defaultValue}
             aria-label="Search bricks"
             autoComplete="off"
+            autoFocus
           ></input>
         </div>
       </Form>
