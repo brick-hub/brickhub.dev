@@ -33,6 +33,7 @@ export interface BrickSearchResult {
   version: string;
   publisher: string;
   createdAt: string;
+  downloads: number;
 }
 
 export interface BrickMetadata extends BrickSearchResult {
@@ -193,6 +194,7 @@ export async function search({
       version: brick.version,
       publisher: brick.publisher,
       createdAt: brick.created_at,
+      downloads: brick.downloads,
     };
   });
   return { bricks, total };
