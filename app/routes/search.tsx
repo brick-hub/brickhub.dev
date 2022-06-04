@@ -201,7 +201,7 @@ function ResultItem({ result }: { result: api.BrickSearchResult }) {
     <section className="py-6">
       <div>
         <a
-          className="text-xl text-red-500"
+          className="text-xl font-bold text-red-500"
           target="_self"
           href={`/bricks/${result.name}/${result.version}`}
         >
@@ -209,11 +209,10 @@ function ResultItem({ result }: { result: api.BrickSearchResult }) {
         </a>
       </div>
       <p className="italic">{result.description}</p>
-      <div className="text-gray-400 text-sm">
+      <div className="text-gray-400 flex text-sm">
         <span>
-          v
           <a
-            className="text-red-500"
+            className="font-semibold text-red-500"
             href={`/bricks/${result.name}/${result.version}`}
           >
             {result.version}
@@ -222,8 +221,31 @@ function ResultItem({ result }: { result: api.BrickSearchResult }) {
         <span className="px-1"></span>
         <span>({publishedAt})</span>
         <span className="px-1"></span>
-        <span>{result.publisher}</span>
+        <span className="flex text-neutral-400">
+          <DownloadIcon />
+          {result.downloads}
+        </span>
       </div>
+      <div className="text-gray-400 text-sm">{result.publisher}</div>
     </section>
+  );
+}
+
+function DownloadIcon() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className="h-5 w-5"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={2}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+      />
+    </svg>
   );
 }
