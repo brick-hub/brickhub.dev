@@ -209,7 +209,7 @@ function ResultItem({ result }: { result: api.BrickSearchResult }) {
         </a>
       </div>
       <p className="italic">{result.description}</p>
-      <div className="text-gray-400 text-sm">
+      <div className="text-gray-400 flex text-sm">
         <span>
           <a
             className="font-semibold text-red-500"
@@ -221,12 +221,12 @@ function ResultItem({ result }: { result: api.BrickSearchResult }) {
         <span className="px-1"></span>
         <span>({publishedAt})</span>
         <span className="px-1"></span>
-        <span>{result.publisher}</span>
+        <span className="flex text-neutral-400">
+          <DownloadIcon />
+          {result.downloads}
+        </span>
       </div>
-      <div className="flex text-sm text-neutral-400">
-        <DownloadIcon />
-        {result.downloads}
-      </div>
+      <div className="text-gray-400 text-sm">{result.publisher}</div>
     </section>
   );
 }
