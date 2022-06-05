@@ -17,9 +17,13 @@ interface BrickSearchData {
 }
 
 export const meta: MetaFunction = ({ data }: { data: BrickSearchData }) => {
-  const query = data.query === "" ? "top bricks" : data.query;
   return {
-    title: `Search results for ${query}.`,
+    title:
+      data.query !== ""
+        ? `${data.query} - brick search`
+        : `Search | ${
+            data.sort == "popularity" ? "Top bricks" : "Latest bricks"
+          }`,
   };
 };
 
