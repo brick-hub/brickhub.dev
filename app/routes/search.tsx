@@ -27,7 +27,7 @@ const limit = 10;
 
 export const loader: LoaderFunction = async ({ request }) => {
   const url = new URL(request.url);
-  let sortParam = url.searchParams.get("sort") ?? "";
+  const sortParam = url.searchParams.get("sort") ?? "";
   const sort: Sort = sortParam === "updated" ? "updated" : "popularity";
   const query = url.searchParams.get("q") ?? "";
   const p = url.searchParams.get("page");
