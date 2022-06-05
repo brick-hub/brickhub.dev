@@ -119,7 +119,7 @@ function SearchResults({
         </p>
         <span className="text-gray-400 text-sm font-semibold lg:pt-6">
           SORT BY
-          <DropdownMenu sort={sort} query={query} page={page} />
+          <SortByDropdownMenu sort={sort} query={query} page={page} />
         </span>
       </div>
 
@@ -138,7 +138,7 @@ function SearchResults({
   );
 }
 
-function DropdownMenu({
+function SortByDropdownMenu({
   sort,
   query,
   page,
