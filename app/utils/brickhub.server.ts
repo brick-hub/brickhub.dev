@@ -173,17 +173,21 @@ export async function sendVerificationEmail({ token }: { token: string }) {
   return null;
 }
 
+type Sort = "downloads" | "created";
+
 export async function search({
   query,
   limit,
   offset,
+  sort,
 }: {
   query: string;
   limit: number;
   offset: number;
+  sort: Sort;
 }): Promise<BrickSearchResults> {
   const response = await fetch(
-    `${baseUrl}/api/v1/search?q=${query}&limit=${limit}&offset=${offset}`
+    `${baseUrl}/api/v1/search?q=${query}&limit=${limit}&offset=${offset}&sort=${sort}`
   );
   const body = await response.json();
   const total = body.total;

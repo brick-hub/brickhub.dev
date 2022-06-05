@@ -1,16 +1,19 @@
 import { Fragment } from "react";
-import { useLoaderData } from "@remix-run/react";
+import { Form, useLoaderData } from "@remix-run/react";
 import type { LoaderFunction, MetaFunction } from "@remix-run/node";
 import { Footer, Header, SearchBar } from "~/components";
 import { timeAgo } from "~/utils/time-ago";
 import * as api from "~/utils/brickhub.server";
 import { useOptionalUser } from "~/utils/user";
 
+type Sort = "updated" | "popularity";
+
 interface BrickSearchData {
   query: string;
   results?: [api.BrickSearchResult];
   total: number;
   page: number;
+  sort: Sort;
 }
 
 export const meta: MetaFunction = ({ data }: { data: BrickSearchData }) => {
@@ -24,6 +27,8 @@ const limit = 10;
 
 export const loader: LoaderFunction = async ({ request }) => {
   const url = new URL(request.url);
+  let sortParam = url.searchParams.get("sort") ?? "";
+  const sort: Sort = sortParam === "updated" ? "updated" : "popularity";
   const query = url.searchParams.get("q") ?? "";
   const p = url.searchParams.get("page");
   const page = p ? parseInt(p) : 1;
@@ -32,20 +37,29 @@ export const loader: LoaderFunction = async ({ request }) => {
       query,
       offset: (page - 1) * limit,
       limit,
+      sort: sort === "updated" ? "created" : "downloads",
     });
     return {
       query,
       results: results.bricks,
       total: results.total,
       page,
+      sort,
     };
   } catch (error) {
-    return { query, results: [], total: 0, error: `${error}` };
+    return {
+      query,
+      results: [],
+      total: 0,
+      error: `${error}`,
+      sort,
+    };
   }
 };
 
 export default function BrickSearch() {
-  const { query, results, total, page } = useLoaderData<BrickSearchData>();
+  const { query, results, total, page, sort } =
+    useLoaderData<BrickSearchData>();
   const user = useOptionalUser();
   return (
     <Fragment>
@@ -60,6 +74,7 @@ export default function BrickSearch() {
                 query={query}
                 total={total}
                 page={page}
+                sort={sort}
               />
             ) : (
               <SearchError query={query} />
@@ -87,17 +102,26 @@ function SearchResults({
   query,
   total,
   page,
+  sort,
 }: {
   results: [api.BrickSearchResult];
   query: string;
   total: number;
   page: number;
+  sort: Sort;
 }) {
   return (
     <Fragment>
-      <p className="text-gray-400 text-sm italic lg:pt-6">
-        Found {total} result(s) {query !== "" ? `for "${query}"` : ""}
-      </p>
+      <div className="flex w-full justify-between">
+        <p className="text-gray-400 text-sm italic lg:pt-6">
+          <span className="font-semibold text-red-500">{total}</span>{" "}
+          {total === 1 ? "brick" : "bricks"} found.
+        </p>
+        <span className="text-gray-400 text-sm font-semibold lg:pt-6">
+          SORT BY
+          <DropdownMenu sort={sort} query={query} page={page} />
+        </span>
+      </div>
 
       <div className="w-full divide-y divide-slate-400/25">
         {results.map((result) => {
@@ -111,6 +135,82 @@ function SearchResults({
         totalPages={Math.ceil(total / limit)}
       />
     </Fragment>
+  );
+}
+
+function DropdownMenu({
+  sort,
+  query,
+  page,
+}: {
+  sort: Sort;
+  query: string;
+  page: number;
+}) {
+  return (
+    <div className="group relative inline-block pb-2 text-left">
+      <div>
+        <button
+          type="button"
+          className="inline-flex w-full justify-center px-2 text-sm font-medium text-red-500 focus:outline-none"
+          id="menu-button"
+          aria-expanded="true"
+          aria-haspopup="true"
+        >
+          {sort == "updated" ? "LAST UPDATED" : "POPULARITY"}
+        </button>
+      </div>
+
+      <div
+        className="absolute right-0 mt-1 hidden min-w-[7.5rem] origin-top-right bg-dark-gray hover:block focus:outline-none group-hover:block"
+        role="menu"
+        aria-orientation="vertical"
+        aria-labelledby="menu-button"
+        tabIndex={-1}
+      >
+        <div role="none">
+          <Form reloadDocument action="/search" method="get">
+            {query ? <input type="hidden" name="q" value={query} /> : null}
+            {page !== 1 ? (
+              <input type="hidden" name="page" value={page} />
+            ) : null}
+
+            <button
+              disabled={sort === "popularity"}
+              role="menuitem"
+              tabIndex={-1}
+              id="menu-item-0"
+              type="submit"
+              className={`block w-full px-4 py-2 text-sm ${
+                sort === "popularity"
+                  ? "bg-red-900"
+                  : "hover:bg-red-500 hover:bg-opacity-20"
+              }`}
+              aria-label="Sort by popularity"
+            >
+              popularity
+            </button>
+            <button
+              disabled={sort === "updated"}
+              role="menuitem"
+              tabIndex={0}
+              id="menu-item-1"
+              type="submit"
+              className={`block w-full px-4 py-2 text-sm ${
+                sort === "updated"
+                  ? "bg-red-900"
+                  : "hover:bg-red-500 hover:bg-opacity-20"
+              }`}
+              aria-label="Sort by recently updated"
+              name="sort"
+              value="updated"
+            >
+              last updated
+            </button>
+          </Form>
+        </div>
+      </div>
+    </div>
   );
 }
 
