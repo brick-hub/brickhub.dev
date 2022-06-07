@@ -291,7 +291,7 @@ function Markdown({ contents }: { contents: string }) {
   return (
     <div className="w-full break-words rounded-md bg-dark-gray p-5">
       <article
-        className="prose prose-invert prose-a:inline-block prose-pre:bg-inherit prose-pre:p-0 prose-table:m-0 prose-table:inline-block prose-table:overflow-x-auto prose-img:m-0 prose-hr:my-6 prose-code:rounded-md"
+        className="prose prose-invert prose-a:inline-block prose-code:rounded-md prose-pre:bg-inherit prose-pre:p-0 prose-table:m-0 prose-table:inline-block prose-table:overflow-x-auto prose-img:m-0 prose-hr:my-6"
         dangerouslySetInnerHTML={{ __html: contents }}
       ></article>
     </div>
