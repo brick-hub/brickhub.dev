@@ -7,7 +7,7 @@ import type {
   LoaderFunction,
   MetaFunction,
 } from "@remix-run/node";
-import highlightStyleUrl from "highlight.js/styles/base16/tender.css";
+import highlightStyleUrl from "highlight.js/styles/vs2015.css";
 import styles from "~/styles/details.css";
 import { Header, SearchBar, Footer } from "~/components";
 import { timeAgo } from "~/utils/time-ago";
@@ -122,7 +122,7 @@ function BrickDetailsCard({ bundle }: { bundle: api.BrickBundle }) {
     <Fragment>
       <div className="w-full px-6">
         <div className="m-auto flex w-full max-w-[56rem] flex-col items-start justify-center">
-          <h2 className="break-all text-4xl font-semibold text-red-500">
+          <h2 className="break-all text-2xl font-semibold text-red-500 xl:text-4xl">
             {bundle.name} {bundle.version}
           </h2>
           <div>
@@ -291,7 +291,7 @@ function Markdown({ contents }: { contents: string }) {
   return (
     <div className="w-full break-words rounded-md bg-dark-gray p-5">
       <article
-        className="prose prose-invert prose-pre:bg-inherit prose-pre:p-0 prose-table:m-0 prose-table:inline-block prose-table:overflow-x-auto"
+        className="prose prose-invert prose-a:inline-block prose-pre:bg-inherit prose-pre:p-0 prose-table:m-0 prose-table:inline-block prose-table:overflow-x-auto prose-img:m-0 prose-hr:my-6 prose-code:rounded-md"
         dangerouslySetInnerHTML={{ __html: contents }}
       ></article>
     </div>

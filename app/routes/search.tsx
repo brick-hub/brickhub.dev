@@ -185,7 +185,7 @@ function SortByDropdownMenu({
               tabIndex={-1}
               id="menu-item-0"
               type="submit"
-              className={`block w-full px-4 py-2 text-sm ${
+              className={`block w-full px-4 py-2 text-sm font-light ${
                 sort === "popularity"
                   ? "bg-red-900"
                   : "hover:bg-red-500 hover:bg-opacity-20"
@@ -200,7 +200,7 @@ function SortByDropdownMenu({
               tabIndex={0}
               id="menu-item-1"
               type="submit"
-              className={`block w-full px-4 py-2 text-sm ${
+              className={`block w-full px-4 py-2 text-sm font-light ${
                 sort === "updated"
                   ? "bg-red-900"
                   : "hover:bg-red-500 hover:bg-opacity-20"
@@ -340,15 +340,13 @@ function DownloadIcon() {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       className="h-5 w-5"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-      strokeWidth={2}
+      viewBox="0 0 20 20"
+      fill="currentColor"
     >
       <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+        fillRule="evenodd"
+        d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+        clipRule="evenodd"
       />
     </svg>
   );

@@ -18,6 +18,14 @@ pre code.hljs {
   display: inline-block !important;
 }
 
+pre code {
+  width: 100%;
+}
+
+.prose {
+  max-width: 100%;
+}
+
 body {
   min-height: 100vh;
 }
