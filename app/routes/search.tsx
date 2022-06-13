@@ -227,39 +227,53 @@ function Pagination({
   currentPage: number;
   totalPages: number;
 }) {
-  if (totalPages === 0) return <Fragment></Fragment>;
-  const pages = [];
-  for (let i = 1; i <= totalPages; i++) {
-    const isCurrentPage = i == currentPage;
-    pages.push(
+  function PageButton({
+    index,
+    currentPage,
+  }: {
+    index: number;
+    currentPage: number;
+  }) {
+    const isCurrentPage = index === currentPage;
+    return (
       <li
-        key={i}
+        key={index}
         className={
           isCurrentPage
-            ? "rounded-sm bg-red-700 py-4 px-5"
-            : "rounded-sm py-4 px-5 text-red-700"
+            ? "rounded-sm bg-red-700 p-4"
+            : "rounded-sm p-4 text-red-700"
         }
       >
         {isCurrentPage ? (
-          <span>{i}</span>
+          <span>{index}</span>
         ) : (
-          <a href={`/search?q=${query}&page=${i}`} className="cursor-pointer">
-            <span>{i}</span>
+          <a
+            href={`/search?q=${query}&page=${index}`}
+            className="cursor-pointer"
+          >
+            <span>{index}</span>
           </a>
         )}
       </li>
     );
   }
-  const isFirstPage = currentPage <= 1;
-  const isLastPage = currentPage >= totalPages;
-  return (
-    <ul className="my-5 mx-auto flex w-full list-none justify-center text-center font-semibold">
+
+  function PreviousPageButton({
+    isFirstPage,
+    query,
+    currentPage,
+  }: {
+    isFirstPage: boolean;
+    query: string;
+    currentPage: number;
+  }) {
+    return (
       <li
         key="prev"
         className={
           isFirstPage
-            ? "rounded-sm py-4 px-5 text-slate-700"
-            : "rounded-sm py-4 px-5 text-red-700"
+            ? "rounded-sm p-4 text-slate-700"
+            : "rounded-sm p-4 text-red-700"
         }
       >
         {isFirstPage ? (
@@ -274,13 +288,25 @@ function Pagination({
           </a>
         )}
       </li>
-      {...pages}
+    );
+  }
+
+  function NextPageButton({
+    isLastPage,
+    query,
+    currentPage,
+  }: {
+    isLastPage: boolean;
+    query: string;
+    currentPage: number;
+  }) {
+    return (
       <li
         key="next"
         className={
           isLastPage
-            ? "rounded-sm py-4 px-5 text-slate-700"
-            : "rounded-sm py-4 px-5 text-red-700"
+            ? "rounded-sm p-4 text-slate-700"
+            : "rounded-sm p-4 text-red-700"
         }
       >
         {isLastPage ? (
@@ -295,6 +321,33 @@ function Pagination({
           </a>
         )}
       </li>
+    );
+  }
+
+  if (totalPages === 0) return <Fragment></Fragment>;
+
+  const pages = [];
+
+  for (let i = 1; i <= totalPages; i++) {
+    pages.push(<PageButton index={i} currentPage={currentPage} />);
+  }
+
+  const isFirstPage = currentPage <= 1;
+  const isLastPage = currentPage >= totalPages;
+
+  return (
+    <ul className="my-5 mx-auto flex w-full list-none justify-center text-center font-semibold">
+      <PreviousPageButton
+        isFirstPage={isFirstPage}
+        query={query}
+        currentPage={currentPage}
+      />
+      {...pages}
+      <NextPageButton
+        isLastPage={isLastPage}
+        query={query}
+        currentPage={currentPage}
+      />
     </ul>
   );
 }
