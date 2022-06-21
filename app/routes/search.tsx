@@ -333,7 +333,7 @@ function Pagination({
     const result = paginationResults[i];
     if (result === "...") {
       pages.push(
-        <li className="p-4 leading-none text-slate-700" key={i}>
+        <li key={i} className="p-4 leading-none text-slate-700">
           ...
         </li>
       );
