@@ -237,7 +237,6 @@ function Pagination({
     const isCurrentPage = index === currentPage;
     return (
       <li
-        key={index}
         className={
           isCurrentPage
             ? "rounded-sm bg-red-700 p-4"
@@ -324,6 +323,10 @@ function Pagination({
     );
   }
 
+  function PaginationDots() {
+    return <li className="p-4 leading-none text-slate-700">...</li>;
+  }
+
   if (totalPages === 0) return <Fragment></Fragment>;
 
   const pages = [];
@@ -331,17 +334,13 @@ function Pagination({
 
   for (let i = 0; i < paginationResults.length; i++) {
     const result = paginationResults[i];
-    if (result === "...") {
-      pages.push(
-        <li key={i} className="p-4 leading-none text-slate-700">
-          ...
-        </li>
-      );
-    } else {
-      pages.push(
+    pages.push(
+      result === "..." ? (
+        <PaginationDots key={i} />
+      ) : (
         <PageButton key={i} index={result} currentPage={currentPage} />
-      );
-    }
+      )
+    );
   }
 
   const isFirstPage = currentPage <= 1;
