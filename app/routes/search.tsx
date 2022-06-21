@@ -338,7 +338,6 @@ function Pagination({
         </li>
       );
     } else {
-      console.log("pushing index " + result);
       pages.push(
         <PageButton key={i} index={result} currentPage={currentPage} />
       );
