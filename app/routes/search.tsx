@@ -327,9 +327,22 @@ function Pagination({
   if (totalPages === 0) return <Fragment></Fragment>;
 
   const pages = [];
+  const paginationResults = pagination(currentPage, totalPages);
 
-  for (let i = 1; i <= totalPages; i++) {
-    pages.push(<PageButton index={i} currentPage={currentPage} />);
+  for (let i = 0; i < paginationResults.length; i++) {
+    const result = paginationResults[i];
+    if (result === "...") {
+      pages.push(
+        <li className="p-4 leading-none text-slate-700" key={i}>
+          ...
+        </li>
+      );
+    } else {
+      console.log("pushing index " + result);
+      pages.push(
+        <PageButton key={i} index={result} currentPage={currentPage} />
+      );
+    }
   }
 
   const isFirstPage = currentPage <= 1;
@@ -403,4 +416,43 @@ function DownloadIcon() {
       />
     </svg>
   );
+}
+
+function getRange(start: number, end: number) {
+  return Array(end - start + 1)
+    .fill(undefined)
+    .map((_, i) => i + start);
+}
+
+function pagination(current: number, length: number, delta = 3): Array<any> {
+  const range = {
+    start: Math.round(current - delta / 2),
+    end: Math.round(current + delta / 2),
+  };
+
+  if (range.start - 1 === 1 || range.end + 1 === length) {
+    range.start += 1;
+    range.end += 1;
+  }
+
+  let pages =
+    current > delta
+      ? getRange(
+          Math.min(range.start, length - delta),
+          Math.min(range.end, length)
+        )
+      : getRange(1, Math.min(length, delta + 1));
+
+  const withDots = (value: number, pair: Array<any>) =>
+    pages.length + 1 !== length ? pair : [value];
+
+  if (pages[0] !== 1) {
+    pages = withDots(1, [1, "..."]).concat(pages);
+  }
+
+  if (pages[pages.length - 1] < length) {
+    pages = pages.concat(withDots(length, ["...", length]));
+  }
+
+  return pages;
 }
