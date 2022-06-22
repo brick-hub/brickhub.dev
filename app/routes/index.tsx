@@ -23,27 +23,10 @@ export default function Index() {
             </p>
             <div className="h-6"></div>
             <div className="flex flex-col gap-4 xl:flex-row">
-              {user ? (
-                <PrimaryButtonLink href="/search">
-                  Discover Bricks
-                </PrimaryButtonLink>
-              ) : (
-                <PrimaryButtonLink
-                  target="_blank"
-                  rel="noreferrer"
-                  href="https://forms.gle/cG8XoR1wiVxPgyWW9"
-                >
-                  Request Access
-                </PrimaryButtonLink>
-              )}
-
-              <OutlineButtonLink
-                target="_blank"
-                rel="noreferrer"
-                href="https://pub.dev/documentation/mason_cli/latest"
-              >
-                Read the Docs
-              </OutlineButtonLink>
+              <PrimaryButtonLink href="/search">
+                Discover Bricks
+              </PrimaryButtonLink>
+              {user ? <DocsButton /> : <RequestAccessButton />}
             </div>
             <div className="h-9 xl:h-10"></div>
           </div>
@@ -59,5 +42,29 @@ export default function Index() {
       </main>
       <Footer />
     </Fragment>
+  );
+}
+
+function DocsButton() {
+  return (
+    <OutlineButtonLink
+      target="_blank"
+      rel="noreferrer"
+      href="https://pub.dev/documentation/mason_cli/latest"
+    >
+      Read the Docs
+    </OutlineButtonLink>
+  );
+}
+
+function RequestAccessButton() {
+  return (
+    <OutlineButtonLink
+      target="_blank"
+      rel="noreferrer"
+      href="https://forms.gle/cG8XoR1wiVxPgyWW9"
+    >
+      Request access
+    </OutlineButtonLink>
   );
 }
