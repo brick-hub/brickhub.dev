@@ -135,6 +135,7 @@ function SearchResults({
 
       <Pagination
         query={query}
+        sort={sort}
         currentPage={page}
         totalPages={Math.ceil(total / limit)}
       />
@@ -220,13 +221,17 @@ function SortByDropdownMenu({
 
 function Pagination({
   query,
+  sort,
   currentPage,
   totalPages,
 }: {
   query: string;
+  sort: Sort;
   currentPage: number;
   totalPages: number;
 }) {
+  const sortParam = sort == "updated" ? "&sort=updated" : "";
+
   function PageButton({
     index,
     currentPage,
@@ -247,7 +252,7 @@ function Pagination({
           <span>{index}</span>
         ) : (
           <a
-            href={`/search?q=${query}&page=${index}`}
+            href={`/search?q=${query}&page=${index}${sortParam}`}
             className="cursor-pointer"
           >
             <span>{index}</span>
@@ -279,7 +284,7 @@ function Pagination({
           <span>&lt;</span>
         ) : (
           <a
-            href={`/search?q=${query}&page=${currentPage - 1}`}
+            href={`/search?q=${query}&page=${currentPage - 1}${sortParam}`}
             className="cursor-pointer"
             rel="prev"
           >
@@ -312,7 +317,7 @@ function Pagination({
           <span>&gt;</span>
         ) : (
           <a
-            href={`/search?q=${query}&page=${currentPage + 1}`}
+            href={`/search?q=${query}&page=${currentPage + 1}${sortParam}`}
             className="cursor-pointer"
             rel="next"
           >
