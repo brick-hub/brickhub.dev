@@ -10,7 +10,6 @@ import {
   BrickDetails,
   brickDetailsHeaders,
   brickDetailsLinks,
-  brickVersionRegExp,
 } from "~/pages/brick-details";
 import type { BrickDetailsData } from "~/pages/brick-details";
 
@@ -36,9 +35,6 @@ export const loader: LoaderFunction = async ({ params }) => {
 
   const metadata = await api.getBrickMetadata({ name, version: "latest" });
   const version = metadata.version;
-
-  const isSemanticVersion = brickVersionRegExp.test(version);
-  if (!isSemanticVersion) return redirect("/");
 
   try {
     const details = await api.getBrickDetails({ name, version, metadata });
