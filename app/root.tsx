@@ -17,7 +17,7 @@ import type {
 import tailwindStylesUrl from "./styles/tailwind.css";
 import globalStylesUrl from "./styles/global.css";
 import * as ga from "~/utils/ga";
-import { getUser } from "./utils/session.server";
+import { getUser } from "./session.server";
 import { useOptionalUser } from "./utils/user";
 import { WarningBanner } from "./components";
 
@@ -79,7 +79,7 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className="text-gray-200 flex min-h-screen w-full flex-col overflow-x-hidden bg-black">
+      <body className="text-gray-200 flex min-h-screen w-full flex-col overflow-x-hidden bg-night">
         <GoogleAnalytics />
         {showEmailVerificationBanner ? <UnverifiedEmailBanner /> : null}
         <Outlet />

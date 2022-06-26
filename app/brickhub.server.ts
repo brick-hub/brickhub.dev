@@ -36,17 +36,29 @@ export interface BrickSearchResult {
   downloads: number;
 }
 
-export interface BrickMetadata extends BrickSearchResult {
+export interface BrickMetadata {
+  name: string;
+  description: string;
+  version: string;
+  publisher: string;
+  createdAt: string;
   repository: string;
   environment: Environment;
   vars: Record<string, BrickVariableProperties>;
   hooks: string[];
 }
 
-export interface BrickBundle extends BrickMetadata {
+export interface BrickBundle {
+  name: string;
+  environment: Environment;
+  vars: Record<string, BrickVariableProperties>;
+  hooks: string[];
   readme: string;
   changelog: string;
   license: string;
+}
+
+export interface BrickDetails extends BrickMetadata, BrickBundle {
   usage: string;
 }
 
@@ -108,9 +120,16 @@ export async function login({
     }),
   });
 
-  if (response.status !== 200) return null;
-
   const body = await response.json();
+
+  if (response.status !== 200) {
+    throw new ServerError(
+      body["code"] ?? "unknown",
+      body["message"] ?? "An unknown error occurred.",
+      body["details"]
+    );
+  }
+
   const accessToken = body["access_token"];
   const refreshToken = body["refresh_token"];
   const credentials: Credentials = {
@@ -189,7 +208,17 @@ export async function search({
   const response = await fetch(
     `${baseUrl}/api/v1/search?q=${query}&limit=${limit}&offset=${offset}&sort=${sort}`
   );
+
   const body = await response.json();
+
+  if (response.status !== 200) {
+    throw new ServerError(
+      body["code"] ?? "unknown",
+      body["message"] ?? "An unknown error occurred.",
+      body["details"]
+    );
+  }
+
   const total = body.total;
   const bricks = body.bricks.map((brick: any) => {
     return {
@@ -204,32 +233,88 @@ export async function search({
   return { bricks, total };
 }
 
-export async function getBundle({
+export async function getBrickMetadata({
+  name,
+  version,
+}: {
+  name: string;
+  version: string;
+}): Promise<BrickMetadata> {
+  const response = await fetch(
+    `${baseUrl}/api/v1/bricks/${name}/versions/${version}`
+  );
+
+  const body = await response.json();
+
+  if (response.status !== 200) {
+    throw new ServerError(
+      body["code"] ?? "unknown",
+      body["message"] ?? "An unknown error occurred.",
+      body["details"]
+    );
+  }
+
+  return Object.assign({}, body, { createdAt: body["created_at"] });
+}
+
+export async function getBrickBundle({
   name,
   version,
 }: {
   name: string;
   version: string;
 }): Promise<BrickBundle> {
-  const responses = await Promise.all([
-    fetch(`${baseUrl}/api/v1/bricks/${name}/versions/${version}`),
-    fetch(`${baseUrl}/api/v1/bricks/${name}/versions/${version}.bundle`),
-  ]);
-
-  const bodies = await Promise.all([
-    responses[0].json(),
-    responses[1].arrayBuffer(),
-  ]);
-
-  const metadata = bodies[0];
-  const bundle = JSON.parse(
-    utf8Decoder.write(BZip2.decode(Buffer.from(bodies[1])))
+  const response = await fetch(
+    `${baseUrl}/api/v1/bricks/${name}/versions/${version}.bundle`
   );
+
+  if (response.status !== 200) {
+    const body = await response.json();
+    throw new ServerError(
+      body["code"] ?? "unknown",
+      body["message"] ?? "An unknown error occurred.",
+      body["details"]
+    );
+  }
+
+  const body = await response.arrayBuffer();
+  const bundle = JSON.parse(utf8Decoder.write(BZip2.decode(Buffer.from(body))));
+
   const readme = Buffer.from(bundle.readme.data, "base64").toString("utf8");
   const changelog = Buffer.from(bundle.changelog.data, "base64").toString(
     "utf8"
   );
   const license = Buffer.from(bundle.license.data, "base64").toString("utf8");
+  return {
+    name: bundle.name,
+    environment: bundle.environment,
+    vars: bundle.vars,
+    hooks: bundle.hooks,
+    readme,
+    changelog,
+    license,
+  };
+}
+
+export async function getBrickDetails({
+  name,
+  version,
+  metadata,
+}: {
+  name: string;
+  version: string;
+  metadata?: BrickMetadata | undefined;
+}): Promise<BrickDetails> {
+  const responses = await Promise.all([
+    (() => (metadata ? metadata : getBrickMetadata({ name, version })))(),
+    getBrickBundle({ name, version }),
+  ]);
+
+  const brickMetadata = responses[0];
+  const bundle = responses[1];
+  const readme = bundle.readme;
+  const changelog = bundle.changelog;
+  const license = bundle.license;
   const variables = Object.keys(bundle.vars);
   const hooks = bundle.hooks.map((hook: any) => hook["path"]);
   const hasPreGenHook = hooks.includes("pre_gen.dart");
@@ -300,8 +385,7 @@ mason: "${bundle.environment.mason}"
     markdownToHtml(usage),
   ]);
 
-  return Object.assign({}, metadata, {
-    createdAt: metadata.created_at,
+  return Object.assign({}, brickMetadata, {
     readme: html[0],
     changelog: html[1],
     license: html[2],

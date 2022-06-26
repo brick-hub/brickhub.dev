@@ -1,84 +1,38 @@
 import { Fragment } from "react";
-import { json, redirect } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
-import type {
-  HeadersFunction,
-  LinksFunction,
-  LoaderFunction,
-  MetaFunction,
-} from "@remix-run/node";
-import highlightStyleUrl from "highlight.js/styles/vs2015.css";
-import styles from "~/styles/details.css";
 import { Header, SearchBar, Footer } from "~/components";
 import { timeAgo } from "~/utils/time-ago";
-import * as api from "~/utils/brickhub.server";
+import type * as api from "~/brickhub.server";
+import highlightStyleUrl from "highlight.js/styles/vs2015.css";
+import styles from "~/styles/details.css";
 import { useOptionalUser } from "~/utils/user";
+import { useLoaderData } from "@remix-run/react";
+import type { HeadersFunction, LinksFunction } from "@remix-run/node";
 
-interface BrickDetailsData {
-  name: string;
-  version: string;
-  bundle?: api.BrickBundle;
-}
-
-const brickVersionRegExp = new RegExp(
+export const brickVersionRegExp = new RegExp(
   /^(\d+)\.(\d+)\.(\d+)(-([0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*))?(\+([0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*))?/
 );
 
-export const meta: MetaFunction = ({ data }: { data: BrickDetailsData }) => {
-  const title = `${data.name} | Brick Template`;
-  const description = data.bundle?.description;
-  return {
-    title: title,
-    ...(description && { description: description }),
-    "twitter:card": "summary",
-    ...(description && { "twitter:description": description }),
-    "og:type": "website",
-    "og:site_name": title,
-    "og:title": title,
-    ...(description && { "og:description": description }),
-    "og:url": `https://brickhub.dev/bricks/${data.name}/${data.version}`,
-  };
-};
+export interface BrickDetailsData {
+  name: string;
+  version: string;
+  details?: api.BrickDetails;
+}
 
-export const links: LinksFunction = () => {
+export const brickDetailsLinks: LinksFunction = () => {
   return [
     { rel: "stylesheet", href: highlightStyleUrl },
     { rel: "stylesheet", href: styles },
   ];
 };
 
-export const loader: LoaderFunction = async ({ params }) => {
-  const name = params.name;
-  const version = params.version;
-  if (!name || !version) return redirect("/");
-
-  const isSemanticVersion = brickVersionRegExp.test(version);
-  if (!isSemanticVersion) return redirect("/");
-
-  try {
-    const bundle = await api.getBundle({ name, version });
-    const headers = { "Cache-Control": "max-age=3600, immutable" };
-    return json(
-      {
-        name,
-        version,
-        bundle,
-      },
-      { headers }
-    );
-  } catch (_) {
-    return { name, version };
-  }
-};
-
-export let headers: HeadersFunction = ({ loaderHeaders }) => {
+export let brickDetailsHeaders: HeadersFunction = ({ loaderHeaders }) => {
   return {
     "Cache-Control": loaderHeaders.get("Cache-Control") || "no-cache",
   };
 };
 
-export default function BrickDetails() {
-  const { name, version, bundle } = useLoaderData<BrickDetailsData>();
+export function BrickDetails() {
+  const { name, version, details } = useLoaderData<BrickDetailsData>();
   const user = useOptionalUser();
   return (
     <Fragment>
@@ -86,8 +40,8 @@ export default function BrickDetails() {
       <main className="flex h-3/4 flex-1 flex-col">
         <SearchBar defaultValue={name} />
         <div className="h-9"></div>
-        {bundle ? (
-          <BrickDetailsCard bundle={bundle} />
+        {details ? (
+          <BrickDetailsCard details={details} />
         ) : (
           <BrickNotFoundCard name={name} version={version} />
         )}
@@ -116,32 +70,32 @@ function BrickNotFoundCard({
   );
 }
 
-function BrickDetailsCard({ bundle }: { bundle: api.BrickBundle }) {
-  const publishedAt = timeAgo(new Date(bundle.createdAt));
+function BrickDetailsCard({ details }: { details: api.BrickDetails }) {
+  const publishedAt = timeAgo(new Date(details.createdAt));
   return (
     <Fragment>
       <div className="w-full px-6">
         <div className="m-auto flex w-full max-w-[56rem] flex-col items-start justify-center">
           <h2 className="break-all text-2xl font-semibold text-red-500 xl:text-4xl">
-            {bundle.name} {bundle.version}
+            {details.name} {details.version}
           </h2>
           <div>
             <span>Published {publishedAt}</span>
             <span className="px-1">•</span>
-            <span>{bundle.publisher}</span>
+            <span>{details.publisher}</span>
           </div>
           <div className="h-4"></div>
-          <p className="italic">{bundle.description}</p>
+          <p className="italic">{details.description}</p>
           <div className="h-4"></div>
-          <RepositoryUrl url={bundle.repository} />
+          <RepositoryUrl url={details.repository} />
           <div className="h-4"></div>
-          <InstallSnippet name={bundle.name} />
+          <InstallSnippet name={details.name} />
         </div>
       </div>
       <div className="w-full">
         <div className="m-auto flex w-full max-w-[56rem] flex-col items-start justify-center">
           <div className="h-9"></div>
-          <Tabs bundle={bundle} />
+          <Tabs details={details} />
         </div>
       </div>
     </Fragment>
@@ -220,7 +174,7 @@ function GitIcon() {
   );
 }
 
-function Tabs({ bundle }: { bundle: api.BrickBundle }) {
+function Tabs({ details }: { details: api.BrickDetails }) {
   return (
     <Fragment>
       <div className="tabs w-full">
@@ -270,16 +224,16 @@ function Tabs({ bundle }: { bundle: api.BrickBundle }) {
 
         <div className="tab-contents max-w-5xl">
           <section id="readme" className="tab-content hidden w-full">
-            <Markdown contents={bundle.readme} />
+            <Markdown contents={details.readme} />
           </section>
           <section id="usage" className="tab-content hidden w-full">
-            <Markdown contents={bundle.usage} />
+            <Markdown contents={details.usage} />
           </section>
           <section id="changelog" className="tab-content hidden w-full">
-            <Markdown contents={bundle.changelog} />
+            <Markdown contents={details.changelog} />
           </section>
           <section id="license" className="tab-content hidden w-full">
-            <Markdown contents={bundle.license} />
+            <Markdown contents={details.license} />
           </section>
         </div>
       </div>

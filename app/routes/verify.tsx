@@ -13,16 +13,8 @@ import {
   PrimaryButton,
   TextButton,
 } from "~/components";
-import {
-  createUserSession,
-  decodeUser,
-  getTokens,
-} from "~/utils/session.server";
-import {
-  refresh,
-  sendVerificationEmail,
-  ServerError,
-} from "~/utils/brickhub.server";
+import { createUserSession, decodeUser, getTokens } from "~/session.server";
+import { refresh, sendVerificationEmail, ServerError } from "~/brickhub.server";
 
 export const meta: MetaFunction = () => {
   return {
