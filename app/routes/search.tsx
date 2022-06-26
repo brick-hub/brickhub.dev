@@ -376,7 +376,7 @@ function ResultItem({ result }: { result: api.BrickSearchResult }) {
         <a
           className="text-xl font-bold text-red-500"
           target="_self"
-          href={`/bricks/${result.name}`}
+          href={`/bricks/${result.name}/${result.version}`}
         >
           {result.name}
         </a>
