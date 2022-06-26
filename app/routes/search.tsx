@@ -3,7 +3,7 @@ import { Form, useLoaderData } from "@remix-run/react";
 import type { LoaderFunction, MetaFunction } from "@remix-run/node";
 import { Footer, Header, SearchBar } from "~/components";
 import { timeAgo } from "~/utils/time-ago";
-import * as api from "~/utils/brickhub.server";
+import * as api from "~/brickhub.server";
 import { useOptionalUser } from "~/utils/user";
 
 type Sort = "updated" | "popularity";
@@ -376,7 +376,7 @@ function ResultItem({ result }: { result: api.BrickSearchResult }) {
         <a
           className="text-xl font-bold text-red-500"
           target="_self"
-          href={`/bricks/${result.name}/${result.version}`}
+          href={`/bricks/${result.name}`}
         >
           {result.name}
         </a>

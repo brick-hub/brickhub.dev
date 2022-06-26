@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useMatches } from "@remix-run/react";
-import type { User } from "./brickhub.server";
+import type { User } from "~/brickhub.server";
 
 /**
  * This base hook is used in other hooks to quickly search for specific data

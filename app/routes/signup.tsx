@@ -11,9 +11,9 @@ import {
   sendVerificationEmail,
   ServerError,
   signup,
-} from "~/utils/brickhub.server";
-import type { Credentials } from "~/utils/brickhub.server";
-import { createUserSession, getUser } from "~/utils/session.server";
+} from "~/brickhub.server";
+import type { Credentials } from "~/brickhub.server";
+import { createUserSession, getUser } from "~/session.server";
 
 export const meta: MetaFunction = () => {
   return {

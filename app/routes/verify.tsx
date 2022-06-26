@@ -17,12 +17,12 @@ import {
   createUserSession,
   decodeUser,
   getTokens,
-} from "~/utils/session.server";
+} from "~/session.server";
 import {
   refresh,
   sendVerificationEmail,
   ServerError,
-} from "~/utils/brickhub.server";
+} from "~/brickhub.server";
 
 export const meta: MetaFunction = () => {
   return {

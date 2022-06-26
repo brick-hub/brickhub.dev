@@ -1,5 +1,5 @@
 import { Form } from "@remix-run/react";
-import type { User } from "~/utils/brickhub.server";
+import type { User } from "~/brickhub.server";
 
 export function Header({ user }: { user?: User }) {
   return (

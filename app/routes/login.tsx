@@ -7,8 +7,8 @@ import type {
 } from "@remix-run/node";
 import { Footer, PrimaryButton, TextButtonLink } from "~/components";
 import { Fragment } from "react";
-import { login } from "~/utils/brickhub.server";
-import { createUserSession, getUser } from "~/utils/session.server";
+import { login } from "~/brickhub.server";
+import { createUserSession, getUser } from "~/session.server";
 
 export const meta: MetaFunction = () => {
   return {
