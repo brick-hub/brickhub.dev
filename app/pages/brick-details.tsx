@@ -71,7 +71,7 @@ function BrickNotFoundCard({
 }
 
 function BrickDetailsCard({ details }: { details: api.BrickDetails }) {
-  const publishedAt = timeAgo(new Date(details.createdAt));
+  const publishedAt = timeAgo(new Date(details.updatedAt));
   return (
     <Fragment>
       <div className="w-full px-6">

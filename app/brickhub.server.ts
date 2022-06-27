@@ -41,11 +41,12 @@ export interface BrickMetadata {
   description: string;
   version: string;
   publisher: string;
-  createdAt: string;
   repository: string;
   environment: Environment;
   vars: Record<string, BrickVariableProperties>;
   hooks: string[];
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface BrickBundle {
@@ -254,7 +255,10 @@ export async function getBrickMetadata({
     );
   }
 
-  return Object.assign({}, body, { createdAt: body["created_at"] });
+  return Object.assign({}, body, {
+    createdAt: body["created_at"],
+    updatedAt: body["updated_at"],
+  });
 }
 
 export async function getBrickBundle({
