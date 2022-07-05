@@ -9,6 +9,14 @@ module.exports = {
         gray: "#262525",
         night: "#010101",
       },
+      typography: {
+        DEFAULT: {
+          css: {
+            "code::before": { content: "" },
+            "code::after": { content: "" },
+          },
+        },
+      },
     },
     fontFamily: {
       sans: ["inter", ...defaultTheme.fontFamily.sans],
