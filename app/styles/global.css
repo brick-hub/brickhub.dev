@@ -40,3 +40,33 @@ input:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 30px #262525 inset !important;
   -webkit-text-fill-color: white !important;
 }
+
+/* Typer */
+.cursor-blink {
+  -webkit-animation: blink 1s infinite;
+  animation: blink 1s infinite;
+}
+
+@-webkit-keyframes blink {
+  0% {
+    background: transparent;
+  }
+  50% {
+    background: rgb(238 38 38);
+  }
+  100% {
+    background: transparent;
+  }
+}
+
+@keyframes blink {
+  0% {
+    background: transparent;
+  }
+  50% {
+    background: rgb(238 38 38);
+  }
+  100% {
+    background: transparent;
+  }
+}

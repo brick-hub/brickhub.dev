@@ -1,6 +1,6 @@
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { OutlineButtonLink, PrimaryButtonLink } from "~/components/button";
-import { Footer, Header, SearchBar } from "~/components";
+import { Footer, Header, SearchBar, Typer } from "~/components";
 import { useOptionalUser } from "~/utils/user";
 
 export default function Index() {
@@ -30,18 +30,53 @@ export default function Index() {
             </div>
             <div className="h-9 xl:h-10"></div>
           </div>
-          <div className="flex items-center justify-center overflow-hidden lg:mx-auto lg:h-[48rem] lg:max-w-3xl">
-            <img
-              alt="Mason Hero"
-              src="images/mason_hero.png"
-              width="768"
-              height="361"
-            ></img>
+          <div className="flex w-full max-w-full items-center justify-start overflow-hidden lg:mx-auto lg:h-[48rem] lg:w-10/12 lg:max-w-3xl">
+            <div className="w-full rounded-lg bg-dark-gray p-8 md:p-10 lg:p-16">
+              <Terminal />
+            </div>
           </div>
         </section>
       </main>
       <Footer />
     </Fragment>
+  );
+}
+
+function Terminal() {
+  const [toTypeWords] = useState([
+    "hello",
+    "bloc",
+    "flutter_project",
+    "amplify_starter",
+    "mit_license",
+    "model",
+    "app_ui",
+    "cubit",
+    "service",
+    "feature_brick",
+    "macosui_starter",
+    "web_components",
+    "pdf",
+    "dot_github",
+  ]);
+  return (
+    <div className="flex w-full flex-row flex-wrap items-center whitespace-nowrap">
+      <span className="text-[length:28px] font-black text-red-600 sm:text-[length:42px] 2xl:text-[length:72px]">
+        &gt;
+      </span>
+      <div className="w-2 lg:w-3"></div>
+      <span className="text-[length:36px] font-extrabold sm:text-[length:48px] 2xl:text-[length:72px]">
+        mason make
+      </span>
+      <div className="w-2 lg:w-3"></div>
+      <div className="basis-full">
+        <Typer
+          words={toTypeWords}
+          delay={3000}
+          defaultText={toTypeWords[0] || "hello"}
+        />
+      </div>
+    </div>
   );
 }
 
