@@ -63,7 +63,10 @@ export const action: ActionFunction = async ({ request }) => {
     }
     return createUserSession(credentials, redirectTo);
   } catch (error) {
-    const formError = error instanceof ServerError ? error.message : `${error}`;
+    const formError =
+      error instanceof ServerError
+        ? `${error.message} ${error.details ?? ""}`
+        : `${error}`;
     return badRequest({ fields, formError: formError });
   }
 };
