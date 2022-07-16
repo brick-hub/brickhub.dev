@@ -66,7 +66,7 @@ export const action: ActionFunction = async ({ request }) => {
     const formError =
       error instanceof ServerError
         ? `${error.message} ${error.details ?? ""}`
-        : `${error}`;
+        : JSON.stringify(error);
     return badRequest({ fields, formError: formError });
   }
 };
