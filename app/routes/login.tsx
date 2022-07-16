@@ -7,7 +7,7 @@ import type {
 } from "@remix-run/node";
 import { Footer, PrimaryButton, TextButtonLink } from "~/components";
 import { Fragment } from "react";
-import { login } from "~/brickhub.server";
+import { login, ServerError } from "~/brickhub.server";
 import { createUserSession, getUser } from "~/session.server";
 
 export const meta: MetaFunction = () => {
@@ -53,15 +53,19 @@ export const action: ActionFunction = async ({ request }) => {
     return badRequest({ fieldErrors, fields });
   }
 
-  const credentials = await login({ username, password });
-  if (!credentials) {
-    return badRequest({
-      fields,
-      formError: `Invalid username/password`,
-    });
+  try {
+    const credentials = await login({ username, password });
+    if (!credentials) {
+      return badRequest({
+        fields,
+        formError: `Invalid username/password`,
+      });
+    }
+    return createUserSession(credentials, redirectTo);
+  } catch (error) {
+    const formError = error instanceof ServerError ? error.message : `${error}`;
+    return badRequest({ fields, formError: formError });
   }
-
-  return createUserSession(credentials, redirectTo);
 };
 
 export const loader: LoaderFunction = async ({ request }) => {
