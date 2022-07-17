@@ -10,9 +10,9 @@ export default function Index() {
       <Header user={user} />
       <main className="flex-1 items-center justify-center">
         <SearchBar />
-        <section className="px-6 pt-9 lg:flex lg:w-full lg:items-center lg:justify-between lg:gap-12 lg:pt-0">
-          <div className="lg:mx-auto lg:max-w-2xl">
-            <h2 className="text-[length:48px] font-extrabold leading-[48px] lg:text-[length:72px] lg:leading-[72px]">
+        <section className="px-6 pt-9 xl:flex xl:w-full xl:items-center xl:justify-between xl:gap-12 xl:pt-0">
+          <div className="xl:mx-auto xl:max-w-3xl">
+            <h2 className="text-[length:42px] font-extrabold leading-[48px] lg:text-[length:72px] lg:leading-[72px]">
               Generate <span className="text-red-700">consistent</span> code{" "}
               <span className="text-red-500">fast</span>.
             </h2>
@@ -28,11 +28,18 @@ export default function Index() {
               </PrimaryButtonLink>
               {user ? <DocsButton /> : <RequestAccessButton />}
             </div>
-            <div className="h-9 xl:h-10"></div>
+            <div className="h-14 xl:h-10"></div>
           </div>
-          <div className="flex w-full max-w-full items-center justify-start overflow-hidden lg:mx-auto lg:h-[48rem] lg:w-10/12 lg:max-w-3xl">
-            <div className="w-full rounded-lg bg-dark-gray p-8 md:p-10 lg:p-16">
-              <Terminal />
+          <div className="flex w-full max-w-full items-center justify-start overflow-hidden xl:mx-auto xl:h-[48rem] xl:w-10/12 xl:max-w-3xl">
+            <div className="w-full rounded-lg bg-gray">
+              <div className="flex gap-2 px-4 py-3 lg:gap-3 lg:px-6 lg:py-5">
+                <div className="h-3 w-3 rounded-full bg-red-600 lg:h-4 lg:w-4"></div>
+                <div className="h-3 w-3 rounded-full bg-yellow-600 lg:h-4 lg:w-4"></div>
+                <div className="h-3 w-3 rounded-full bg-green-600 lg:h-4 lg:w-4"></div>
+              </div>
+              <div className="rounded-b-lg bg-dark-gray px-4 py-3 pb-4 lg:px-6 lg:py-5 lg:pb-4">
+                <Terminal />
+              </div>
             </div>
           </div>
         </section>
@@ -60,12 +67,12 @@ function Terminal() {
     "dot_github",
   ]);
   return (
-    <div className="flex w-full flex-row flex-wrap items-center whitespace-nowrap">
-      <span className="text-[length:28px] font-black text-red-600 sm:text-[length:42px] 2xl:text-[length:72px]">
+    <div className="flex w-full flex-row flex-wrap items-center whitespace-nowrap font-mono">
+      <span className="text-[length:28px] text-red-600 lg:text-[length:56px]">
         &gt;
       </span>
       <div className="w-2 lg:w-3"></div>
-      <span className="text-[length:36px] font-extrabold sm:text-[length:48px] 2xl:text-[length:72px]">
+      <span className="text-[length:32px] lg:text-[length:56px]">
         mason make
       </span>
       <div className="w-2 lg:w-3"></div>

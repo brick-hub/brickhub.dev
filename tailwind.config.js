@@ -20,6 +20,7 @@ module.exports = {
     },
     fontFamily: {
       sans: ["inter", ...defaultTheme.fontFamily.sans],
+      mono: ["SourceCodePro", ...defaultTheme.fontFamily.mono],
     },
   },
   plugins: [require("@tailwindcss/typography")],

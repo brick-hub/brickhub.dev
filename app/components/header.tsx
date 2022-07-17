@@ -19,11 +19,7 @@ export function Header({ user }: { user?: User }) {
 
 function SignInButton() {
   return (
-    <a
-      className="text-sm hover:text-red-500"
-      aria-label="Sign in"
-      href="/login"
-    >
+    <a className="hover:text-red-500" aria-label="Sign in" href="/login">
       Sign In
     </a>
   );

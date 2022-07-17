@@ -198,8 +198,8 @@ export const Typer: React.FC<Props> = (props) => {
   }, []);
 
   return (
-    <div className="flex h-10 flex-row items-center justify-start md:h-20">
-      <div className="text-[length:32px] font-black text-red-500 sm:text-[length:48px] 2xl:text-[length:72px]">
+    <div className="flex h-10 flex-row items-center justify-start lg:h-20">
+      <div className="text-[length:32px] text-red-500 lg:text-[length:56px]">
         {text}
       </div>
       <div
