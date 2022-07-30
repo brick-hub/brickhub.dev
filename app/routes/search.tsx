@@ -374,7 +374,7 @@ function ResultItem({ result }: { result: api.BrickSearchResult }) {
     <section className="py-6">
       <div>
         <a
-          className="text-xl font-bold text-red-500"
+          className="break-all text-xl font-bold text-red-500"
           target="_self"
           href={`/bricks/${result.name}/${result.version}`}
         >
@@ -427,7 +427,7 @@ function getRange(start: number, end: number) {
     .map((_, i) => i + start);
 }
 
-function pagination(current: number, length: number, delta = 3): Array<any> {
+function pagination(current: number, length: number, delta = 2): Array<any> {
   const range = {
     start: Math.round(current - delta / 2),
     end: Math.round(current + delta / 2),
