@@ -327,7 +327,7 @@ export async function getBrickDetails({
     let defaults: string;
 
     if (isEnum) {
-      defaults = variable.default ?? variable.values?.at(0)!;
+      defaults = variable.default ? variable.default : variable.values?.at(0)!;
     } else {
       defaults = variable.defaults ? `${variable.defaults}` : empty;
     }
