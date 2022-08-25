@@ -33,10 +33,10 @@ export const loader: LoaderFunction = async ({ params }) => {
   const name = params.name;
   if (!name) return redirect("/");
 
-  const metadata = await api.getBrickMetadata({ name, version: "latest" });
-  const version = metadata.version;
-
+  let version: string | undefined;
   try {
+    const metadata = await api.getBrickMetadata({ name, version: "latest" });
+    version = metadata.version;
     const details = await api.getBrickDetails({ name, version, metadata });
     const headers = { "Cache-Control": "max-age=0, immutable" };
     return json(

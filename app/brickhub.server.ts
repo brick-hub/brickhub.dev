@@ -68,9 +68,11 @@ export interface Environment {
 }
 
 export interface BrickVariableProperties {
-  type: "string" | "number" | "boolean";
+  type: "string" | "number" | "boolean" | "array" | "enum";
   description?: string;
   default?: string;
+  defaults?: [string];
+  values?: [string];
   prompt?: string;
 }
 
@@ -359,14 +361,38 @@ mason make ${bundle.name}
 
 ## Variables ✨
 
-| Name | Description | Default | Type |
-| ---- | ------------| --------| -----|
+| Name | Description | Default(s) | Type |
+| ---- | ------------| -----------| -----|
 ${variables
   .map((v) => {
+    const empty = "(empty)";
     const variable = bundle.vars[v];
-    return `${v} | ${variable.description ?? "(empty)"} | ${
-      variable.default ?? "(empty)"
-    } | ${variable.type}`;
+    const isIterable = variable.type === "array" || variable.type === "enum";
+    const isEnum = variable.type === "enum";
+    const isArray = variable.type === "array";
+    const values = isIterable ? `${variable.values?.join(", ")}` : null;
+
+    let defaultValue: string = "--";
+
+    if (!isIterable) {
+      defaultValue = variable.default ?? empty;
+    }
+
+    if (isIterable) {
+      if (isEnum) {
+        defaultValue = variable.default ?? variable.values?.at(0)!;
+      }
+
+      if (isArray) {
+        defaultValue = variable.defaults ? `${variable.defaults}` : empty;
+      }
+
+      defaultValue = `<details><summary>${defaultValue}</summary>(${values})</details>`;
+    }
+
+    return `${v} | ${variable.description ?? empty} | ${defaultValue} | ${
+      variable.type
+    }`;
   })
   .join("\n")}
 
