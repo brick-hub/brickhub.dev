@@ -322,7 +322,7 @@ export async function getBrickDetails({
     const isIterable = variable.type === "array" || variable.type === "enum";
     const isEnum = variable.type === "enum";
 
-    if (!isIterable) return variable.default ?? empty;
+    if (!isIterable) return variable.default ? variable.default : empty;
 
     let defaults: string;
 
