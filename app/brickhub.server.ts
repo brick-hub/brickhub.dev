@@ -311,13 +311,14 @@ export async function getBrickDetails({
   version: string;
   metadata?: BrickMetadata | undefined;
 }): Promise<BrickDetails> {
+  const empty = "(empty)";
+
   const responses = await Promise.all([
     (() => (metadata ? metadata : getBrickMetadata({ name, version })))(),
     getBrickBundle({ name, version }),
   ]);
 
   function getDefaults(variable: BrickVariableProperties): string {
-    const empty = "(empty)";
     const isIterable = variable.type === "array" || variable.type === "enum";
     const isEnum = variable.type === "enum";
 
@@ -384,7 +385,6 @@ mason make ${bundle.name}
 | ---- | ------------| -----------| -----|
 ${variables
   .map((v) => {
-    const empty = "(empty)";
     const variable = bundle.vars[v];
     const defaults = getDefaults(variable);
 
