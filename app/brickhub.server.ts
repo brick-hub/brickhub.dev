@@ -372,25 +372,25 @@ ${variables
     const isArray = variable.type === "array";
     const values = isIterable ? `${variable.values?.join(", ")}` : null;
 
-    let defaultValue: string = "--";
+    let defaults: string = "--";
 
     if (!isIterable) {
-      defaultValue = variable.default ?? empty;
+      defaults = variable.default ?? empty;
     }
 
     if (isIterable) {
       if (isEnum) {
-        defaultValue = variable.default ?? variable.values?.at(0)!;
+        defaults = variable.default ?? variable.values?.at(0)!;
       }
 
       if (isArray) {
-        defaultValue = variable.defaults ? `${variable.defaults}` : empty;
+        defaults = variable.defaults ? `${variable.defaults}` : empty;
       }
 
-      defaultValue = `<details><summary>${defaultValue}</summary>(${values})</details>`;
+      defaults = `<details><summary>${defaults}</summary>(${values})</details>`;
     }
 
-    return `${v} | ${variable.description ?? empty} | ${defaultValue} | ${
+    return `${v} | ${variable.description ?? empty} | ${defaults} | ${
       variable.type
     }`;
   })
