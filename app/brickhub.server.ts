@@ -332,7 +332,7 @@ export async function getBrickDetails({
       defaults = variable.defaults ? `${variable.defaults}` : empty;
     }
 
-    const values = isIterable ? `${variable.values?.join(", ")}` : null;
+    const values = variable.values?.join(", ");
     return `<details><summary>${defaults}</summary>(${values})</details>`;
   }
 
