@@ -14,7 +14,7 @@ export const brickVersionRegExp = new RegExp(
 
 export interface BrickDetailsData {
   name: string;
-  version: string;
+  version?: string;
   details?: api.BrickDetails;
 }
 
@@ -56,14 +56,14 @@ function BrickNotFoundCard({
   version,
 }: {
   name: string;
-  version: string;
+  version?: string;
 }) {
   return (
     <div className="w-full px-6">
       <div className="m-auto flex w-full max-w-[56rem] flex-col items-start justify-center">
         <h2 className="text-3xl font-semibold text-red-500">404 Not Found</h2>
         <div>
-          brick "{name}" v{version} was not found.
+          {name} {version ? `v${version}` : ""} was not found.
         </div>
       </div>
     </div>

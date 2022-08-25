@@ -68,9 +68,11 @@ export interface Environment {
 }
 
 export interface BrickVariableProperties {
-  type: "string" | "number" | "boolean";
+  type: "string" | "number" | "boolean" | "array" | "enum";
   description?: string;
   default?: string;
+  defaults?: [string];
+  values?: [string];
   prompt?: string;
 }
 
@@ -309,10 +311,30 @@ export async function getBrickDetails({
   version: string;
   metadata?: BrickMetadata | undefined;
 }): Promise<BrickDetails> {
+  const empty = "(empty)";
+
   const responses = await Promise.all([
     (() => (metadata ? metadata : getBrickMetadata({ name, version })))(),
     getBrickBundle({ name, version }),
   ]);
+
+  function getDefaults(variable: BrickVariableProperties): string {
+    const isIterable = variable.type === "array" || variable.type === "enum";
+    const isEnum = variable.type === "enum";
+
+    if (!isIterable) return variable.default ? variable.default : empty;
+
+    let defaults: string;
+
+    if (isEnum) {
+      defaults = variable.default ? variable.default : variable.values?.at(0)!;
+    } else {
+      defaults = variable.defaults ? `${variable.defaults}` : empty;
+    }
+
+    const values = variable.values?.join(", ");
+    return `<details><summary>${defaults}</summary>(${values})</details>`;
+  }
 
   const brickMetadata = responses[0];
   const bundle = responses[1];
@@ -359,14 +381,16 @@ mason make ${bundle.name}
 
 ## Variables ✨
 
-| Name | Description | Default | Type |
-| ---- | ------------| --------| -----|
+| Name | Description | Default(s) | Type |
+| ---- | ------------| -----------| -----|
 ${variables
   .map((v) => {
     const variable = bundle.vars[v];
-    return `${v} | ${variable.description ?? "(empty)"} | ${
-      variable.default ?? "(empty)"
-    } | ${variable.type}`;
+    const defaults = getDefaults(variable);
+
+    return `${v} | ${variable.description ?? empty} | ${defaults} | ${
+      variable.type
+    }`;
   })
   .join("\n")}
 
