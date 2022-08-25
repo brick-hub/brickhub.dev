@@ -324,7 +324,7 @@ export async function getBrickDetails({
 
     if (!isIterable) return variable.default ?? empty;
 
-    let defaults: string = "--";
+    let defaults: string;
 
     if (isEnum) {
       defaults = variable.default ?? variable.values?.at(0)!;
