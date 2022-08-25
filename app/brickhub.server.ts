@@ -316,6 +316,25 @@ export async function getBrickDetails({
     getBrickBundle({ name, version }),
   ]);
 
+  function getDefaults(variable: BrickVariableProperties): string {
+    const empty = "(empty)";
+    const isIterable = variable.type === "array" || variable.type === "enum";
+    const isEnum = variable.type === "enum";
+
+    if (!isIterable) return variable.default ?? empty;
+
+    let defaults: string = "--";
+
+    if (isEnum) {
+      defaults = variable.default ?? variable.values?.at(0)!;
+    } else {
+      defaults = variable.defaults ? `${variable.defaults}` : empty;
+    }
+
+    const values = isIterable ? `${variable.values?.join(", ")}` : null;
+    return `<details><summary>${defaults}</summary>(${values})</details>`;
+  }
+
   const brickMetadata = responses[0];
   const bundle = responses[1];
   const readme = bundle.readme;
@@ -367,28 +386,7 @@ ${variables
   .map((v) => {
     const empty = "(empty)";
     const variable = bundle.vars[v];
-    const isIterable = variable.type === "array" || variable.type === "enum";
-    const isEnum = variable.type === "enum";
-    const isArray = variable.type === "array";
-    const values = isIterable ? `${variable.values?.join(", ")}` : null;
-
-    let defaults: string = "--";
-
-    if (!isIterable) {
-      defaults = variable.default ?? empty;
-    }
-
-    if (isIterable) {
-      if (isEnum) {
-        defaults = variable.default ?? variable.values?.at(0)!;
-      }
-
-      if (isArray) {
-        defaults = variable.defaults ? `${variable.defaults}` : empty;
-      }
-
-      defaults = `<details><summary>${defaults}</summary>(${values})</details>`;
-    }
+    const defaults = getDefaults(variable);
 
     return `${v} | ${variable.description ?? empty} | ${defaults} | ${
       variable.type
