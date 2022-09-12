@@ -399,7 +399,6 @@ function ResultItem({ result }: { result: api.BrickSearchResult }) {
           {result.downloads}
         </span>
       </div>
-      <div className="text-gray-400 text-sm">{result.publisher}</div>
     </section>
   );
 }
