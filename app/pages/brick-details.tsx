@@ -80,7 +80,9 @@ function BrickDetailsCard({ details }: { details: api.BrickDetails }) {
             {details.name}
           </h2>
           <div>
-            <span className="text-red-500 font-semibold">{details.version}</span>
+            <span className="font-semibold text-red-500">
+              {details.version}
+            </span>
             <span className="px-1">•</span>
             <span>Published {publishedAt}</span>
           </div>
