@@ -77,12 +77,12 @@ function BrickDetailsCard({ details }: { details: api.BrickDetails }) {
       <div className="w-full px-6">
         <div className="m-auto flex w-full max-w-[56rem] flex-col items-start justify-center">
           <h2 className="break-all text-2xl font-semibold text-red-500 xl:text-4xl">
-            {details.name} {details.version}
+            {details.name}
           </h2>
           <div>
-            <span>Published {publishedAt}</span>
+            <span className="text-red-500 font-semibold">{details.version}</span>
             <span className="px-1">•</span>
-            <span>{details.publisher}</span>
+            <span>Published {publishedAt}</span>
           </div>
           <div className="h-4"></div>
           <p className="italic">{details.description}</p>
