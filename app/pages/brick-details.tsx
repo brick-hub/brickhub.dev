@@ -38,7 +38,7 @@ export function BrickDetails() {
     <Fragment>
       <Header user={user} />
       <main className="flex h-3/4 flex-1 flex-col">
-        <SearchBar defaultValue={name} />
+        <SearchBar />
         <div className="h-9"></div>
         {details ? (
           <BrickDetailsCard details={details} />
