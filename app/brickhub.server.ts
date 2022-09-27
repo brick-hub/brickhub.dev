@@ -31,7 +31,6 @@ export interface BrickSearchResult {
   name: string;
   description: string;
   version: string;
-  publisher: string;
   createdAt: string;
   downloads: number;
 }
@@ -40,7 +39,6 @@ export interface BrickMetadata {
   name: string;
   description: string;
   version: string;
-  publisher: string;
   repository: string;
   environment: Environment;
   vars: Record<string, BrickVariableProperties>;
@@ -228,7 +226,6 @@ export async function search({
       name: brick.name,
       description: brick.description,
       version: brick.version,
-      publisher: brick.publisher,
       createdAt: brick.created_at,
       downloads: brick.downloads,
     };
