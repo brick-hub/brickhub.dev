@@ -193,6 +193,25 @@ export async function sendVerificationEmail({ token }: { token: string }) {
   return null;
 }
 
+export async function sendPasswordResetEmail({ email }: { email: string }) {
+  const response = await fetch(`${baseUrl}/api/v1/users/password_reset`, {
+    method: "POST",
+    body: JSON.stringify({
+      email,
+    }),
+  });
+
+  if (response.status !== 204) {
+    const body = await response.json();
+    throw new ServerError(
+      body["code"] ?? "unknown",
+      body["message"] ?? "An unknown error occurred.",
+      body["details"]
+    );
+  }
+  return null;
+}
+
 type Sort = "downloads" | "created";
 
 export async function search({
