@@ -7,7 +7,7 @@ import type {
 } from "@remix-run/node";
 import { Footer, PrimaryButton, SuccessBanner } from "~/components";
 import { Fragment } from "react";
-import { sendPasswordResetEmail, ServerError } from "~/brickhub.server";
+import { sendPasswordResetEmail } from "~/brickhub.server";
 import { getUser } from "~/session.server";
 
 export const meta: MetaFunction = () => {
@@ -82,18 +82,6 @@ export default function PasswordReset() {
   );
 }
 
-function BrickHubLogo() {
-  return (
-    <img
-      className="m-auto"
-      alt="Brick Hub"
-      src="/images/brickhub.svg"
-      width="175"
-      height="175"
-    />
-  );
-}
-
 function PasswordResetForm() {
   const actionData = useActionData<ActionData>();
 
@@ -149,12 +137,6 @@ function PasswordResetForm() {
   );
 }
 
-function PasswordResetEmailSuccessBanner() {
-  return (
-    <SuccessBanner content="Password reset email has been sent."></SuccessBanner>
-  );
-}
-
 function PasswordResetEmailSentDialog() {
   return (
     <section className="max-w-lg space-y-8 rounded-md bg-dark-gray p-10 text-center shadow-md">
@@ -180,6 +162,24 @@ function PasswordResetEmailSentDialog() {
         </Form>
       </div>
     </section>
+  );
+}
+
+function PasswordResetEmailSuccessBanner() {
+  return (
+    <SuccessBanner content="Password reset email has been sent."></SuccessBanner>
+  );
+}
+
+function BrickHubLogo() {
+  return (
+    <img
+      className="m-auto"
+      alt="Brick Hub"
+      src="/images/brickhub.svg"
+      width="175"
+      height="175"
+    />
   );
 }
 
