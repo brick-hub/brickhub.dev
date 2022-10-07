@@ -80,7 +80,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 export default function Login() {
   return (
     <Fragment>
-      <main className="mx-0 flex-1 items-center justify-center sm:mx-auto">
+      <main className="mx-0 flex flex-1 items-center justify-center sm:mx-auto">
         <LoginForm />
       </main>
       <Footer />
@@ -111,11 +111,11 @@ function LoginForm() {
           Sign In
         </h1>
         <div>
-          <label className="whitespace-nowrap" htmlFor="username">
+          <label className="mb-2 whitespace-nowrap" htmlFor="username">
             Email
           </label>
           <input
-            className="w-full appearance-none bg-gray p-2 autofill:!bg-gray focus:outline-none"
+            className="my-2 w-full appearance-none bg-gray p-2 autofill:!bg-gray focus:outline-none"
             type="email"
             name="username"
             id="username"
@@ -135,12 +135,17 @@ function LoginForm() {
             </p>
           ) : null}
         </div>
+        <div className="float-right inline-block">
+          <a className="text-sm underline" href="/password-reset">
+            Forgot Password?
+          </a>
+        </div>
         <div>
-          <label className="whitespace-nowrap" htmlFor="password">
+          <label className="mb-2 whitespace-nowrap" htmlFor="password">
             Password
           </label>
           <input
-            className="w-full appearance-none bg-gray p-2 focus:outline-none"
+            className="my-2 w-full appearance-none bg-gray p-2 focus:outline-none"
             type="password"
             name="password"
             id="password"

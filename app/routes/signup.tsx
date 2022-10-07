@@ -85,7 +85,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 export default function SignUp() {
   return (
     <Fragment>
-      <main className="mx-0 h-full flex-1 items-center justify-center sm:mx-auto">
+      <main className="mx-0 flex h-full flex-1 items-center justify-center sm:mx-auto">
         <SignUpForm />
       </main>
       <Footer />
