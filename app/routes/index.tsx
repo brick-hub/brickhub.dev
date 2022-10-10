@@ -26,7 +26,8 @@ export default function Index() {
               <PrimaryButtonLink href="/search">
                 Discover Bricks
               </PrimaryButtonLink>
-              {user ? <DocsButton /> : <RequestAccessButton />}
+              <DocsButton />
+              {!user ? <RequestAccessButton /> : null}
             </div>
             <div className="h-14 xl:h-10"></div>
           </div>
@@ -92,7 +93,7 @@ function DocsButton() {
     <OutlineButtonLink
       target="_blank"
       rel="noreferrer"
-      href="https://pub.dev/documentation/mason_cli/latest"
+      href="https://docs.brickhub.dev"
     >
       Read the Docs
     </OutlineButtonLink>
@@ -106,7 +107,7 @@ function RequestAccessButton() {
       rel="noreferrer"
       href="https://forms.gle/cG8XoR1wiVxPgyWW9"
     >
-      Request access
+      Request Access
     </OutlineButtonLink>
   );
 }
