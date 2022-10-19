@@ -34,6 +34,14 @@ pre code {
   max-width: 100%;
 }
 
+.prose > *:first-child {
+  margin-top: 0 !important;
+}
+
+.prose > *:last-child {
+  margin-bottom: 0 !important;
+}
+
 body {
   min-height: 100vh;
 }
