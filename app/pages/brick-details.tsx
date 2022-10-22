@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import { Header, SearchBar, Footer } from "~/components";
+import { Header, SearchBar, Footer, DownloadIcon } from "~/components";
 import { timeAgo } from "~/utils/time-ago";
 import type * as api from "~/brickhub.server";
 import highlightStyleUrl from "highlight.js/styles/vs2015.css";
@@ -71,7 +71,7 @@ function BrickNotFoundCard({
 }
 
 function BrickDetailsCard({ details }: { details: api.BrickDetails }) {
-  const publishedAt = timeAgo(new Date(details.updatedAt));
+  const publishedAt = timeAgo(new Date(details.createdAt));
   return (
     <Fragment>
       <div className="w-full px-6">
@@ -79,12 +79,17 @@ function BrickDetailsCard({ details }: { details: api.BrickDetails }) {
           <h2 className="break-all text-2xl font-semibold text-red-500 xl:text-4xl">
             {details.name}
           </h2>
-          <div>
+          <div className="flex items-center justify-center">
             <span className="font-semibold text-red-500">
               {details.version}
             </span>
-            <span className="px-1">•</span>
-            <span>Published {publishedAt}</span>
+            <span className="px-1"></span>
+            <span>({publishedAt})</span>
+            <span className="px-1"></span>
+            <span className="flex items-center text-neutral-400">
+              <DownloadIcon />
+              {details.downloads}
+            </span>
           </div>
           <div className="h-4"></div>
           <p className="italic">{details.description}</p>
