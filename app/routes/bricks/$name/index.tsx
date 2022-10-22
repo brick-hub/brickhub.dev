@@ -35,9 +35,8 @@ export const loader: LoaderFunction = async ({ params }) => {
 
   let version: string | undefined;
   try {
-    const metadata = await api.getBrickMetadata({ name, version: "latest" });
-    version = metadata.version;
-    const details = await api.getBrickDetails({ name, version, metadata });
+    const details = await api.getBrickDetails({ name, version: "latest" });
+    version = details.version;
     const headers = { "Cache-Control": "max-age=0, immutable" };
     return json(
       {

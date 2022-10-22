@@ -1,7 +1,4 @@
-import { StringDecoder } from "string_decoder";
 import { markdownToHtml } from "./markdown.server";
-
-const BZip2 = require("seek-bzip");
 
 export class ServerError {
   constructor(
@@ -35,7 +32,7 @@ export interface BrickSearchResult {
   downloads: number;
 }
 
-export interface BrickMetadata {
+export interface BrickDetails {
   name: string;
   description: string;
   version: string;
@@ -44,20 +41,11 @@ export interface BrickMetadata {
   vars: Record<string, BrickVariableProperties>;
   hooks: string[];
   createdAt: string;
-  updatedAt: string;
-}
-
-export interface BrickBundle {
-  name: string;
-  environment: Environment;
-  vars: Record<string, BrickVariableProperties>;
-  hooks: string[];
+  downloads: number;
+  publishers?: string[];
   readme: string;
   changelog: string;
   license: string;
-}
-
-export interface BrickDetails extends BrickMetadata, BrickBundle {
   usage: string;
 }
 
@@ -74,7 +62,6 @@ export interface BrickVariableProperties {
   prompt?: string;
 }
 
-const utf8Decoder = new StringDecoder("utf8");
 const baseUrl = process.env.HOSTED_URL;
 
 export async function refresh({ token }: { token: string }) {
@@ -252,15 +239,17 @@ export async function search({
   return { bricks, total };
 }
 
-export async function getBrickMetadata({
+export async function getBrickDetails({
   name,
   version,
 }: {
   name: string;
   version: string;
-}): Promise<BrickMetadata> {
+}): Promise<BrickDetails> {
+  const empty = "(empty)";
+
   const response = await fetch(
-    `${baseUrl}/api/v1/bricks/${name}/versions/${version}`
+    `${baseUrl}/api/v1/bricks/${name}/versions/${version}/details`
   );
 
   const body = await response.json();
@@ -272,67 +261,6 @@ export async function getBrickMetadata({
       body["details"]
     );
   }
-
-  return Object.assign({}, body, {
-    createdAt: body["created_at"],
-    updatedAt: body["updated_at"],
-  });
-}
-
-export async function getBrickBundle({
-  name,
-  version,
-}: {
-  name: string;
-  version: string;
-}): Promise<BrickBundle> {
-  const response = await fetch(
-    `${baseUrl}/api/v1/bricks/${name}/versions/${version}.bundle`
-  );
-
-  if (response.status !== 200) {
-    const body = await response.json();
-    throw new ServerError(
-      body["code"] ?? "unknown",
-      body["message"] ?? "An unknown error occurred.",
-      body["details"]
-    );
-  }
-
-  const body = await response.arrayBuffer();
-  const bundle = JSON.parse(utf8Decoder.write(BZip2.decode(Buffer.from(body))));
-
-  const readme = Buffer.from(bundle.readme.data, "base64").toString("utf8");
-  const changelog = Buffer.from(bundle.changelog.data, "base64").toString(
-    "utf8"
-  );
-  const license = Buffer.from(bundle.license.data, "base64").toString("utf8");
-  return {
-    name: bundle.name,
-    environment: bundle.environment,
-    vars: bundle.vars,
-    hooks: bundle.hooks,
-    readme,
-    changelog,
-    license,
-  };
-}
-
-export async function getBrickDetails({
-  name,
-  version,
-  metadata,
-}: {
-  name: string;
-  version: string;
-  metadata?: BrickMetadata | undefined;
-}): Promise<BrickDetails> {
-  const empty = "(empty)";
-
-  const responses = await Promise.all([
-    (() => (metadata ? metadata : getBrickMetadata({ name, version })))(),
-    getBrickBundle({ name, version }),
-  ]);
 
   function getDefaults(variable: BrickVariableProperties): string {
     const isIterable = variable.type === "array" || variable.type === "enum";
@@ -352,13 +280,11 @@ export async function getBrickDetails({
     return `<details><summary>${defaults}</summary>(${values})</details>`;
   }
 
-  const brickMetadata = responses[0];
-  const bundle = responses[1];
-  const readme = bundle.readme;
-  const changelog = bundle.changelog;
-  const license = bundle.license;
-  const variables = Object.keys(bundle.vars);
-  const hooks = bundle.hooks.map((hook: any) => hook["path"]);
+  const readme = body.readme;
+  const changelog = body.changelog;
+  const license = body.license;
+  const variables = Object.keys(body.vars);
+  const hooks = body.hooks;
   const hasPreGenHook = hooks.includes("pre_gen.dart");
   const hasPostGenHook = hooks.includes("post_gen.dart");
   const usage = `
@@ -381,18 +307,18 @@ brew install mason
 
 \`\`\`sh
 # Install locally
-mason add ${bundle.name}
+mason add ${body.name}
 \`\`\`
 
 \`\`\`sh
 # Install globally
-mason add -g ${bundle.name}
+mason add -g ${body.name}
 \`\`\`
 
 ## Usage 🚀
 
 \`\`\`sh
-mason make ${bundle.name}
+mason make ${body.name}
 \`\`\`
 
 ## Variables ✨
@@ -401,7 +327,7 @@ mason make ${bundle.name}
 | ---- | ------------| -----------| -----|
 ${variables
   .map((v) => {
-    const variable = bundle.vars[v];
+    const variable = body.vars[v];
     const defaults = getDefaults(variable);
 
     return `${v} | ${variable.description ?? empty} | ${defaults} | ${
@@ -418,7 +344,7 @@ ${variables
 ## Environment 🌎
 
 \`\`\`yaml
-mason: "${bundle.environment.mason}"
+mason: "${body.environment.mason}"
 \`\`\`
 `;
 
@@ -429,10 +355,11 @@ mason: "${bundle.environment.mason}"
     markdownToHtml(usage),
   ]);
 
-  return Object.assign({}, brickMetadata, {
+  return Object.assign({}, body, {
     readme: html[0],
     changelog: html[1],
     license: html[2],
     usage: html[3],
+    createdAt: body.created_at,
   });
 }
