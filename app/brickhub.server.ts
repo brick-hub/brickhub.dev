@@ -11,6 +11,7 @@ export class ServerError {
 export interface Credentials {
   accessToken: string;
   refreshToken: string;
+  expires: number;
 }
 
 export interface User {
@@ -85,9 +86,12 @@ export async function refresh({ token }: { token: string }) {
 
   const accessToken = body["access_token"];
   const refreshToken = body["refresh_token"];
+  const expiresIn = parseInt(body["expires_in"]);
+  const expires = new Date();
   const credentials: Credentials = {
     accessToken,
     refreshToken,
+    expires: expires.getTime() + expiresIn * 1000,
   };
   return credentials;
 }
@@ -120,9 +124,12 @@ export async function login({
 
   const accessToken = body["access_token"];
   const refreshToken = body["refresh_token"];
+  const expiresIn = parseInt(body["expires_in"]);
+  const expires = new Date();
   const credentials: Credentials = {
     accessToken,
     refreshToken,
+    expires: expires.getTime() + expiresIn * 1000,
   };
   return credentials;
 }
@@ -154,9 +161,12 @@ export async function signup({
 
   const accessToken = body["access_token"];
   const refreshToken = body["refresh_token"];
+  const expiresIn = parseInt(body["expires_in"]);
+  const expires = new Date();
   const credentials: Credentials = {
     accessToken,
     refreshToken,
+    expires: expires.getTime() + expiresIn * 1000,
   };
   return credentials;
 }
@@ -168,6 +178,66 @@ export async function sendVerificationEmail({ token }: { token: string }) {
       Authorization: `Bearer ${token}`,
     },
   });
+
+  if (response.status !== 204) {
+    const body = await response.json();
+    throw new ServerError(
+      body["code"] ?? "unknown",
+      body["message"] ?? "An unknown error occurred.",
+      body["details"]
+    );
+  }
+  return null;
+}
+
+export async function addPublisher({
+  token,
+  brick,
+  publisher,
+}: {
+  token: string;
+  brick: string;
+  publisher: string;
+}) {
+  const response = await fetch(`${baseUrl}/api/v1/bricks/${brick}/publishers`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      email: publisher,
+    }),
+  });
+
+  if (response.status !== 201) {
+    const body = await response.json();
+    throw new ServerError(
+      body["code"] ?? "unknown",
+      body["message"] ?? "An unknown error occurred.",
+      body["details"]
+    );
+  }
+  return null;
+}
+
+export async function removePublisher({
+  token,
+  brick,
+  publisher,
+}: {
+  token: string;
+  brick: string;
+  publisher: string;
+}) {
+  const response = await fetch(
+    `${baseUrl}/api/v1/bricks/${brick}/publishers/${publisher}`,
+    {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
 
   if (response.status !== 204) {
     const body = await response.json();
@@ -242,14 +312,23 @@ export async function search({
 export async function getBrickDetails({
   name,
   version,
+  token,
 }: {
   name: string;
   version: string;
+  token?: string;
 }): Promise<BrickDetails> {
   const empty = "(empty)";
 
   const response = await fetch(
-    `${baseUrl}/api/v1/bricks/${name}/versions/${version}/details`
+    `${baseUrl}/api/v1/bricks/${name}/versions/${version}/details`,
+    {
+      headers: token
+        ? {
+            Authorization: `Bearer ${token}`,
+          }
+        : undefined,
+    }
   );
 
   const body = await response.json();

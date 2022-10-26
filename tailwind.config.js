@@ -8,7 +8,7 @@ module.exports = {
         "dark-gray": "#0f0f0f",
         gray: "#262525",
         night: "#010101",
-        charcoal: "var(--tw-prose-invert-hr)",
+        charcoal: "#374151",
       },
       typography: {
         DEFAULT: {

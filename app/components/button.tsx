@@ -57,7 +57,7 @@ export const PrimaryButton = forwardRef<
 >((props, ref) => {
   return (
     <button
-      className="box-border inline-flex h-10 w-full items-center justify-center rounded bg-red-600 px-8 font-semibold text-white hover:bg-red-700 focus:bg-red-700 focus:outline-none"
+      className="box-border inline-flex h-10 w-full items-center justify-center rounded bg-red-600 px-8 font-semibold text-white hover:bg-red-700 focus:bg-red-700 focus:outline-none disabled:opacity-40 disabled:hover:bg-red-600"
       {...props}
       ref={ref}
     >
