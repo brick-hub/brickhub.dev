@@ -10,8 +10,9 @@ import {
   BrickDetails,
   brickDetailsHeaders,
   brickDetailsLinks,
-} from "~/pages/brick-details";
-import type { BrickDetailsData } from "~/pages/brick-details";
+} from "~/ui/brick-details";
+import type { BrickDetailsData } from "~/ui/brick-details";
+import { getTokens } from "~/session.server";
 
 export const meta: MetaFunction = ({ data }: { data: BrickDetailsData }) => {
   const title = `${data.name} | Brick Template`;
@@ -29,22 +30,28 @@ export const meta: MetaFunction = ({ data }: { data: BrickDetailsData }) => {
   };
 };
 
-export const loader: LoaderFunction = async ({ params }) => {
+export const loader: LoaderFunction = async ({ request, params }) => {
   const name = params.name;
   if (!name) return redirect("/");
 
   let version: string | undefined;
   try {
-    const details = await api.getBrickDetails({ name, version: "latest" });
+    const tokens = await getTokens(request);
+    const details = await api.getBrickDetails({
+      name,
+      version: "latest",
+      token: tokens?.accessToken,
+    });
     version = details.version;
-    const headers = { "Cache-Control": "max-age=0, immutable" };
     return json(
       {
         name,
         version,
         details,
       },
-      { headers }
+      {
+        headers: tokens?.headers,
+      }
     );
   } catch (_) {
     return { name, version };
