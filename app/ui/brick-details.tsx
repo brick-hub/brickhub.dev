@@ -211,7 +211,8 @@ function Tabs({ details }: { details: api.BrickDetails }) {
           name="tabs"
           id="tab1"
           aria-controls="readme"
-          defaultChecked={hash === "#readme" || hash === ""}
+          checked={hash === "#readme" || hash === ""}
+          onChange={() => {}}
         />
         <label
           className="inline-block cursor-pointer p-3"
@@ -228,7 +229,8 @@ function Tabs({ details }: { details: api.BrickDetails }) {
           name="tabs"
           id="tab2"
           aria-controls="usage"
-          defaultChecked={hash === "#usage"}
+          checked={hash === "#usage"}
+          onChange={() => {}}
         />
         <label
           className="inline-block cursor-pointer p-3"
@@ -245,7 +247,8 @@ function Tabs({ details }: { details: api.BrickDetails }) {
           name="tabs"
           id="tab3"
           aria-controls="changelog"
-          defaultChecked={hash === "#changelog"}
+          checked={hash === "#changelog"}
+          onChange={() => {}}
         />
         <label
           className="inline-block cursor-pointer p-3"
@@ -262,7 +265,8 @@ function Tabs({ details }: { details: api.BrickDetails }) {
           name="tabs"
           id="tab4"
           aria-controls="license"
-          defaultChecked={hash === "#license"}
+          checked={hash === "#license"}
+          onChange={() => {}}
         />
         <label
           className="inline-block cursor-pointer p-3"
@@ -281,7 +285,8 @@ function Tabs({ details }: { details: api.BrickDetails }) {
               name="tabs"
               id="tab5"
               aria-controls="settings"
-              defaultChecked={hash === "#settings"}
+              checked={hash === "#settings"}
+              onChange={() => {}}
             />
             <label
               className="inline-block cursor-pointer p-3"
