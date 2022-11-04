@@ -22,9 +22,9 @@
     "/public/build"
   ],
   "dependencies": {
-    "@remix-run/node": "1.5.1",
-    "@remix-run/react": "1.5.1",
-    "@remix-run/serve": "1.5.1",
+    "@remix-run/node": "1.7.5",
+    "@remix-run/react": "1.7.5",
+    "@remix-run/serve": "1.7.5",
     "cross-env": "^7.0.3",
     "highlight.js": "^11.5.1",
     "jose": "^4.9.2",
@@ -39,7 +39,7 @@
     "unified": "^10.1.2"
   },
   "devDependencies": {
-    "@remix-run/dev": "^1.2.3",
+    "@remix-run/dev": "1.7.5",
     "@remix-run/eslint-config": "*",
     "@tailwindcss/typography": "^0.5.2",
     "@types/marked": "^4.0.2",
