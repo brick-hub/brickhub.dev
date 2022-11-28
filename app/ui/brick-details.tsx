@@ -1,28 +1,30 @@
-import { Fragment, useState } from "react";
-import {
-  Header,
-  SearchBar,
-  Footer,
-  DownloadIcon,
-  PrimaryButton,
-  CheckIcon,
-  ExclamationTriangleIcon,
-  Modal,
-  DocumentTextIcon,
-  CogIcon,
-  SparklesIcon,
-  BuildingLibraryIcon,
-  TrashIcon,
-  LightBulbIcon,
-} from "~/components";
-import { timeAgo } from "~/utils/time-ago";
-import type * as api from "~/brickhub.server";
-import highlightStyleUrl from "highlight.js/styles/vs2015.css";
-import styles from "~/styles/details.css";
-import { useOptionalUser } from "~/utils/user";
-import { useFetcher, useLoaderData, useLocation } from "@remix-run/react";
 import type { HeadersFunction, LinksFunction } from "@remix-run/node";
+import { useFetcher, useLoaderData, useLocation } from "@remix-run/react";
+import highlightStyleUrl from "highlight.js/styles/vs2015.css";
+import { Fragment, useState } from "react";
+import type { DynamicLinksFunction } from "remix-utils";
+import type * as api from "~/brickhub.server";
+import {
+  BuildingLibraryIcon,
+  CheckIcon,
+  CogIcon,
+  DocumentTextIcon,
+  DownloadIcon,
+  ExclamationTriangleIcon,
+  Footer,
+  Header,
+  LightBulbIcon,
+  Modal,
+  PrimaryButton,
+  SearchBar,
+  SparklesIcon,
+  TrashIcon,
+} from "~/components";
 import type { PublishersActionData } from "~/routes/bricks/$name/publishers";
+import styles from "~/styles/details.css";
+import { canonicalHref } from "~/utils/canonical-href";
+import { timeAgo } from "~/utils/time-ago";
+import { useOptionalUser } from "~/utils/user";
 
 export const brickVersionRegExp = new RegExp(
   /^(\d+)\.(\d+)\.(\d+)(-([0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*))?(\+([0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*))?/
@@ -34,6 +36,13 @@ export interface BrickDetailsData {
   details?: api.BrickDetails;
 }
 
+export const dynamicLinks: DynamicLinksFunction<BrickDetailsData> = ({
+  data,
+}) => {
+  const brick = data.name;
+  return [{ rel: "canonical", href: canonicalHref(`/bricks/${brick}`) }];
+};
+
 export const brickDetailsLinks: LinksFunction = () => {
   return [
     { rel: "stylesheet", href: highlightStyleUrl },
@@ -41,7 +50,7 @@ export const brickDetailsLinks: LinksFunction = () => {
   ];
 };
 
-export let brickDetailsHeaders: HeadersFunction = ({ loaderHeaders }) => {
+export const brickDetailsHeaders: HeadersFunction = ({ loaderHeaders }) => {
   return {
     "Cache-Control": loaderHeaders.get("Cache-Control") || "no-cache",
   };

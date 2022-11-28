@@ -1,7 +1,13 @@
+import type { LinksFunction } from "@remix-run/node";
 import { Fragment, useState } from "react";
-import { OutlineButtonLink, PrimaryButtonLink } from "~/components/button";
 import { Footer, Header, SearchBar, Typer } from "~/components";
+import { OutlineButtonLink, PrimaryButtonLink } from "~/components/button";
+import { canonicalHref } from "~/utils/canonical-href";
 import { useOptionalUser } from "~/utils/user";
+
+export const links: LinksFunction = () => [
+  { rel: "canonical", href: canonicalHref() },
+];
 
 export default function Index() {
   const user = useOptionalUser();

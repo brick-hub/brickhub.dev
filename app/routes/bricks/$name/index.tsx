@@ -1,18 +1,19 @@
-import { json, redirect } from "@remix-run/node";
 import type {
   HeadersFunction,
   LinksFunction,
   LoaderFunction,
   MetaFunction,
 } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
 import * as api from "~/brickhub.server";
+import { getTokens } from "~/session.server";
+import type { BrickDetailsData } from "~/ui/brick-details";
 import {
   BrickDetails,
   brickDetailsHeaders,
   brickDetailsLinks,
+  dynamicLinks,
 } from "~/ui/brick-details";
-import type { BrickDetailsData } from "~/ui/brick-details";
-import { getTokens } from "~/session.server";
 
 export const meta: MetaFunction = ({ data }: { data: BrickDetailsData }) => {
   const title = `${data.name} | Brick Template`;
@@ -43,7 +44,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
       token: tokens?.accessToken,
     });
     version = details.version;
-    return json(
+    return json<BrickDetailsData>(
       {
         name,
         version,
@@ -58,6 +59,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   }
 };
 
+export const handle = { dynamicLinks };
 export const links: LinksFunction = brickDetailsLinks;
-export let headers: HeadersFunction = brickDetailsHeaders;
+export const headers: HeadersFunction = brickDetailsHeaders;
 export default BrickDetails;
