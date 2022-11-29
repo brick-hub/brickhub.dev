@@ -1,10 +1,10 @@
 import type { LoaderFunction, MetaFunction } from "@remix-run/node";
 import { Form, useLoaderData } from "@remix-run/react";
 import { Fragment } from "react";
-import type { DynamicLinksFunction } from "remix-utils";
 import * as api from "~/brickhub.server";
 import { DownloadIcon, Footer, Header, SearchBar } from "~/components";
 import { canonicalHref } from "~/utils/canonical-href";
+import type { DynamicLinksFunction } from "~/utils/dynamic-links";
 import { timeAgo } from "~/utils/time-ago";
 import { useOptionalUser } from "~/utils/user";
 

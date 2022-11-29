@@ -14,7 +14,7 @@ import {
   useLocation,
 } from "@remix-run/react";
 import { Fragment, useEffect } from "react";
-import { DynamicLinks } from "remix-utils";
+import { DynamicLinks } from "~/utils/dynamic-links";
 import * as ga from "~/utils/ga";
 import { WarningBanner } from "./components";
 import { getUser } from "./session.server";

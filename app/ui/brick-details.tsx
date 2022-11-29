@@ -2,7 +2,6 @@ import type { HeadersFunction, LinksFunction } from "@remix-run/node";
 import { useFetcher, useLoaderData, useLocation } from "@remix-run/react";
 import highlightStyleUrl from "highlight.js/styles/vs2015.css";
 import { Fragment, useState } from "react";
-import type { DynamicLinksFunction } from "remix-utils";
 import type * as api from "~/brickhub.server";
 import {
   BuildingLibraryIcon,
@@ -23,6 +22,7 @@ import {
 import type { PublishersActionData } from "~/routes/bricks/$name/publishers";
 import styles from "~/styles/details.css";
 import { canonicalHref } from "~/utils/canonical-href";
+import type { DynamicLinksFunction } from "~/utils/dynamic-links";
 import { timeAgo } from "~/utils/time-ago";
 import { useOptionalUser } from "~/utils/user";
 
