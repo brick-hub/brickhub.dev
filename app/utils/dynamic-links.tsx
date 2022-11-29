@@ -36,8 +36,8 @@ export function DynamicLinks() {
 
   return (
     <>
-      {links.map((link: any) => (
-        <link {...link} key={link.integrity || JSON.stringify(link)} />
+      {links.map((link) => (
+        <link key={link.integrity || JSON.stringify(link)} {...link} />
       ))}
     </>
   );
