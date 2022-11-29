@@ -16,13 +16,13 @@ export interface DynamicLinksFunction<Data extends AppData = AppData> {
 }
 
 export function DynamicLinks() {
-  let location = useLocation();
+  const location = useLocation();
 
-  let links: LinkDescriptor[] = useMatches().flatMap(
+  const links: LinkDescriptor[] = useMatches().flatMap(
     (match, index, matches) => {
-      let fn = match.handle?.dynamicLinks as DynamicLinksFunction | undefined;
+      const fn = match.handle?.dynamicLinks as DynamicLinksFunction | undefined;
       if (typeof fn !== "function") return [];
-      let result = fn({
+      const result = fn({
         id: match.id,
         data: match.data,
         params: match.params,
