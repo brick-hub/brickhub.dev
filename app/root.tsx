@@ -1,4 +1,8 @@
-import { Fragment, useEffect } from "react";
+import type {
+  LinksFunction,
+  LoaderFunction,
+  MetaFunction,
+} from "@remix-run/node";
 import { json } from "@remix-run/node";
 import {
   Links,
@@ -9,17 +13,14 @@ import {
   ScrollRestoration,
   useLocation,
 } from "@remix-run/react";
-import type {
-  LinksFunction,
-  LoaderFunction,
-  MetaFunction,
-} from "@remix-run/node";
-import tailwindStylesUrl from "./styles/tailwind.css";
-import globalStylesUrl from "./styles/global.css";
+import { Fragment, useEffect } from "react";
+import { DynamicLinks } from "~/utils/dynamic-links";
 import * as ga from "~/utils/ga";
-import { getUser } from "./session.server";
-import { useOptionalUser } from "./utils/user";
 import { WarningBanner } from "./components";
+import { getUser } from "./session.server";
+import globalStylesUrl from "./styles/global.css";
+import tailwindStylesUrl from "./styles/tailwind.css";
+import { useOptionalUser } from "./utils/user";
 
 export const links: LinksFunction = () => {
   return [
@@ -77,6 +78,7 @@ export default function App() {
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <Meta />
+        <DynamicLinks />
         <Links />
       </head>
       <body className="text-gray-200 flex min-h-screen w-full flex-col overflow-x-hidden bg-night">

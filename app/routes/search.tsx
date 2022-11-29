@@ -1,9 +1,11 @@
-import { Fragment } from "react";
-import { Form, useLoaderData } from "@remix-run/react";
 import type { LoaderFunction, MetaFunction } from "@remix-run/node";
-import { DownloadIcon, Footer, Header, SearchBar } from "~/components";
-import { timeAgo } from "~/utils/time-ago";
+import { Form, useLoaderData } from "@remix-run/react";
+import { Fragment } from "react";
 import * as api from "~/brickhub.server";
+import { DownloadIcon, Footer, Header, SearchBar } from "~/components";
+import { canonicalHref } from "~/utils/canonical-href";
+import type { DynamicLinksFunction } from "~/utils/dynamic-links";
+import { timeAgo } from "~/utils/time-ago";
 import { useOptionalUser } from "~/utils/user";
 
 type Sort = "updated" | "popularity";
@@ -15,6 +17,15 @@ interface BrickSearchData {
   page: number;
   sort: Sort;
 }
+
+export const dynamicLinks: DynamicLinksFunction<BrickSearchData> = ({
+  data,
+}) => {
+  const query = data.query ? `?q=${data.query}` : "";
+  return [{ rel: "canonical", href: canonicalHref(`/search${query}`) }];
+};
+
+export const handle = { dynamicLinks };
 
 export const meta: MetaFunction = ({ data }: { data: BrickSearchData }) => {
   return {
