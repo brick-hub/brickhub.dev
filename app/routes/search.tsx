@@ -392,7 +392,7 @@ function ResultItem({ result }: { result: api.BrickSearchResult }) {
           {result.name}
         </a>
       </div>
-      <p className="italic">{result.description}</p>
+      <p className="italic break-words w-full">{result.description}</p>
       <div className="text-gray-400 flex text-sm">
         <span>
           <a
