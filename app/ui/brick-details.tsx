@@ -113,7 +113,7 @@ function BrickDetailsCard({ details }: { details: api.BrickDetails }) {
             <span className="px-1"></span>
             <span className="flex items-center text-neutral-400">
               <DownloadIcon />
-              {details.downloads}
+              {details.downloads.toLocaleString()}
             </span>
           </div>
           <div className="h-4"></div>
