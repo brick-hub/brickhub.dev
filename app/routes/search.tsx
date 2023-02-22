@@ -407,7 +407,7 @@ function ResultItem({ result }: { result: api.BrickSearchResult }) {
         <span className="px-1"></span>
         <span className="flex text-neutral-400">
           <DownloadIcon />
-          {result.downloads}
+          {result.downloads.toLocaleString()}
         </span>
       </div>
     </section>
