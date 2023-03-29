@@ -117,7 +117,7 @@ function BrickDetailsCard({ details }: { details: api.BrickDetails }) {
             </span>
           </div>
           <div className="h-4"></div>
-          <p className="max-w-full break-all italic">{details.description}</p>
+          <p className="max-w-full break-words italic">{details.description}</p>
           <div className="h-4"></div>
           <RepositoryUrl url={details.repository} />
           <div className="h-4"></div>
