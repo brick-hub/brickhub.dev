@@ -62,6 +62,7 @@ function Terminal() {
     "bloc",
     "flutter_project",
     "amplify_starter",
+    "cloud_run",
     "mit_license",
     "model",
     "app_ui",
@@ -70,8 +71,12 @@ function Terminal() {
     "feature_brick",
     "macosui_starter",
     "web_components",
+    "r13n",
     "pdf",
     "dot_github",
+    "licenser",
+    "env",
+    "codeforce_python",
   ]);
   return (
     <div className="flex w-full flex-row flex-wrap items-center whitespace-nowrap font-mono">
