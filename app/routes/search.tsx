@@ -363,7 +363,7 @@ function Pagination({
   const isLastPage = currentPage >= totalPages;
 
   return (
-    <ul className="my-5 mx-auto flex w-full list-none justify-center text-center font-semibold">
+    <ul className="mx-auto my-5 flex w-full list-none justify-center text-center font-semibold">
       <PreviousPageButton
         isFirstPage={isFirstPage}
         query={query}

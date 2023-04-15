@@ -7,7 +7,7 @@ interface BannerElement {
 export function SuccessBanner(props: PropsWithChildren<BannerElement>) {
   return (
     <div
-      className="flex items-center justify-between border-t border-b border-green-500 bg-green-100 px-4 py-3 text-green-700"
+      className="flex items-center justify-between border-b border-t border-green-500 bg-green-100 px-4 py-3 text-green-700"
       role="alert"
     >
       <div>
@@ -35,7 +35,7 @@ export function WarningBanner(props: PropsWithChildren<BannerElement>) {
 export function ErrorBanner(props: PropsWithChildren<BannerElement>) {
   return (
     <div
-      className="flex items-center justify-between border-t border-b border-red-400 bg-red-100 px-4 py-3 text-red-700"
+      className="flex items-center justify-between border-b border-t border-red-400 bg-red-100 px-4 py-3 text-red-700"
       role="alert"
     >
       <div>
