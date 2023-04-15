@@ -5,6 +5,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        "brick-hub-bg": "rgb(10 10 10)",
         "dark-gray": "#0f0f0f",
         gray: "#262525",
         night: "#010101",

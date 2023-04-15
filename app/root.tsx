@@ -81,7 +81,7 @@ export default function App() {
         <DynamicLinks />
         <Links />
       </head>
-      <body className="text-gray-200 flex min-h-screen w-full flex-col overflow-x-hidden bg-night">
+      <body className="text-gray-200 flex min-h-screen w-full flex-col overflow-x-hidden bg-brick-hub-bg">
         <GoogleAnalytics />
         {showEmailVerificationBanner ? <UnverifiedEmailBanner /> : null}
         <Outlet />
