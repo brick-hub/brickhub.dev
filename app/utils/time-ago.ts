@@ -16,8 +16,8 @@ export function timeAgo(date: Date): string {
   const monthsAgo = dateDiffInMonths(dateUtc, nowUtc);
   if (monthsAgo < 12) return rtf.format(-monthsAgo, "months");
 
-  const yearsAgo = dateDiffInYears(-dateUtc, nowUtc);
-  return rtf.format(yearsAgo, "years");
+  const yearsAgo = dateDiffInYears(dateUtc, nowUtc);
+  return rtf.format(-yearsAgo, "years");
 }
 
 function dateDiffInMinutes(a: number, b: number): number {
