@@ -157,7 +157,15 @@ function InstallSnippet({ name }: { name: string }) {
 }
 
 function RepositoryUrl({ url }: { url: string }) {
-  const _url = new URL(url);
+  let _url: URL | undefined;
+  try {
+    _url = new URL(url);
+  } catch (_) {}
+
+  if (typeof _url == "undefined") {
+    return <></>;
+  }
+
   const pathSegments = _url.pathname.split("/").slice(1, 3).join("/");
   const prettyUrl = `${_url.host}/${pathSegments}`;
   return (
