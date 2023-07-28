@@ -128,7 +128,7 @@ function SearchResults({
   return (
     <Fragment>
       <div className="flex w-full justify-between">
-        <p className="text-gray-400 text-sm italic lg:pt-6">
+        <p className="text-gray-400 text-sm lg:pt-6">
           <span className="font-semibold text-red-500">{total}</span>{" "}
           {total === 1 ? "brick" : "bricks"} found.
         </p>
