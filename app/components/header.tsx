@@ -86,7 +86,7 @@ function UserAvatar({ email }: { email: string }) {
       className="rounded-full"
       height="38"
       width="38"
-      src={`https://avatars.dicebear.com/api/initials/${email}.svg?size=38&background=%23ef4444&fontSize=42`}
+      src={`https://api.dicebear.com/7.x/initials/svg?seed=${email}&size=38&backgroundColor=ef4444&fontSize=42`}
     ></img>
   );
 }
