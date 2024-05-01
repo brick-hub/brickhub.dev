@@ -39,7 +39,7 @@
     "unified": "^10.1.2"
   },
   "devDependencies": {
-    "@remix-run/dev": "^1.19.3",
+    "@remix-run/dev": "^1.7.5",
     "@remix-run/eslint-config": "*",
     "@tailwindcss/typography": "^0.5.2",
     "@types/marked": "^4.0.2",
