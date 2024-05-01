@@ -22,27 +22,28 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - name: 📚 Git Checkout
+        uses: actions/checkout@v4
 
-      - name: Setup node
-        uses: actions/setup-node@v2
+      - name: 📦 Setup node
+        uses: actions/setup-node@v4
 
-      - name: Install Dependencies
+      - name: ↓ Install Dependencies
         run: npm install
 
-      - name: Check Format
+      - name: ✨ Check Format
         run: npm run format:check
 
-      - name: Lint
+      - name: 🧹 Lint
         run: npm run lint
 
-      - name: Check Types
+      - name: 👀 Check Types
         run: npm run typecheck
 
-      - name: Build
+      - name: ⚙️ Build
         run: npm run build
 
-      - name: Run Docker Tests
+      - name: 🐳 Run Docker Tests
         run: ./scripts/docker_test.sh
 
   deploy:
@@ -53,33 +54,43 @@ jobs:
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
 
     steps:
-      - uses: actions/checkout@v2
+      - name: 📚 Git Checkout
+        uses: actions/checkout@v4
 
-      - name: Setup Cloud SDK
-        uses: google-github-actions/setup-gcloud@v0.2.0
+      - name: 🔐 GCloud Auth
+        uses: google-github-actions/auth@v2
         with:
           project_id: ${{ env.PROJECT_ID }}
-          service_account_key: ${{ secrets.CLOUD_RUN_SA }}
-          export_default_credentials: true
+          credentials_json: ${{ secrets.CLOUD_RUN_SA }}
+          export_environment_variables: true
 
-      - name: Authorize Docker Push
-        run: gcloud auth configure-docker
+      - name: ☁️ Setup GCloud SDK
+        uses: google-github-actions/setup-gcloud@v2.1.0
+        with:
+          project_id: ${{ env.PROJECT_ID }}
 
-      - name: Build and Push Container
+      - name: 🔓 Login to Artifact Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.CONTAINER_REGISTRY }}
+          username: _json_key
+          password: ${{ secrets.CLOUD_RUN_SA }}
+
+      - name: 🐳 Build and Push Container
         run: |-
-          docker build -t gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{ github.sha }} .
-          docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{ github.sha }}
+          docker build -t ${{ env.CONTAINER_REGISTRY }}/${{ env.PROJECT_ID }}/us.gcr.io/${{ env.SERVICE }}:${{ github.sha }} .
+          docker push ${{ env.CONTAINER_REGISTRY }}/${{ env.PROJECT_ID }}/us.gcr.io/${{ env.SERVICE }}:${{ github.sha }}
 
-      - name: Deploy to Cloud Run
+      - name: 🚀 Deploy to Cloud Run
         id: deploy
-        uses: google-github-actions/deploy-cloudrun@v0.4.0
+        uses: google-github-actions/deploy-cloudrun@v2.3.0
         with:
           service: ${{ env.SERVICE }}
-          image: gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{ github.sha }}
+          image: ${{ env.CONTAINER_REGISTRY }}/${{ env.PROJECT_ID }}/us.gcr.io/${{ env.SERVICE }}:${{ github.sha }}
           region: ${{ env.REGION }}
 
-      - name: Show Output
+      - name: 👀 Show Output
         run: echo ${{ steps.deploy.outputs.url }}
 
-      - name: Ping
+      - name: 🏓 Ping
         run: curl "${{ steps.deploy.outputs.url }}"
