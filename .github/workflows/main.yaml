@@ -16,6 +16,7 @@ env:
   PROJECT_ID: brickhub-dev
   SERVICE: brickhub-site
   REGION: us-central1
+  CONTAINER_REGISTRY: us-docker.pkg.dev
 
 jobs:
   build:
