@@ -476,7 +476,7 @@ function AddPublisherModal({
 }) {
   const fetcher = useFetcher();
   const data: PublishersActionData | undefined = fetcher.data;
-  const isPending = fetcher.submission?.formData.get("brick") === brick;
+  const isPending = fetcher.submission?.formData?.get("brick") === brick;
   const isDone = fetcher.type === "done";
   const error = data?.addPublisherError;
 
@@ -557,7 +557,7 @@ function RemovePublisherModal({
 }) {
   const fetcher = useFetcher();
   const data: PublishersActionData | undefined = fetcher.data;
-  const isPending = fetcher.submission?.formData.get("brick") === brick;
+  const isPending = fetcher.submission?.formData?.get("brick") === brick;
   const isDone = fetcher.type === "done";
   const error = data?.removePublisherError;
 

@@ -1,5 +1,5 @@
 import { useLocation, useMatches } from "@remix-run/react";
-import type { RouteData } from "@remix-run/react/dist/routeData";
+import type { RouterState } from "@remix-run/router";
 import type { AppData, LinkDescriptor } from "@remix-run/server-runtime";
 import type { Location, Params } from "react-router-dom";
 
@@ -8,7 +8,7 @@ export type HandleConventionArguments<Data extends AppData = AppData> = {
   data: Data;
   params: Params;
   location: Location;
-  parentsData: RouteData;
+  parentsData: RouterState["loaderData"];
 };
 
 export interface DynamicLinksFunction<Data extends AppData = AppData> {

@@ -41,6 +41,18 @@ pre code {
   margin-bottom: 0 !important;
 }
 
+.prose :where(.prose > ul > li > *:last-child):not(:where([class~="not-prose"] *)) {
+  margin: 0;
+}
+
+.prose :where(.prose > ul > li > *:first-child):not(:where([class~="not-prose"] *)) {
+  margin: 0;
+}
+
+.prose :where(ul ul, ul ol, ol ul, ol ol):not(:where([class~="not-prose"] *)) {
+  margin: 0;
+}
+
 body {
   min-height: 100vh;
 }
