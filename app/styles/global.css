@@ -41,11 +41,13 @@ pre code {
   margin-bottom: 0 !important;
 }
 
-.prose :where(.prose > ul > li > *:last-child):not(:where([class~="not-prose"] *)) {
+.prose
+  :where(.prose > ul > li > *:last-child):not(:where([class~="not-prose"] *)) {
   margin: 0;
 }
 
-.prose :where(.prose > ul > li > *:first-child):not(:where([class~="not-prose"] *)) {
+.prose
+  :where(.prose > ul > li > *:first-child):not(:where([class~="not-prose"] *)) {
   margin: 0;
 }
 
