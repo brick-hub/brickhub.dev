@@ -99,3 +99,118 @@ input:-webkit-autofill:active {
     background: transparent;
   }
 }
+
+/* Custom styles for heading anchor links. */
+.markdown-content .heading-wrapper {
+  --icon-size: 1em;
+  --icon-spacing: 0.5em;
+  --line-height-headings: 1.2;
+  --text-h1: 2.2em;
+  --text-h2: 1.5em;
+  --text-h3: 1.25em;
+  --text-h4: 1em;
+  --text-h4: 0.75em;
+  --color-gray-3: #888b96;
+  --color-text-accent: #f87e7a;
+  --heading-margin: 0.88em;
+  line-height: var(--line-height-headings);
+}
+.markdown-content code {
+  font-weight: 600;
+  font-size: 0.875em;
+  color: white;
+}
+.markdown-content p {
+  line-height: 28px;
+}
+.markdown-content ol {
+  list-style-type: decimal;
+  margin-top: 1.25em;
+  margin-bottom: 1.25em;
+  padding-left: 1.625em;
+}
+.markdown-content li {
+  padding-left: 0.375em;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+.markdown-content p {
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
+}
+/* Headings after non-headings have more spacing. */
+.markdown-content
+  :not(.heading-wrapper)
+  + :is(.heading-wrapper):not(:where(.not-content *)) {
+  margin-top: 1.5em;
+}
+/* Set font-size on wrapper element, so line-height, margins etc. match heading size. */
+.markdown-content .level-h1 {
+  font-size: var(--text-h1);
+  font-weight: 800;
+  margin-top: var(--heading-margin);
+  margin-bottom: var(--heading-margin);
+}
+.markdown-content .level-h2 {
+  font-size: var(--text-h2);
+  font-weight: 700;
+  margin-top: var(--heading-margin);
+  margin-bottom: var(--heading-margin);
+}
+.markdown-content .level-h3 {
+  font-size: var(--text-h3);
+  font-weight: 600;
+  margin-top: var(--heading-margin);
+  margin-bottom: var(--heading-margin);
+}
+.markdown-content .level-h4 {
+  font-size: var(--text-h4);
+  font-weight: 500;
+  margin-top: var(--heading-margin);
+  margin-bottom: var(--heading-margin);
+}
+.markdown-content .level-h5 {
+  font-size: var(--text-h5);
+  font-weight: 400;
+  margin-top: var(--heading-margin);
+  margin-bottom: var(--heading-margin);
+}
+.markdown-content .heading-wrapper > :first-child {
+  margin-inline-end: calc(var(--icon-size) + var(--icon-spacing));
+  display: inline;
+}
+.markdown-content .anchor-link {
+  margin-inline-start: calc(-1 * (var(--icon-size)));
+  color: var(--color-gray-3);
+}
+.markdown-content .anchor-link:hover,
+.markdown-content .anchor-link:focus {
+  color: var(--color-text-accent);
+}
+.markdown-content .heading-wrapper svg {
+  display: inline;
+  width: var(--icon-size);
+}
+@media (hover: hover) {
+  .markdown-content .anchor-link {
+    opacity: 0;
+  }
+}
+.markdown-content .heading-wrapper:hover > .anchor-link,
+.markdown-content .anchor-link:focus {
+  opacity: 1;
+}
+/* Float anchor links to the left of headings on larger screens. */
+@media (min-width: 95em) {
+  .markdown-content .heading-wrapper {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    gap: var(--icon-spacing);
+    margin-inline-start: calc(-1 * (var(--icon-size) + var(--icon-spacing)));
+  }
+  .markdown-content .heading-wrapper > :first-child,
+  .markdown-content .anchor-link {
+    margin: 0;
+  }
+}
