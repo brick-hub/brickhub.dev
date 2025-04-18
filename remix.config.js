@@ -3,4 +3,5 @@
  */
 module.exports = {
   ignoredRouteFiles: [".*"],
+  serverDependenciesToBundle: "all",
 };
